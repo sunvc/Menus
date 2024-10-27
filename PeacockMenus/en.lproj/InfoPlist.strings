@@ -1,0 +1,13 @@
+/* 
+  InfoPlist.strings
+  PeacockMenus
+
+  Created by He Cho on 2024/9/24.
+  
+*/
+
+CFBundleDisplayName = "BeautyPlan";
+CFBundleName = "BeautyPlan";
+
+
+NSCameraUsageDescription = "Scan the QR code to obtain the server address";
