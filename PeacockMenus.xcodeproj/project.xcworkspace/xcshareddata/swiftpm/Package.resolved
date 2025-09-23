@@ -1,5 +1,5 @@
 {
-  "originHash" : "3ac05faf1d8903860d992275410e3e021a42854ee5f484075149d5c3bd4c4b96",
+  "originHash" : "b2e8dab78e6a28761cc3ef8b5651c0f6f15370dc8ee7580be9edb446c0ec5263",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sunvc/Assistant.git",
       "state" : {
-        "revision" : "edbcea25f7b2e2458e05375de58582dd89d17f66",
-        "version" : "1.0.6"
+        "revision" : "34705d4132b3de2c56d88ca880b10c6b36115394",
+        "version" : "0.0.1"
       }
     },
     {
