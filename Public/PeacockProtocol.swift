@@ -12,6 +12,14 @@ import SwiftUI
 let ISPAD = UIDevice.current.userInterfaceIdiom == .pad
 
 
+extension Defaults.Keys{
+
+    static let deviceToken = Key<String>("deviceToken", "")
+    static let id = Key<String>("deviceID", "")
+
+}
+
+
 
 
 protocol PeacockProtocol: Hashable,Equatable, Identifiable, Codable, Defaults.Serializable{ }

@@ -19,6 +19,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>remote-notification</string>
 		<string>audio</string>
 	</array>
 	<key>UTExportedTypeDeclarations</key>
@@ -64,12 +65,6 @@
 				</array>
 			</dict>
 		</dict>
-	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>we need access to you Camera</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>metal</string>
 	</array>
 </dict>
 </plist>

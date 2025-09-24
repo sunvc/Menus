@@ -152,7 +152,9 @@ extension peacock{
 			var request = URLRequest(url: requestUrl)
 			request.httpMethod = HTTPMethod.get.rawValue
 			request.cachePolicy = .reloadIgnoringLocalCacheData
-			
+            request.setValue(Defaults[.id], forHTTPHeaderField: "X-User-ID")
+            request.setValue( Defaults[.deviceToken], forHTTPHeaderField: "X-Device-Token" )
+
 			AF.request(request).responseDecodable(of: T.self) { response in
 				
 				switch response.result{

@@ -86,6 +86,7 @@
 		B5490DC12E1523E6009AF353 /* piano20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B51CAA932E12B65A00E9CE97 /* piano20.mp3 */; };
 		B58484702E81080700DA8020 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B584846F2E81080700DA8020 /* Assistant */; };
 		B58484732E81089E00DA8020 /* Expression in Frameworks */ = {isa = PBXBuildFile; productRef = B58484722E81089E00DA8020 /* Expression */; };
+		B5D0E4A82E842D0900A668C0 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D0E4A72E842D0900A668C0 /* KeychainHelper.swift */; };
 		B5DF4F052E144D3800599A8D /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B5DF4F042E144D3800599A8D /* QRScanner */; };
 		B5DF4F072E144D9500599A8D /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DF4F062E144D9500599A8D /* ScanView.swift */; };
 		B5EC96C12E17B602004C652D /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC96C02E17B5F5004C652D /* CalculatorModel.swift */; };
@@ -182,6 +183,7 @@
 		B51CAA922E12B65A00E9CE97 /* piano19.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piano19.mp3; sourceTree = "<group>"; };
 		B51CAA932E12B65A00E9CE97 /* piano20.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piano20.mp3; sourceTree = "<group>"; };
 		B51CAA952E12B66F00E9CE97 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		B5D0E4A72E842D0900A668C0 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		B5DF4F062E144D9500599A8D /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		B5EC96C02E17B5F5004C652D /* CalculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModel.swift; sourceTree = "<group>"; };
 		B5EC96D32E17C2F8004C652D /* KeyboardNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNumberView.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 		199075C62C8B544800E23FD7 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				B5D0E4A72E842D0900A668C0 /* KeychainHelper.swift */,
 				1990759B2C87F1AB00E23FD7 /* TextField+.swift */,
 				199075C42C8B3E0800E23FD7 /* DropDelegate+.swift */,
 				199075BA2C8B0D9A00E23FD7 /* PeacockProtocol.swift */,
@@ -553,6 +556,7 @@
 				19D231D72C93FCDC001044BB /* itemsView.swift in Sources */,
 				197768A82C99C9FB00F40521 /* AppIconView.swift in Sources */,
 				194BBAA72C8DD04F002EAA09 /* ImportDataView.swift in Sources */,
+				B5D0E4A82E842D0900A668C0 /* KeychainHelper.swift in Sources */,
 				19DDEC212C96CA8800C86EC5 /* vipCardSettingView.swift in Sources */,
 				19CD68A62C9829D500AF6CF8 /* BasicSettingsView.swift in Sources */,
 				1990759C2C87F1AB00E23FD7 /* TextField+.swift in Sources */,
@@ -762,10 +766,12 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "美丽宫略";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = metal;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -812,10 +818,12 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "美丽宫略";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = metal;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -901,7 +909,7 @@
 			repositoryURL = "https://github.com/sunvc/Assistant.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
+				minimumVersion = 0.0.2;
 			};
 		};
 		B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */ = {
