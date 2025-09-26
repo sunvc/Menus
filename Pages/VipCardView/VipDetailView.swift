@@ -40,7 +40,7 @@ struct VipDetailView: View {
             }
             .navigationTitle(select.subTitle)
             .navigationBarTitleDisplayMode(.inline)
-        }.presentationSizing(.fitted)
+        }
     }
     
     @ViewBuilder

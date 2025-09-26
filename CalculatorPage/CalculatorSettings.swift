@@ -16,17 +16,26 @@ struct CalculatorSettings: View {
     @Default(.doubleInt) var doubleInt
     @Default(.feedback) var feedback
     @Default(.defaultHome) var defaultHome
+    @Default(.showMenus) var showMenus
+
     var body: some View {
         NavigationStack{
             List{
-                
+
                 Section{
                     Picker(selection: $defaultHome, label: Text("默认首页")) {
                         ForEach(Page.arr, id: \.self){ icon in
-                            Label(icon.name, systemImage: icon.rawValue)
+                            if icon != .home{
+                                Label(icon.name, systemImage: icon.rawValue)
+                            }else{
+                                if showMenus{
+                                    Label(icon.name, systemImage: icon.rawValue)
+                                }
+                            }
+
                         }
                     }
-                    
+
                 }header: {
                     Label("切换默认首页", systemImage: "house.circle")
                 }

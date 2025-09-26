@@ -17,7 +17,8 @@ struct ContentView: View {
 	@Default(.firstStart) var firstStart
     @Default(.defaultHome) var defaultHome
     @Default(.autoSetting) var autoSetting
-    
+    @Default(.showMenus) var showMenus
+
 	var body: some View {
 		
 		ZStack(alignment: .top){
@@ -32,17 +33,31 @@ struct ContentView: View {
                         AssistantView {
                             Section{
                                 ForEach(Page.arr, id: \.self) { item in
-                                    if item != .deepseek{
-                                        Button{
-                                            withAnimation{
-                                                manager.page = item
+
+                                    if item != .deepseek {
+                                        if item != .home{
+                                            Button{
+                                                withAnimation{
+                                                    manager.page = item
+                                                }
+                                            }label:{
+                                                Label(item.name, systemImage: item.rawValue)
                                             }
-                                        }label:{
-                                            Label(item.name, systemImage: item.rawValue)
+                                        }else{
+                                            if showMenus{
+                                                Button{
+                                                    withAnimation{
+                                                        manager.page = item
+                                                    }
+                                                }label:{
+                                                    Label(item.name, systemImage: item.rawValue)
+                                                }
+                                            }
                                         }
+
                                     }
                                 }
-                                
+
                             }
                         } toast: { mode, msg in
                             DispatchQueue.main.async {
@@ -55,6 +70,8 @@ struct ContentView: View {
 
                             }
 
+                        }logoBtn: {
+                            self.showMenus.toggle()
                         } close: {
                             manager.page = defaultHome
                         }

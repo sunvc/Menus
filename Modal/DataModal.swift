@@ -34,8 +34,8 @@ extension Defaults.Keys{
 	
 	static let firstStart = Key<Bool>("FirstStart",default: true)
 	static let defaultHome = Key<Page>("defaultHome", default: Page.deepseek)
-	
-	
+    static let showMenus = Key<Bool>("FirstStartshowMenu",default: false)
+
 	static let giftShow = Key<Bool>("giftShow" , default: false)
     
     static let searchApi = Key<String>("searchApi", default: "")
