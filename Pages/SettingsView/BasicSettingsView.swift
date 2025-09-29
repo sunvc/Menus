@@ -17,7 +17,8 @@ struct BasicSettingsView: View {
     @State private var showIconPicker:Bool = false
     @Default(.defaultHome) var defaultHome
     @Default(.results) var results
-    
+    @Default(.showMenus) var showMenus
+
     let initTip = InitializeDataView()
     
     var body: some View {
@@ -27,7 +28,14 @@ struct BasicSettingsView: View {
                 Section{
                     Picker(selection: $defaultHome, label: Text("默认首页")) {
                         ForEach(Page.arr, id: \.self){ icon in
-                            Label(icon.name, systemImage: icon.rawValue)
+                            if icon == .home{
+                                if showMenus{
+                                    Label(icon.name, systemImage: icon.rawValue)
+                                }
+                            }else{
+                                Label(icon.name, systemImage: icon.rawValue)
+                            }
+
                         }
                     }
                     
@@ -89,14 +97,16 @@ struct BasicSettingsView: View {
                             AppIconView()
                         }.presentationDetents([.medium])
                     }
-                    
-                    NavigationLink{
-                        NavigationStack{
-                            GiftSettingsView()
-                                .navigationTitle("礼物领取设置")
+
+                    if showMenus{
+                        NavigationLink{
+                            NavigationStack{
+                                GiftSettingsView()
+                                    .navigationTitle("礼物领取设置")
+                            }
+                        }label: {
+                            Label("礼物领取", systemImage: "app.gift.fill")
                         }
-                    }label: {
-                        Label("礼物领取", systemImage: "app.gift.fill")
                     }
                 }header:{
                     Text(verbatim: "")

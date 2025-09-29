@@ -909,7 +909,7 @@
 			repositoryURL = "https://github.com/sunvc/Assistant.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.3;
+				minimumVersion = 0.0.7;
 			};
 		};
 		B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */ = {

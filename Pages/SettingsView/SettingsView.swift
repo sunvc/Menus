@@ -85,6 +85,7 @@ struct SettingsView: View {
             }header: {
                 Text("右滑返回")
             }
+            
             if defaultHome == .home{
                 NavigationLink{
                     

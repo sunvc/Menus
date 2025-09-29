@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sunvc/Assistant.git",
       "state" : {
-        "revision" : "c47798e5b4fc1b95940b58e7e3f0871e12cb9733",
-        "version" : "0.0.3"
+        "revision" : "d956a214858573de213e089ed62e4699dd095d91",
+        "version" : "0.0.7"
       }
     },
     {
