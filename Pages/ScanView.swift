@@ -66,16 +66,17 @@ struct ScanView: View {
                     
                     Spacer()
                     Image(systemName: "xmark")
-                        .font(.body.bold())
-                        .foregroundColor(.secondary)
-                        .padding(8)
+                        .font(.title.bold())
+                        .foregroundColor(.red)
+                        .padding()
+
                         .background(.ultraThinMaterial, in: Circle())
                         // TODO: - 待修改
                         .onTapGesture {
                             self.dismiss()
                             Haptic.impact()
                         }
-
+                        .offset(x: -30)
 				}
 				.padding()
 				.padding(.top,50)

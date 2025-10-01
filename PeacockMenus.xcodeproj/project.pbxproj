@@ -756,7 +756,7 @@
 				CODE_SIGN_ENTITLEMENTS = PeacockMenus/PeacockMenus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PeacockMenus/Preview Content\"";
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
@@ -780,7 +780,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.uuneo.menus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -808,7 +808,7 @@
 				CODE_SIGN_ENTITLEMENTS = PeacockMenus/PeacockMenus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PeacockMenus/Preview Content\"";
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
@@ -832,7 +832,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.uuneo.menus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -884,8 +884,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/ScalingHeaderScrollView.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
 			};
 		};
 		199BB8DF2C9EDE2900D25774 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
@@ -909,7 +909,7 @@
 			repositoryURL = "https://github.com/sunvc/Assistant.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.7;
+				minimumVersion = 1.99.3;
 			};
 		};
 		B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */ = {
@@ -925,7 +925,7 @@
 			repositoryURL = "https://github.com/sunvc/QRScanner.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.1.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

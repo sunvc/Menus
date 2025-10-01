@@ -72,8 +72,23 @@ struct ContentView: View {
 
                         }logoBtn: {
                             self.showMenus.toggle()
+                            if showMenus{
+                                manager.toast("Unlock A Surprise!")
+                            }else{
+                                manager.toast("Close")
+                            }
+
                         } close: {
                             manager.page = defaultHome
+                        }
+                        .toolbar{
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button{
+                                    manager.fullPage = true
+                                }label:{
+                                    Image(systemName: "qrcode.viewfinder")
+                                }
+                            }
                         }
 
 
@@ -95,11 +110,21 @@ struct ContentView: View {
         .fullScreenCover(isPresented: $manager.fullPage) {
             ScanView{ code in
                 if let url = URL(string: code), (url.scheme == "http" || url.scheme == "https") {
-                    Defaults[.autoSetting] = AutoAsyncSetting(url: code, enable: true)
+                    manager.updateItem(url: code) { success in
+                        if success{
+                            Defaults[.autoSetting] = AutoAsyncSetting(url: code, enable: true)
+                            Defaults[.defaultHome] = .home
+                            Defaults[.showMenus] = true
+                            DispatchQueue.main.async {
+                                manager.page = .home
+                            }
+
+                        }
+                    }
+
                     return true
                 }
                 return false
-                
             }
         }
 	}

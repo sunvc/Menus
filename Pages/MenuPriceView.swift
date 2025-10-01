@@ -48,6 +48,7 @@ struct MenuPriceView: View {
                         }
                     }
                 }
+                
                 ToolbarItem {
                     Button{
                         withAnimation {
@@ -58,26 +59,35 @@ struct MenuPriceView: View {
                     }
                 }
                 
-                ToolbarItem(placement: .topBarTrailing){
-                    Button{
-                        withAnimation {
-                            manager.page = .deepseek
-                        }
-                    }label:{
-                        Image(systemName: Page.deepseek.rawValue)
-                    }
-                   
-                }
-                
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button{
-                        withAnimation {
-                            manager.page = .setting
+                    Menu {
+                        Section{
+                            Button{
+                                withAnimation {
+                                    manager.page = .setting
+                                }
+
+                            }label:{
+                                Label("设置", systemImage: "gear")
+                            }
                         }
-                       
-                    }label:{
-                        Image(systemName: "gear")
+
+                        Section{
+                            Button{
+                                withAnimation {
+                                    manager.page = .deepseek
+                                }
+                            }label:{
+                                Label("智能助手", systemImage: Page.deepseek.rawValue)
+                            }
+                        }
+
+
+                    } label: {
+                        Image(systemName: "menubar.arrow.down.rectangle")
                     }
+
+
                 }
             }
             .toolbarBackground(.hidden, for: .navigationBar)

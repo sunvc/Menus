@@ -14,13 +14,13 @@ import Defaults
 
 
 extension Defaults.Keys{
-	static let gifts = Key<[String:Date]>("gist",default: [:])
+    static let gifts = Key<[String: VipInfo]>("gist",default: [:])
 }
 
 struct GiftHomeView:View {
 	@State private var phone:String = ""
 	@FocusState private var phoneFocus
-	@State private var viplist:[VipList] = []
+	@State private var viplist:[VipInfo] = []
 	@Default(.gifts) var gifts
     @Default(.defaultHome) var defaultHome
 	
@@ -101,7 +101,7 @@ struct GiftHomeView:View {
 					Text("查询结果:")
 						.foregroundStyle(.gray)
 					Text( viplist.count == 0 ? "没有结果" : "查询到\(viplist.count)个结果")
-						.foregroundStyle(.white)
+                        .foregroundStyle(.black)
 				}
 				.padding(.horizontal)
 				
@@ -144,36 +144,42 @@ struct GiftHomeView:View {
 					
 					
 					Button{
-						withAnimation {
-							self.getVipList(search: phone)
-							self.phoneFocus = false
-						}
+                        if !phone.isEmpty{
+                            withAnimation {
+                                self.getVipList(search: phone)
+                                self.phoneFocus = false
+                            }
+                        }
+
 						
 					}label: {
-						Image(systemName: "mail.and.text.magnifyingglass")
-							.resizable()
-							.frame(width: 50, height: 50)
+						Image(systemName: "person.crop.badge.magnifyingglass")
+                            .font(.largeTitle)
+                            .padding(10)
+                            .background(.ultraThinMaterial, in: .circle)
+                            .scaleEffect(1.5)
+                            .tint(.background9)
+                            .offset(x: 20)
 					}
 				}
 			}.offset(y: -130)
 			
 		}
-        .safeAreaInset(edge: .top){
-            HStack{
-                Spacer()
-                Button{
-                    withAnimation {
-                        peacock.shared.page = defaultHome
-                    }
-                }label:{
-                    Image(systemName: "xmark")
-                        .font(.title)
-                        .background(.ultraThinMaterial)
-                        .clipShape(Circle())
-                        .padding(.leading)
+        .overlay(alignment: .topTrailing, content: {
+            Button{
+                withAnimation {
+                    peacock.shared.page = defaultHome
                 }
-            }.offset(x: -20,y: 35)
-        }
+            }label:{
+                Image(systemName: "xmark")
+                    .font(.title)
+                    .padding()
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                    .padding()
+                    .offset(y: 10)
+            }
+        })
 		.ignoresSafeArea()
 		.background(background)
 
@@ -182,19 +188,29 @@ struct GiftHomeView:View {
 	
 	
 	@ViewBuilder
-	func cardGiftView(item:VipList)-> some View{
+	func cardGiftView(item:VipInfo)-> some View{
 		VStack{
 			
 			Button{
-				gifts[item.phone] = Date()
-				debugPrint(gifts)
+                if !gifts.contains(where: {$0.key == item.phone}){
+                    var userInfo = item
+                    userInfo.date = Date()
+                    gifts[item.phone] = userInfo
+                }
+
 			}label: {
 				HStack{
 					Spacer()
-					Text( gifts.contains(where: {$0.key == phone}) ? (item.date ?? "已领取") : "领取")
+                    Text(
+                        gifts
+                            .contains(where: {$0.key == phone}) ? (
+                                createDate(item.date) ?? "已领取"
+                            ) : "领取"
+                    )
 						.padding()
 						.font( gifts.contains(where: {$0.key == phone}) ? .system(size: 30)  : .system(size: 50).bold())
-						
+
+
 						
 					Spacer()
 				}
@@ -202,8 +218,8 @@ struct GiftHomeView:View {
 				.clipShape(RoundedRectangle(cornerRadius: 10))
 				Spacer()
 			}
+
 			.buttonStyle(BorderedProminentButtonStyle())
-			.disabled(gifts.contains(where: {$0.key == item.phone}))
 			
 			HStack{
 				
@@ -290,13 +306,13 @@ struct GiftHomeView:View {
 		
 	}
 	
-	func dataHandler(data:JSON) -> [VipList]{
+    func dataHandler(data:JSON) -> [VipInfo]{
 //		debugPrint(data["data"]["data"])
 		
 		let vipList = data["data"]["data"]
 		
-		var result:[VipList] = []
-		
+		var result:[VipInfo] = []
+
 		for (_,item) in vipList{
 			let balance = item["info"]["balance"].rawValue as? Int ?? 0
 			let cardLevel = item["cardLevel"].rawValue as? String ?? ""
@@ -306,7 +322,18 @@ struct GiftHomeView:View {
 			let phone = item["phone"].rawValue as? String ?? ""
 			debugPrint(item)
 			if (cardType == "4"  || cardType == "8" || cardType == "11") && phone != "" {
-				result.append(VipList(name: name, cardLevel: cardLevel, balance: balance, cardID: cardID,cardType: cardType,phone: phone, date: createDate(gifts[phone])))
+                result
+                    .append(
+                        VipInfo(
+                            name: name,
+                            cardLevel: cardLevel,
+                            balance: balance,
+                            cardID: cardID,
+                            cardType: cardType,
+                            phone: phone,
+                            date: gifts[phone]?.date
+                        )
+                    )
 			}
 			
 			
@@ -328,7 +355,7 @@ struct GiftHomeView:View {
 }
 
 
-struct VipList:Codable, Defaults.Serializable{
+struct VipInfo:Codable, Defaults.Serializable{
 	var id:String = UUID().uuidString
 	var name:String
 	var cardLevel:String
@@ -336,7 +363,7 @@ struct VipList:Codable, Defaults.Serializable{
 	var cardID:String
 	var cardType:String
 	var phone:String
-	var date:String?
+	var date:Date?
 	var isGift:Bool = false
 }
 
