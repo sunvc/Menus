@@ -16,17 +16,28 @@ struct ScanView: View {
 	@State private var torchIsOn = false
 	@State private var restart = false
 	@State private var showActive = false
-    
+    @State private var isScanning = true
     @StateObject private var manager = peacock.shared
     
     var response: (String) async-> Bool
     
+    var config: QRScannerSwiftUIView.Configuration{
+        .init(focusImage: nil,
+              focusImagePadding: nil,
+              animationDuration: nil,
+              scanningAreaLimit: true,
+              metadataObjectTypes: [.qr, .aztec, .microQR, .dataMatrix])
+    }
 	var body: some View {
 		ZStack{
 
-            let config = QRScannerView.Input(focusImage: UIImage(named: "scan"),focusImagePadding: 20, isBlurEffectEnabled: true)
+            let config = QRScannerView.Input(focusImage: UIImage(named: "scan"),focusImagePadding: 20, )
 
-            QRScanner(rescan: $restart, flash: $torchIsOn, isRuning: true, input: config){ code in
+            QRScannerSwiftUIView(
+                configuration: config,
+                isScanning: $isScanning ,
+                torchActive: $torchIsOn,
+                shouldRescan: $restart){ code in
                 Task{
                     if await response(code) {
                         self.dismiss()

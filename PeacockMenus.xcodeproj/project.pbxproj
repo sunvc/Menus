@@ -36,7 +36,6 @@
 		199075A92C89C73F00E23FD7 /* DiskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199075A82C89C73F00E23FD7 /* DiskManager.swift */; };
 		199075BB2C8B0D9A00E23FD7 /* PeacockProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199075BA2C8B0D9A00E23FD7 /* PeacockProtocol.swift */; };
 		199075C52C8B3E0800E23FD7 /* DropDelegate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199075C42C8B3E0800E23FD7 /* DropDelegate+.swift */; };
-		199BB8E12C9EDE2900D25774 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 199BB8E02C9EDE2900D25774 /* Alamofire */; };
 		19AF99F32CA945810093206C /* MenuPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AF99F22CA945810093206C /* MenuPriceView.swift */; };
 		19C13A992CCA45E400A2F1A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13A982CCA45E400A2F1A8 /* SwiftyJSON */; };
 		19C13A9B2CCB6A5600A2F1A8 /* GiftSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13A9A2CCB6A4F00A2F1A8 /* GiftSettingsView.swift */; };
@@ -57,7 +56,6 @@
 		B51CAA9A2E12B76C00E9CE97 /* ToolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CAA752E12B63F00E9CE97 /* ToolBox.swift */; };
 		B51CAA9C2E12B76C00E9CE97 /* CalculatorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CAA772E12B63F00E9CE97 /* CalculatorSettings.swift */; };
 		B51CAA9D2E12B76C00E9CE97 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CAA792E12B63F00E9CE97 /* ResultView.swift */; };
-		B531C8B62E16A0FB00CFCA07 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B531C8B52E16A0FB00CFCA07 /* Assistant */; settings = {ATTRIBUTES = (Required, ); }; };
 		B531C8B82E16A1D600CFCA07 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B531C8B72E16A1D600CFCA07 /* Assistant */; };
 		B5490DA92E1523E6009AF353 /* tone_crisp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B51CAA7B2E12B65A00E9CE97 /* tone_crisp.wav */; };
 		B5490DAA2E1523E6009AF353 /* tone_default.caf in Resources */ = {isa = PBXBuildFile; fileRef = B51CAA7C2E12B65A00E9CE97 /* tone_default.caf */; };
@@ -84,13 +82,14 @@
 		B5490DBF2E1523E6009AF353 /* piano18.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B51CAA912E12B65A00E9CE97 /* piano18.mp3 */; };
 		B5490DC02E1523E6009AF353 /* piano19.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B51CAA922E12B65A00E9CE97 /* piano19.mp3 */; };
 		B5490DC12E1523E6009AF353 /* piano20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B51CAA932E12B65A00E9CE97 /* piano20.mp3 */; };
-		B58484702E81080700DA8020 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B584846F2E81080700DA8020 /* Assistant */; };
 		B58484732E81089E00DA8020 /* Expression in Frameworks */ = {isa = PBXBuildFile; productRef = B58484722E81089E00DA8020 /* Expression */; };
 		B5D0E4A82E842D0900A668C0 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D0E4A72E842D0900A668C0 /* KeychainHelper.swift */; };
 		B5DF4F052E144D3800599A8D /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B5DF4F042E144D3800599A8D /* QRScanner */; };
 		B5DF4F072E144D9500599A8D /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DF4F062E144D9500599A8D /* ScanView.swift */; };
 		B5EC96C12E17B602004C652D /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC96C02E17B5F5004C652D /* CalculatorModel.swift */; };
 		B5EC96D42E17C2F9004C652D /* KeyboardNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC96D32E17C2F8004C652D /* KeyboardNumberView.swift */; };
+		BA6F51FA2EBFB159008ACEBA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA6F51F92EBFB159008ACEBA /* Alamofire */; };
+		BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BAB2ED622EBFA2C60094FB51 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -197,12 +196,11 @@
 				19C13A992CCA45E400A2F1A8 /* SwiftyJSON in Frameworks */,
 				1985A7AD2C9FDCE9003D255B /* JDStatusBarNotification in Frameworks */,
 				B531C8B82E16A1D600CFCA07 /* Assistant in Frameworks */,
-				B58484702E81080700DA8020 /* Assistant in Frameworks */,
-				199BB8E12C9EDE2900D25774 /* Alamofire in Frameworks */,
+				BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */,
+				BA6F51FA2EBFB159008ACEBA /* Alamofire in Frameworks */,
 				B5DF4F052E144D3800599A8D /* QRScanner in Frameworks */,
 				198706FC2C943C8100F59CE9 /* ScalingHeaderScrollView in Frameworks */,
 				B58484732E81089E00DA8020 /* Expression in Frameworks */,
-				B531C8B62E16A0FB00CFCA07 /* Assistant in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +439,6 @@
 			name = PeacockMenus;
 			packageProductDependencies = (
 				198706FB2C943C8100F59CE9 /* ScalingHeaderScrollView */,
-				199BB8E02C9EDE2900D25774 /* Alamofire */,
 				1985A7AC2C9FDCE9003D255B /* JDStatusBarNotification */,
 				19C13A982CCA45E400A2F1A8 /* SwiftyJSON */,
 				B5DF4F042E144D3800599A8D /* QRScanner */,
@@ -449,6 +446,8 @@
 				B531C8B72E16A1D600CFCA07 /* Assistant */,
 				B584846F2E81080700DA8020 /* Assistant */,
 				B58484722E81089E00DA8020 /* Expression */,
+				BAB2ED622EBFA2C60094FB51 /* Kingfisher */,
+				BA6F51F92EBFB159008ACEBA /* Alamofire */,
 			);
 			productName = PeacockMenus;
 			productReference = 199075782C86100100E23FD7 /* PeacockMenus.app */;
@@ -482,12 +481,13 @@
 			mainGroup = 1990756F2C86100100E23FD7;
 			packageReferences = (
 				198706FA2C943C8000F59CE9 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
-				199BB8DF2C9EDE2900D25774 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				1985A7AB2C9FDCE9003D255B /* XCRemoteSwiftPackageReference "JDStatusBarNotification" */,
 				19C13A972CCA45E400A2F1A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				B5DF4F032E144D3800599A8D /* XCRemoteSwiftPackageReference "QRScanner" */,
 				B584846E2E81080700DA8020 /* XCRemoteSwiftPackageReference "Assistant" */,
 				B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */,
+				BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				BA6F51F82EBFB159008ACEBA /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 199075792C86100100E23FD7 /* Products */;
 			projectDirPath = "";
@@ -877,7 +877,7 @@
 			repositoryURL = "https://github.com/calimarkus/JDStatusBarNotification.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.2;
+				minimumVersion = 2.2.4;
 			};
 		};
 		198706FA2C943C8000F59CE9 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */ = {
@@ -886,14 +886,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.1;
-			};
-		};
-		199BB8DF2C9EDE2900D25774 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.9.1;
 			};
 		};
 		19C13A972CCA45E400A2F1A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
@@ -925,7 +917,23 @@
 			repositoryURL = "https://github.com/sunvc/QRScanner.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.2;
+				minimumVersion = 0.3.1;
+			};
+		};
+		BA6F51F82EBFB159008ACEBA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -940,11 +948,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 198706FA2C943C8000F59CE9 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */;
 			productName = ScalingHeaderScrollView;
-		};
-		199BB8E02C9EDE2900D25774 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 199BB8DF2C9EDE2900D25774 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 		19C13A982CCA45E400A2F1A8 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -973,6 +976,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B5DF4F032E144D3800599A8D /* XCRemoteSwiftPackageReference "QRScanner" */;
 			productName = QRScanner;
+		};
+		BA6F51F92EBFB159008ACEBA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA6F51F82EBFB159008ACEBA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		BAB2ED622EBFA2C60094FB51 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
