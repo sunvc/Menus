@@ -18,7 +18,12 @@ struct PeacockMenusApp: App {
 	@Default(.defaultHome) var defaultHome
 	@Environment(\.scenePhase) var scenePhase
 	@StateObject var manager = peacock.shared
-	
+    @Default(.giftsNew) var giftsNew
+    @Default(.gifts) var giftsOld
+    
+    @State private var seconds = 0
+    @State private var timer: Timer?
+    
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
@@ -51,12 +56,43 @@ struct PeacockMenusApp: App {
 						.displayFrequency(.immediate),
 						.datastoreLocation(.applicationDefault)
 					])
-				
 				}
-                .onAppear{
-                    appDelegate.app = self
-
+                .overlay{
+                    if giftsOld.count > 0{
+                        VStack{
+                            Text(verbatim: "\(seconds)Please Wait...")
+                                .font(.largeTitle)
+                                .padding(30)
+                                .onDisappear{
+                                    timer?.invalidate()
+                                }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
                 }
+                .onAppear{
+                    
+                    for index in 0...300{
+                        giftsOld["\(index)"] = Date()
+                    }
+                    
+                    
+                    if giftsOld.count > 0{
+                        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                            seconds += 1
+                        }
+                        for (key, value) in giftsOld{
+                            if giftsNew[key] == nil {
+                                giftsNew[key] = .init(name: "", cardLevel: "", balance: -1,
+                                                      cardID: "", cardType: "", phone: key, date: value)
+                            }
+                            giftsOld.removeValue(forKey: key)
+                        }
+                    }
+                    appDelegate.app = self
+        
+                }
+            
 
 			
 			
@@ -75,17 +111,11 @@ class CustomAppDelegate: NSObject, UIApplicationDelegate{
             // Setting the notification delegate
         UNUserNotificationCenter.current().delegate = self
         
-        Task{
-            await  self.registerForRemoteNotifications()
-        }
+        Task{  await self.registerForRemoteNotifications() }
 
 
 
-        if Defaults[.id] == ""{
-            Defaults[.id] = KeychainHelper.shared.getDeviceID()
-        }
-
-        debugPrint("start")
+        if Defaults[.id] == ""{  Defaults[.id] = KeychainHelper.shared.getDeviceID() }
 
         return true
     }

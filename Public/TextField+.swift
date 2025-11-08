@@ -36,6 +36,7 @@ struct TextFieldModifier<T: Equatable>: ViewModifier {
     var icon: String
     var iconColor: Color
     var title: String = ""
+    var focus: Bool
 	@Binding var data:T
 	
 	func clear(){
@@ -89,7 +90,7 @@ struct TextFieldModifier<T: Equatable>: ViewModifier {
 				.overlay {
 					HStack{
 						Spacer()
-						if !isDataEmpty() {
+						if !isDataEmpty() && focus {
 							Button {
 								clear()
 							} label: {
@@ -100,7 +101,7 @@ struct TextFieldModifier<T: Equatable>: ViewModifier {
 									.clipShape(Circle())
 									.padding(.trailing, 8)
 									.contentShape(Circle())
-							}
+                            }.buttonStyle(.borderless)
 						}
 					}
 				}
@@ -111,7 +112,7 @@ struct TextFieldModifier<T: Equatable>: ViewModifier {
 }
 
 extension View {
-	func customField<T:Equatable>(icon: String,iconColor:Color = Color.secondary,title:String = "", data: Binding<T>) -> some View {
-		self.modifier(TextFieldModifier( icon: icon,iconColor: iconColor,title: title,data: data))
+    func customField<T:Equatable>(focus:Bool = false, icon: String,iconColor:Color = Color.secondary,title:String = "", data: Binding<T>) -> some View {
+		self.modifier(TextFieldModifier( icon: icon,iconColor: iconColor,title: title,focus: focus, data: data))
 	}
 }

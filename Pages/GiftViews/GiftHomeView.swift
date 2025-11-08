@@ -14,22 +14,24 @@ import Defaults
 
 
 extension Defaults.Keys{
-    static let gifts = Key<[String: VipInfo]>("gist",default: [:])
+    static let giftsNew = Key<[String: VipInfo]>("gistNewList",default: [:])
+    static let gifts = Key<[String:Date]>("gist",default: [:])
 }
 
 struct GiftHomeView:View {
 	@State private var phone:String = ""
 	@FocusState private var phoneFocus
 	@State private var viplist:[VipInfo] = []
-	@Default(.gifts) var gifts
+	@Default(.giftsNew) var giftsNew
     @Default(.defaultHome) var defaultHome
+    @State private var showGifts = false
 	
 	var background:Color{
 		
-		let diskBool = gifts.contains(where: {$0.key == phone})
+		let diskBool = giftsNew.contains(where: {$0.key == phone})
 		
 		let lingCount = viplist.filter({ item in
-			gifts.contains(where: {$0.key == item.phone})
+            giftsNew.contains(where: {$0.key == item.phone})
 		}).count
 		if diskBool{
 			return lingCount == viplist.count ? .red : .yellow
@@ -49,10 +51,10 @@ struct GiftHomeView:View {
 	var titlegift:String{
 	
 		
-		let diskBool = gifts.contains(where: {$0.key == phone})
+		let diskBool = giftsNew.contains(where: {$0.key == phone})
 		
 		let lingCount = viplist.filter({ item in
-			gifts.contains(where: {$0.key == item.phone})
+            giftsNew.contains(where: {$0.key == item.phone})
 		}).count
 		if diskBool{
 			return lingCount == viplist.count ? "已领" : "部分"
@@ -183,8 +185,9 @@ struct GiftHomeView:View {
 		.ignoresSafeArea()
 		.background(background)
 
-		
 	}
+    
+
 	
 	
 	@ViewBuilder
@@ -192,23 +195,23 @@ struct GiftHomeView:View {
 		VStack{
 			
 			Button{
-                if !gifts.contains(where: {$0.key == item.phone}){
+                if !giftsNew.contains(where: {$0.key == item.phone}){
                     var userInfo = item
                     userInfo.date = Date()
-                    gifts[item.phone] = userInfo
+                    giftsNew[item.phone] = userInfo
                 }
 
 			}label: {
 				HStack{
 					Spacer()
                     Text(
-                        gifts
+                        giftsNew
                             .contains(where: {$0.key == phone}) ? (
                                 createDate(item.date) ?? "已领取"
                             ) : "领取"
                     )
 						.padding()
-						.font( gifts.contains(where: {$0.key == phone}) ? .system(size: 30)  : .system(size: 50).bold())
+						.font( giftsNew.contains(where: {$0.key == phone}) ? .system(size: 30)  : .system(size: 50).bold())
 
 
 						
@@ -331,7 +334,7 @@ struct GiftHomeView:View {
                             cardID: cardID,
                             cardType: cardType,
                             phone: phone,
-                            date: gifts[phone]?.date
+                            date: giftsNew[phone]?.date
                         )
                     )
 			}

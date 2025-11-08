@@ -97,6 +97,7 @@ struct ContentView: View {
                     NavigationStack{
                         CalculatorView()
                     }
+            
 				default:
 					GiftHomeView()
 				}

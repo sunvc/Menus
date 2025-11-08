@@ -66,5 +66,10 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSExtensionAttributes</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.uuneo.menus.menu</string>
+	</dict>
 </dict>
 </plist>
