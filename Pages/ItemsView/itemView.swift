@@ -134,16 +134,8 @@ struct itemCardView: View {
 	
 	
 	
-	let color1: Color
-	let color2: Color
-	
-	init(data: ItemData, show: Binding<Bool>) {
-		self.data = data
-		self._show = show
-		// 只在初始化时生成随机颜色
-		self.color1 = [.blue, .green, .teal, .cyan, .mint].randomElement() ?? .blue
-		self.color2 = [.red, .yellow, .orange, .pink].randomElement() ?? .red
-	}
+	let color1: Color = [.blue, .green, .teal, .cyan, .mint].randomElement() ?? .blue
+	let color2: Color = [.red, .yellow, .orange, .pink].randomElement() ?? .red
 	
 	
 	var price1:Double{

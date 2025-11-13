@@ -36,16 +36,17 @@ struct CategorySettingView: View {
             })
             
             
-        } .listStyle(.insetGrouped)
-            .toolbar{
-                ToolbarItem {
-                    Button{
-                        createNewCategory()
-                    }label: {
-                        Image(systemName: "plus")
-                    }
+        }
+        .listStyle(.insetGrouped)
+        .toolbar{
+            ToolbarItem {
+                Button{
+                    createNewCategory()
+                }label: {
+                    Image(systemName: "plus")
                 }
             }
+        }
     }
     func createNewCategory(){
         items.insert(CategoryData.space(), at: 0)

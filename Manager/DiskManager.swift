@@ -185,6 +185,7 @@ extension peacock{
 	func exportData() -> String{
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
+        
         let data = try! encoder.encode(exportTotalData())
         return String(data: data, encoding: .utf8)!
     }

@@ -167,8 +167,6 @@ struct TotalData: Codable {
     var autoSetting:AutoAsyncSetting?
     var searchApi:String?
     var searchAuth:String?
-
-	
 	
 }
 

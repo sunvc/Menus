@@ -14,6 +14,7 @@ struct MenuPriceView: View {
 	
 	@EnvironmentObject var manager:peacock
     @Default(.giftShow) var showGift
+    @Default(.autoSetting) var  autoSetting
 	var body: some View {
 		NavigationStack{
             
@@ -81,8 +82,25 @@ struct MenuPriceView: View {
                                 Label("智能助手", systemImage: Page.deepseek.rawValue)
                             }
                         }
-
-
+                        
+                        Section{
+                            Button{
+                                manager.fullPage = true
+                            }label:{
+                                Label("扫一扫", systemImage: "qrcode.viewfinder")
+                            }
+                        }
+                        
+                        if let url = URL(string: autoSetting.url){
+                            Section{
+                                Button{
+                                    manager.updateItem(url: url.absoluteString)
+                                }label: {
+                                    Label("更新价目表", systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle")
+                                }
+                            }
+                        }
+                        
                     } label: {
                         Image(systemName: "menubar.arrow.down.rectangle")
                     }

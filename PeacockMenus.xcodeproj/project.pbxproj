@@ -89,6 +89,8 @@
 		B5EC96C12E17B602004C652D /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC96C02E17B5F5004C652D /* CalculatorModel.swift */; };
 		B5EC96D42E17C2F9004C652D /* KeyboardNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC96D32E17C2F8004C652D /* KeyboardNumberView.swift */; };
 		BA6F51FA2EBFB159008ACEBA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA6F51F92EBFB159008ACEBA /* Alamofire */; };
+		BAB20EA82EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B531C8B52E16A0FB00CFCA07 /* Assistant */; };
+		BAB20EA92EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B584846F2E81080700DA8020 /* Assistant */; };
 		BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BAB2ED622EBFA2C60094FB51 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
@@ -193,6 +195,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAB20EA92EC5C9990003F7A3 /* Assistant in Frameworks */,
+				BAB20EA82EC5C9990003F7A3 /* Assistant in Frameworks */,
 				19C13A992CCA45E400A2F1A8 /* SwiftyJSON in Frameworks */,
 				1985A7AD2C9FDCE9003D255B /* JDStatusBarNotification in Frameworks */,
 				B531C8B82E16A1D600CFCA07 /* Assistant in Frameworks */,

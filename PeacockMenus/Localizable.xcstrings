@@ -1617,6 +1617,22 @@
         }
       }
     },
+    "扫一扫" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扫一扫"
+          }
+        }
+      }
+    },
     "扫码成功" : {
       "localizations" : {
         "en" : {
@@ -1901,6 +1917,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更换图标"
+          }
+        }
+      }
+    },
+    "更新价目表" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Menu"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新价目表"
           }
         }
       }
