@@ -7,6 +7,25 @@
 
 import Foundation
 import SwiftUI
+import CryptoKit
+
+
+extension String{
+    
+    func sha256() -> String{
+        return SHA256.hash(data: Data(self.utf8)).compactMap { String(format: "%02x", $0) }.joined()
+    }
+    
+    
+    func auth(password: String) -> Bool{
+        if self.count <= 15 {
+            return self == password
+        }else{
+            return self.sha256() == password
+        }
+       
+    }
+}
 
 /// Config
 struct Config {

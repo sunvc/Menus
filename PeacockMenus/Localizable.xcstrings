@@ -2338,6 +2338,7 @@
       }
     },
     "自动同步" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

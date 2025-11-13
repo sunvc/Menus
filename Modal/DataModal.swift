@@ -21,8 +21,10 @@ extension Defaults.Keys{
 	static let homeCardSubTitle = Key<String>("HomeCardSubTitle",default: String(localized: "Peacock-Cards"))
 	static let homeItemsTitle = Key<String>("HomeItemsTitle",default: String(localized: "项目分类"))
 	static let homeItemsSubTitle = Key<String>("HomeItemsSubTitle",default: String(localized: "Peacock-Items"))
-	static let settingPassword = Key<String>("SettingPassword",default: "")
-	static let autoSetting = Key<AutoAsyncSetting>("AutoSetting",default: AutoAsyncSetting(url: "https://example.com/menus.json", enable: false), iCloud: true)
+    static let settingPassword = Key<String>("SettingPassword",default: "")
+	static let settingLocalPassword = Key<String>("SettingLocalPassword",default: "")
+    
+    static let remoteUpdateUrl = Key<String>("remoteUpdateUrl", default: "")
 	
 	
 	static let Cards = Key<[MemberCardData]>("MemberCards",default:MemberCardDataS)
@@ -164,7 +166,7 @@ struct TotalData: Codable {
     var homeItemsTitle:String?
     var homeItemsSubTitle:String?
     var settingPassword:String?
-    var autoSetting:AutoAsyncSetting?
+    var remoteUpdateUrl:String?
     var searchApi:String?
     var searchAuth:String?
 	
@@ -173,7 +175,6 @@ struct TotalData: Codable {
 
 extension TotalData:Transferable{
 	static var transferRepresentation: some TransferRepresentation{
-		
 		
 		DataRepresentation(exportedContentType: .trnExportType){
 			let data = try JSONEncoder().encode($0)

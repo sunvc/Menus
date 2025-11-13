@@ -13,7 +13,7 @@ import TipKit
 @main
 struct PeacockMenusApp: App {
     @UIApplicationDelegateAdaptor private var appDelegate: CustomAppDelegate
-	@Default(.autoSetting) var autoSetting
+	@Default(.remoteUpdateUrl) var remoteUpdateUrl
 	@Default(.firstStart) var firstStart
 	@Default(.defaultHome) var defaultHome
 	@Environment(\.scenePhase) var scenePhase
@@ -31,8 +31,8 @@ struct PeacockMenusApp: App {
 					
 					switch newvalue{
                     case .active:
-                        if defaultHome == .home {
-                            manager.updateItem(url: autoSetting.url)
+                        if defaultHome == .home || !remoteUpdateUrl.isEmpty{
+                            manager.updateItem(url: remoteUpdateUrl)
                         }
 					case .background:
 						if firstStart {

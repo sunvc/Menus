@@ -15,7 +15,8 @@ struct AppSettings: View {
     @Default(.homeItemsTitle) var homeItemsTitle
     @Default(.homeItemsSubTitle) var homeItemsSubTitle
     @Default(.settingPassword) var settingPassword
-    @Default(.autoSetting) var autoSetting
+    @Default(.settingLocalPassword) var settingLocalPassword
+    @Default(.remoteUpdateUrl) var remoteUpdateUrl
 	@Default(.menusName) var menusName
 	@Default(.menusSubName) var subName
 	@Default(.menusFooter) var menusFooter
@@ -25,7 +26,7 @@ struct AppSettings: View {
  
 	@EnvironmentObject var manager:peacock
 
-	
+    @State private var passwd:String = ""
 	let editTip = EditChangeTipView()
     
     var body: some View {
@@ -35,12 +36,9 @@ struct AppSettings: View {
             
             
             Section{
-
-                Toggle("自动同步", isOn: $autoSetting.enable)
-                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             
-				TextField("自动同步地址", text: $autoSetting.url)
-					.customField(icon: "link",data: $autoSetting.url)
+				TextField("自动同步地址", text: $remoteUpdateUrl)
+					.customField(icon: "link",data: $remoteUpdateUrl)
 				
 				
             }header: {
@@ -48,15 +46,21 @@ struct AppSettings: View {
 			}footer: {
 				Text("服务器必须实现GET和POST方法，GET方法返回JSON数据，POST方法接收JSON文件")
 			}
-			.onChange(of: autoSetting.enable) { _, newValue in
-                if newValue{
-					manager.updateItem(url: autoSetting.url)
+			.onChange(of: remoteUpdateUrl) { _, newValue in
+                if let url = URL(string: newValue){
+                    manager.updateItem(url: url.absoluteString)
                 }
             }
             
             Section {
-                SecureField("输入密码", text: $settingPassword)
-					.customField(icon: "lock",data: $settingPassword)
+                SecureField("输入密码", text: $settingLocalPassword)
+					.customField(icon: "lock",data: $settingLocalPassword)
+                    .onChange(of: settingLocalPassword) { oldValue, newValue in
+                        if newValue.count > 15{
+                            settingLocalPassword = String(settingLocalPassword.prefix(15))
+                        }
+                        settingPassword = settingLocalPassword.sha256()
+                    }
             }header: {
                 Label("设置密码", systemImage: "lock")
             }

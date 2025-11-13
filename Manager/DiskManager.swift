@@ -51,8 +51,6 @@ final class peacock:ObservableObject {
     @Published var page: Page = .deepseek
     
     @Published var fullPage:Bool = false
-	
-
 }
 
 extension peacock{
@@ -178,7 +176,7 @@ extension peacock{
 			Items: Defaults[.Items], menusName: Defaults[.menusName], menusSubName: Defaults[.menusSubName],
 			menusFooter: Defaults[.menusFooter], menusImage: Defaults[.menusImage], homeCardTitle: Defaults[.homeCardTitle],
 			homeCardSubTitle: Defaults[.homeCardSubTitle], homeItemsTitle: Defaults[.homeItemsTitle], homeItemsSubTitle: Defaults[.homeItemsSubTitle],
-			settingPassword: Defaults[.settingPassword], autoSetting: Defaults[.autoSetting]
+			settingPassword: Defaults[.settingPassword], remoteUpdateUrl: Defaults[.remoteUpdateUrl]
 		)
 	}
 	
@@ -236,7 +234,7 @@ extension peacock{
         let subTitle =  totaldata.homeCardSubTitle
         let itemTitle =  totaldata.homeItemsTitle
         let itemSubtitle =  totaldata.homeItemsSubTitle
-        let setting =  totaldata.autoSetting
+        let remoteUpdateUrl =  totaldata.remoteUpdateUrl
         let password =  totaldata.settingPassword
 		let menusName = totaldata.menusName
 		let menusFooter = totaldata.menusFooter
@@ -288,8 +286,8 @@ extension peacock{
             Defaults[.homeItemsSubTitle] = itemSubtitle
         }
         
-        if let setting = setting{
-            Defaults[.autoSetting] = setting
+        if let remoteUpdateUrl = remoteUpdateUrl{
+            Defaults[.remoteUpdateUrl] = remoteUpdateUrl
         }
         
         if let password = password{

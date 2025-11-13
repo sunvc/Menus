@@ -14,7 +14,7 @@ struct MenuPriceView: View {
 	
 	@EnvironmentObject var manager:peacock
     @Default(.giftShow) var showGift
-    @Default(.autoSetting) var  autoSetting
+    @Default(.remoteUpdateUrl) var  remoteUpdateUrl
 	var body: some View {
 		NavigationStack{
             
@@ -91,7 +91,7 @@ struct MenuPriceView: View {
                             }
                         }
                         
-                        if let url = URL(string: autoSetting.url){
+                        if let url = URL(string: remoteUpdateUrl){
                             Section{
                                 Button{
                                     manager.updateItem(url: url.absoluteString)

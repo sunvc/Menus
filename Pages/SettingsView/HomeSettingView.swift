@@ -22,7 +22,7 @@ struct HomeSettingView: View {
     @State private var password:String = ""
     
     var isAuth:Bool{
-        settingPassword.count > 1 &&  password != settingPassword
+        settingPassword.count > 1 &&  !password.auth(password: settingPassword)
     }
 	var body: some View {
         ZStack{
@@ -58,7 +58,7 @@ struct HomeSettingView: View {
            
         }
         .onChange(of: defaultHome) {
-            self.password = "`"
+            self.password = ""
         }
 		
 		

@@ -16,7 +16,7 @@ struct ContentView: View {
 	@EnvironmentObject var manager:peacock
 	@Default(.firstStart) var firstStart
     @Default(.defaultHome) var defaultHome
-    @Default(.autoSetting) var autoSetting
+    @Default(.remoteUpdateUrl) var remoteUpdateUrl
     @Default(.showMenus) var showMenus
 
 	var body: some View {
@@ -34,14 +34,15 @@ struct ContentView: View {
                     NavigationStack{
                         CalculatorView()
                     }
-                    
-                default:
+                case .gift:
                     GiftHomeView()
                 }
                 
             }
 			.transition(AnyTransition.opacity.combined(with: .slide))
-        
+            .onAppear{
+                debugPrint("password",Defaults[.settingPassword].sha256())
+            }
 			
 			
 		}
@@ -50,7 +51,7 @@ struct ContentView: View {
                 if let url = URL(string: code), (url.scheme == "http" || url.scheme == "https") {
                     manager.updateItem(url: code) { success in
                         if success{
-                            Defaults[.autoSetting] = AutoAsyncSetting(url: code, enable: true)
+                            Defaults[.remoteUpdateUrl] = code
                             Defaults[.defaultHome] = .home
                             Defaults[.showMenus] = true
                             DispatchQueue.main.async {

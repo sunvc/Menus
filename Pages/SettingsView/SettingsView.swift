@@ -19,7 +19,7 @@ enum ActiveAlert {
 struct SettingsView: View {
 	@EnvironmentObject var manager:peacock
 	@Default(.settingPassword) var settingPassword
-	@Default(.autoSetting) var autoSetting
+	@Default(.remoteUpdateUrl) var remoteUpdateUrl
 	@Default(.firstStart) var firstStart
     @Default(.defaultHome) var defaultHome
 	
@@ -138,7 +138,7 @@ struct SettingsView: View {
             case .uploadData:
                 Alert(title: Text("上传数据"), message: Text("本地数据将覆盖服务器数据"), primaryButton: .destructive(Text("确定"), action: {
                     uploadProgress = true
-                    manager.uploadItem(url: autoSetting.url){success in
+                    manager.uploadItem(url: remoteUpdateUrl){success in
                         uploadProgress = false
                         manager.toast(success ? String(localized: "项目同步成功") : String(localized: "项目同步失败"), mode: success ? .success : .matrix)
                     }
@@ -215,7 +215,7 @@ struct SettingsIphoneView: View {
 	@State private var columnVisibility: NavigationSplitViewVisibility = .automatic
 	@State private var showIconPicker:Bool = false
 	@State private var uploadProgress:Bool  = false
-	@Default(.autoSetting) var autoSetting
+	@Default(.remoteUpdateUrl) var remoteUpdateUrl
     @Default(.defaultHome) var defaultHome
     @Default(.settingPassword) var settingPassword
 	@State private var showAlert:Bool = false
@@ -344,7 +344,7 @@ struct SettingsIphoneView: View {
 			.alert(isPresented: $showAlert) {
 				Alert(title: Text("上传数据"), message: Text("本地数据将覆盖服务器数据"), primaryButton: .destructive(Text("确定"), action: {
 					uploadProgress = true
-					manager.uploadItem(url: autoSetting.url){success in
+					manager.uploadItem(url: remoteUpdateUrl){success in
 						uploadProgress = false
 						manager.toast(success ? String(localized: "项目同步成功") : String(localized: "项目同步失败"), mode: success ? .success : .matrix)
 					}
@@ -366,11 +366,7 @@ struct SettingsIphoneView: View {
                                         .popoverTip(uploadIphoneTip)
                                 }
                             }
-                            
-                            
-                            
-                            
-                        }.disabled(!manager.startsWithHttpOrHttps(autoSetting.url))
+                        }.disabled(!manager.startsWithHttpOrHttps(remoteUpdateUrl))
                     }
                     
                 }
