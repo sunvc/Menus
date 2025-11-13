@@ -75,6 +75,12 @@ struct GiftHomeView:View {
 			
 		}
 	}
+    
+    @State private var showGiftList:Bool = false
+    
+    var datas:[VipInfo]{
+        giftsNew.values.sorted(by: {$0.date ?? Date() > $1.date ?? Date()}).map({$0})
+    }
 	
 	var body: some View {
 		ZStack{
@@ -167,23 +173,68 @@ struct GiftHomeView:View {
 			}.offset(y: -130)
 			
 		}
-        .overlay(alignment: .topTrailing, content: {
-            Button{
-                withAnimation {
-                    peacock.shared.page = defaultHome
+        .toolbar{
+            ToolbarItem(placement: .topBarTrailing) {
+                Button{
+                    withAnimation {
+                        peacock.shared.page = defaultHome
+                    }
+                }label:{
+                    Image(systemName: "xmark")
+                        .padding(10)
+                        .background(.ultraThinMaterial)
+                        .clipShape(Circle())
                 }
-            }label:{
-                Image(systemName: "xmark")
-                    .font(.title)
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .clipShape(Circle())
-                    .padding()
-                    .offset(y: 10)
             }
-        })
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Button{
+                    self.showGiftList.toggle()
+                }label:{
+                    Image(systemName: "pencil.and.list.clipboard")
+                        .padding(10)
+                        .background(.ultraThinMaterial)
+                        .clipShape(Circle())
+                }
+            }
+        }
 		.ignoresSafeArea()
 		.background(background)
+        .sheet(isPresented: $showGiftList) {
+            NavigationStack {
+                List{
+                    ForEach(datas, id: \.id){ value in
+
+                        HStack{
+                            Text(value.phone)
+                            Spacer()
+                            Text(value.name)
+                            
+                            Text(verbatim: "-")
+                            
+                            Text(value.cardLevel)
+                            Spacer()
+                            Text(value.date.yymm)
+                        }
+                        .minimumScaleFactor(0.5)
+                        .padding(.horizontal, 10)
+                        .font(.title2)
+                        
+                    }
+                }
+                .navigationTitle("领取列表")
+                .toolbar {
+                    if giftsNew.keys.count > 0{
+                        ToolbarItem {
+                            
+                            Text("\(giftsNew.keys.count)")
+                                .padding(.horizontal)
+                                .contentShape(Rectangle())
+                        }
+                    }
+                }
+            }
+        }
 
 	}
     

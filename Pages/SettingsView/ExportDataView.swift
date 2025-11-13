@@ -16,13 +16,6 @@ struct ExportDataView: View {
     
     var body: some View {
         List{
-            Section{
-                Button{
-                    self.isEditing.toggle()
-                }label: {
-                    Text(isEditing ? "完成" : "编辑")
-                }.buttonStyle(BorderedProminentButtonStyle())
-            }.listRowBackground(Color.clear)
             
 //            编辑
             Section{
@@ -33,18 +26,28 @@ struct ExportDataView: View {
             }header: {
                 Text("全部数据")
             }
-           
+            
             
         }.toolbar{
-            ToolbarItem(placement: .topBarLeading) {
-                
-				ShareLink(item:manager.exportTotalData(),preview: SharePreview("分享", icon: "square.and.arrow.up"))
-		
+            if let fileurl = fileURL{
+                ToolbarItem(placement: .topBarLeading) {
+                    ShareLink(item: fileurl, preview: SharePreview(String("menus.json"), icon: "square.and.arrow.up"))
+                }
             }
-        }.task {
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button{
+                    self.isEditing.toggle()
+                }label: {
+                    Label(isEditing ? "完成" : "编辑", systemImage: isEditing ? "checkmark.circle" : "square.and.pencil.circle")
+                }
+            }
+            
+        }
+        .task {
             DispatchQueue.global(qos: .background).async {
                 let data = peacock.shared.exportTotalData()
-                let file =  peacock.shared.saveJSONToTempFile(object: data, fileName: "menus")
+                let file =  peacock.shared.saveJSONToTempFile(object: data, fileName: "PeacockMenus-\(Date().yyyyMMddhhmmss())")
                 DispatchQueue.main.async {
                     self.fileURL = file
                     self.exportData = peacock.shared.exportData()

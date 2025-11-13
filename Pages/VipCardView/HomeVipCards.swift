@@ -16,7 +16,7 @@ struct HomeVipCards: View {
     @Default(.homeCardSubTitle) var subTitle
 	
 	@EnvironmentObject var manager:peacock
-    @State private var selectVip: MemberCardData?
+
     @Namespace private var homeSpace
     var body: some View {
         VStack(alignment: .leading) {
@@ -45,14 +45,16 @@ struct HomeVipCards: View {
                 .if(ISPAD) { _ in
                     ipadViews
                 }
-
+            
         }
-        .sheet(item: $selectVip) { item in
-
-            VipDetailView(item: item)
-                .navigationTransition(
-                    .zoom(sourceID: item.id, in: homeSpace)
-                )
+        .sheet(item: $manager.selectVip) { item in
+            
+            VipDetailView(item: item){
+                manager.selectVip = nil
+            }
+            .navigationTransition(
+                .zoom(sourceID: item.id, in: homeSpace)
+            )
         }
     }
     
@@ -70,7 +72,7 @@ struct HomeVipCards: View {
                             .blur(radius: abs(proxy.frame(in: .global).minX) / 40)
                             .padding(10)
                             .onTapGesture {
-                                self.selectVip = item
+                                manager.selectVip = item
                             }
                             .matchedTransitionSource(
                                 id: item.id,
@@ -104,7 +106,7 @@ struct HomeVipCards: View {
 							.padding(.horizontal, 20)
 							.id(item.id)
                             .onTapGesture {
-                                self.selectVip = item
+                                manager.selectVip = item
                             }
                             .matchedTransitionSource(id: item.id, in: homeSpace)
 					}

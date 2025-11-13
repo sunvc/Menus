@@ -9,14 +9,19 @@ import SwiftUI
 import Defaults
 
 struct VipDetailView: View {
+    
     var item: MemberCardData
     @State private var select:MemberCardData
+    @EnvironmentObject var manager:peacock
     @Default(.Cards) var cards
     
-    init(item: MemberCardData) {
+    init(item: MemberCardData, dismiss: @escaping ()->()) {
         self.item = item
         self._select = State(wrappedValue: item)
+        self.dismiss = dismiss
     }
+    
+    var dismiss:() -> ()
     var body: some View {
         NavigationStack{
             VStack{
@@ -40,6 +45,18 @@ struct VipDetailView: View {
             }
             .navigationTitle(select.subTitle)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button{
+                        dismiss()
+                    }label:{
+                        Image(systemName: "xmark")
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .clipShape(Circle())
+                    }
+                }
+            }
         }
     }
     

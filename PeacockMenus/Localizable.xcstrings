@@ -1042,6 +1042,7 @@
       }
     },
     "分享" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3073,6 +3074,9 @@
           }
         }
       }
+    },
+    "领取列表" : {
+
     },
     "首席" : {
       "localizations" : {

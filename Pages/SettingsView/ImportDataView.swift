@@ -109,7 +109,7 @@ struct ImportDataView: View {
 				}
 				
 				
-				.fileImporter(isPresented: $importFile, allowedContentTypes: [.trnExportType]) { result in
+                .fileImporter(isPresented: $importFile, allowedContentTypes: [.json]) { result in
 					switch result {
 					case .success(let fileUrl):
 						// 检查文件是否位于沙盒之外，如果是，处理安全作用域
@@ -117,9 +117,8 @@ struct ImportDataView: View {
 							do {
 								// 读取文件数据
 								let encryptedData = try Data(contentsOf: fileUrl)
-								let decryptedData = try AES.GCM.open(.init(combined: encryptedData), using: .trnKey)
 								
-								let totalData = try JSONDecoder().decode(TotalData.self, from: decryptedData)
+								let totalData = try JSONDecoder().decode(TotalData.self, from: encryptedData)
 								
 								// 在此处理读取的数据，例如将其解析为 JSON
 								self.totaldata =  totalData

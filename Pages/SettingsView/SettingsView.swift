@@ -366,7 +366,7 @@ struct SettingsIphoneView: View {
                                         .popoverTip(uploadIphoneTip)
                                 }
                             }
-                        }.disabled(!manager.startsWithHttpOrHttps(remoteUpdateUrl))
+                        }.disabled(!remoteUpdateUrl.hasHttpPrefix)
                     }
                     
                 }

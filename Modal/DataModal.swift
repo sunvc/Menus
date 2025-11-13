@@ -42,6 +42,13 @@ extension Defaults.Keys{
     
     static let searchApi = Key<String>("searchApi", default: "")
     static let searchAuth = Key<String>("searchAuth", default: "")
+    
+    
+    static func resetApp(){
+        Defaults.reset(.menusName, menusSubName, menusFooter, menusImage, homeCardTitle, homeCardSubTitle,
+                       .homeItemsTitle, homeItemsSubTitle, settingPassword, settingLocalPassword, remoteUpdateUrl, .Cards, .Categorys, .Subcategorys, .Items, .showMenus, .searchApi, .searchAuth
+        )
+    }
 }
 
 
@@ -177,11 +184,9 @@ extension TotalData:Transferable{
 	static var transferRepresentation: some TransferRepresentation{
 		
 		DataRepresentation(exportedContentType: .trnExportType){
-			let data = try JSONEncoder().encode($0)
-			guard let encrypteData = try AES.GCM.seal(data, using: .trnKey).combined else{
-				throw EncryptionError.failed
-			}
-			return encrypteData
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+			return try encoder.encode($0)
 		}
 		.suggestedFileName("PeacockMenus-\(Date().yyyyMMddhhmmss())")
 		
@@ -191,6 +196,7 @@ extension TotalData:Transferable{
 		case failed
 	}
 	
+
 
 }
 
@@ -211,7 +217,7 @@ extension SymmetricKey{
 extension Date{
 	func yyyyMMddhhmmss() -> String {
 		let formatter = DateFormatter()
-		formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  // 自定义格式
+		formatter.dateFormat = "yyyy-MM-dd-HH-mm-ss"  // 自定义格式
 		return formatter.string(from: self)  // 返回格式化的日期字符串
 	}
 }

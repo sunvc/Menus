@@ -14,7 +14,7 @@ struct GiftSettingsView:View {
     @Default(.searchAuth) var searchAuth
     @Default(.giftShow) var giftShow
     @State private var showDelete = false
-    var datas:String{
+    var results:String{
         var results:String = ""
         var index:Int = 0
         for (key, value) in giftsNew{
@@ -23,6 +23,10 @@ struct GiftSettingsView:View {
             results.append(line)
         }
         return results
+    }
+    
+    var datas:[VipInfo]{
+        giftsNew.values.sorted(by: {$0.date ?? Date() > $1.date ?? Date()}).map({$0})
     }
     @FocusState private var searchFocus
     @FocusState private var searchPassword
@@ -33,6 +37,11 @@ struct GiftSettingsView:View {
 				
                 Section {
                     Defaults.Toggle("礼物领取开关", systemImage: "app.gift.fill",key: .giftShow)
+                        .onChange(of: giftShow) { oldValue, newValue in
+                            if newValue && !searchApi.hasPrefix("http") {
+                                self.giftShow = false
+                            }
+                        }
                     
                     if !giftShow{
                         TextField("API", text: $searchApi)
@@ -47,10 +56,10 @@ struct GiftSettingsView:View {
                 }
                 
 
-                ForEach(giftsNew.sorted(by: { $0.key < $1.key }), id: \.key){key, value in
+                ForEach(datas, id: \.id){ value in
 
                     HStack{
-                        Text(key)
+                        Text(value.phone)
                         Spacer()
                         Text(value.name)
 
@@ -65,7 +74,7 @@ struct GiftSettingsView:View {
                     .font(.title2)
                     .swipeActions(allowsFullSwipe: true) {
                         Button{
-                            giftsNew.removeValue(forKey: key)
+                            giftsNew.removeValue(forKey: value.phone)
                         }label: {
                             Text("删除")
                         }.tint(.red)
@@ -75,7 +84,7 @@ struct GiftSettingsView:View {
             }
         }
         .toolbar {
-            if !datas.isEmpty{
+            if giftsNew.keys.count > 0{
                 ToolbarItem {
                     
                     Text("\(giftsNew.keys.count)")
@@ -87,9 +96,9 @@ struct GiftSettingsView:View {
                 }
             }
 
-            if !datas.isEmpty{
+            if !results.isEmpty{
                 ToolbarItem(placement: .topBarLeading) {
-                    ShareLink(item: datas)
+                    ShareLink(item: results)
                 }
             }
 

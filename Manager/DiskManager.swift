@@ -47,6 +47,8 @@ final class peacock:ObservableObject {
     private init() { }
     
     @Published var selectCard:MemberCardData = MemberCardData.nonmember
+    
+    @Published var selectVip: MemberCardData?
 
     @Published var page: Page = .deepseek
     
@@ -56,7 +58,7 @@ final class peacock:ObservableObject {
 extension peacock{
 	func updateItem(url:String,completion:((Bool) -> Void)? = nil){
 		
-		if !startsWithHttpOrHttps(url){
+		if !url.hasHttpPrefix{
 			Task{
 				await self.toast("地址不正确", mode: .light)
 			}
@@ -86,7 +88,10 @@ extension peacock{
 	
 	
 	func uploadItem(url:String, completion:((Bool) -> Void)? = nil){
-		if !startsWithHttpOrHttps(url){
+        if !url.hasHttpPrefix{
+            Task{
+                await self.toast("地址不正确", mode: .light)
+            }
 			completion?(false)
 		}
 		
@@ -95,18 +100,9 @@ extension peacock{
 		
 	}
 	
-	
-	func startsWithHttpOrHttps(_ urlString: String) -> Bool {
-		let pattern = "^(http|https)://.*"
-		let test = NSPredicate(format:"SELF MATCHES %@", pattern)
-		return test.evaluate(with: urlString)
-	}
-	
 
 	
 	func uploadFile(url: String, completion: ((Bool)->Void)?) {
-		
-		
 		
 		if let fileURL = saveJSONToTempFile(object: self.exportTotalData(), fileName: "menus"),
 			let requestUrl = URL(string: url) {
@@ -114,7 +110,7 @@ extension peacock{
 			var request = URLRequest(url: requestUrl)
 			request.httpMethod = HTTPMethod.post.rawValue
 			request.cachePolicy = .reloadIgnoringLocalCacheData // 禁用缓存
-			
+            request.addValue(Defaults[.searchAuth], forHTTPHeaderField: "Authorization")
 			
 			AF.upload(multipartFormData: { multipartFormData in
 				// 添加文件数据
@@ -176,7 +172,8 @@ extension peacock{
 			Items: Defaults[.Items], menusName: Defaults[.menusName], menusSubName: Defaults[.menusSubName],
 			menusFooter: Defaults[.menusFooter], menusImage: Defaults[.menusImage], homeCardTitle: Defaults[.homeCardTitle],
 			homeCardSubTitle: Defaults[.homeCardSubTitle], homeItemsTitle: Defaults[.homeItemsTitle], homeItemsSubTitle: Defaults[.homeItemsSubTitle],
-			settingPassword: Defaults[.settingPassword], remoteUpdateUrl: Defaults[.remoteUpdateUrl]
+			settingPassword: Defaults[.settingPassword], remoteUpdateUrl: Defaults[.remoteUpdateUrl],
+            searchApi: Defaults[.searchApi], searchAuth: Defaults[.searchAuth]
 		)
 	}
 	
@@ -198,6 +195,7 @@ extension peacock{
         do {
             // 创建 JSON 编码器
             let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
             // 将对象编码为 JSON 数据
             let jsonData = try encoder.encode(object)
             
@@ -216,6 +214,7 @@ extension peacock{
     @MainActor func importData(text:String) -> Bool{
         let decoder = JSONDecoder()
         let data = text.data(using: .utf8)!
+        
         do{
             let totalData = try decoder.decode(TotalData.self, from: data)
             importData(totaldata: totalData)
@@ -230,25 +229,12 @@ extension peacock{
         let categorys = totaldata.Categorys
         let subcategorys = totaldata.Subcategorys
         let items = totaldata.Items
-        let title =   totaldata.homeCardTitle
-        let subTitle =  totaldata.homeCardSubTitle
-        let itemTitle =  totaldata.homeItemsTitle
-        let itemSubtitle =  totaldata.homeItemsSubTitle
-        let remoteUpdateUrl =  totaldata.remoteUpdateUrl
-        let password =  totaldata.settingPassword
-		let menusName = totaldata.menusName
-		let menusFooter = totaldata.menusFooter
-		let menusImage = totaldata.menusImage
-		let subName = totaldata.menusSubName
-		let searchApi = totaldata.searchApi
-        let searchAuth = totaldata.searchAuth
-		
         
-        if let searchApi {
+        if let searchApi = totaldata.searchApi {
             Defaults[.searchApi] = searchApi
         }
         
-        if let searchAuth {
+        if let searchAuth = totaldata.searchAuth {
             Defaults[.searchAuth] = searchAuth
         }
         
@@ -270,44 +256,44 @@ extension peacock{
             Defaults[.Items] = items
         }
         
-        if let title = title{
+        if let title = totaldata.homeCardTitle{
             Defaults[.homeCardTitle] = title
         }
         
-        if let subTitle = subTitle{
+        if let subTitle = totaldata.homeCardSubTitle{
             Defaults[.homeCardSubTitle] = subTitle
         }
         
-        if let itemTitle = itemTitle{
+        if let itemTitle = totaldata.homeItemsTitle{
             Defaults[.homeItemsTitle] = itemTitle
         }
         
-        if let itemSubtitle = itemSubtitle{
+        if let itemSubtitle = totaldata.homeItemsSubTitle{
             Defaults[.homeItemsSubTitle] = itemSubtitle
         }
         
-        if let remoteUpdateUrl = remoteUpdateUrl{
+        if let remoteUpdateUrl = totaldata.remoteUpdateUrl{
             Defaults[.remoteUpdateUrl] = remoteUpdateUrl
         }
         
-        if let password = password{
+        if let password = totaldata.settingPassword{
             Defaults[.settingPassword] = password
             
         }
 		
-		if let menusName = menusName{
+		if let menusName = totaldata.menusName{
 			Defaults[.menusName] = menusName
 		}
 		
-		if let menusFooter = menusFooter{
+		if let menusFooter = totaldata.menusFooter{
 			Defaults[.menusFooter] = menusFooter
 		}
 		
-		if let menusImage = menusImage{
+		if let menusImage = totaldata.menusImage{
 			Defaults[.menusImage] = menusImage
 		}
 		
-		if let subName = subName{
+		if let subName = totaldata.menusSubName{
 			Defaults[.menusSubName] = subName
 		}
     }
@@ -354,4 +340,13 @@ extension peacock{
         }
     }
     
+}
+
+
+extension String{
+    var hasHttpPrefix:Bool{
+        let pattern = "^(http|https)://.*"
+        let test = NSPredicate(format:"SELF MATCHES %@", pattern)
+        return test.evaluate(with: self)
+    }
 }

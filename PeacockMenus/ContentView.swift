@@ -35,14 +35,13 @@ struct ContentView: View {
                         CalculatorView()
                     }
                 case .gift:
-                    GiftHomeView()
+                    NavigationStack{
+                        GiftHomeView()
+                    }
                 }
                 
             }
 			.transition(AnyTransition.opacity.combined(with: .slide))
-            .onAppear{
-                debugPrint("password",Defaults[.settingPassword].sha256())
-            }
 			
 			
 		}
@@ -51,22 +50,28 @@ struct ContentView: View {
                 if let url = URL(string: code), (url.scheme == "http" || url.scheme == "https") {
                     manager.updateItem(url: code) { success in
                         if success{
-                            Defaults[.remoteUpdateUrl] = code
-                            Defaults[.defaultHome] = .home
-                            Defaults[.showMenus] = true
                             DispatchQueue.main.async {
+                                Defaults[.remoteUpdateUrl] = code
+                                Defaults[.defaultHome] = .home
+                                Defaults[.showMenus] = true
                                 manager.page = .home
                             }
-
+                            
+                        }else{
+                            DispatchQueue.main.async {
+                                Defaults.Keys.resetApp()
+                                manager.page = .deepseek
+                                manager.toast("Restore App Success !!!")
+                            }
                         }
                     }
-
-                    return true
+                    
+                    
                 }
-                return false
+                return true
             }
         }
-	}
+    }
     
     @ViewBuilder
     func AssistantPage() -> some View{

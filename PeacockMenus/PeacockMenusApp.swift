@@ -72,11 +72,6 @@ struct PeacockMenusApp: App {
                 }
                 .onAppear{
                     
-                    for index in 0...300{
-                        giftsOld["\(index)"] = Date()
-                    }
-                    
-                    
                     if giftsOld.count > 0{
                         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                             seconds += 1
@@ -88,6 +83,7 @@ struct PeacockMenusApp: App {
                             }
                             giftsOld.removeValue(forKey: key)
                         }
+                        timer?.invalidate()
                     }
                     appDelegate.app = self
         
