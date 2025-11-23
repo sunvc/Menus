@@ -19,7 +19,6 @@ struct PeacockMenusApp: App {
 	@Environment(\.scenePhase) var scenePhase
 	@StateObject var manager = peacock.shared
     @Default(.giftsNew) var giftsNew
-    @Default(.gifts) var giftsOld
     
     @State private var seconds = 0
     @State private var timer: Timer?
@@ -57,34 +56,7 @@ struct PeacockMenusApp: App {
 						.datastoreLocation(.applicationDefault)
 					])
 				}
-                .overlay{
-                    if giftsOld.count > 0{
-                        VStack{
-                            Text(verbatim: "\(seconds)Please Wait...")
-                                .font(.largeTitle)
-                                .padding(30)
-                                .onDisappear{
-                                    timer?.invalidate()
-                                }
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                }
                 .onAppear{
-                    
-                    if giftsOld.count > 0{
-                        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                            seconds += 1
-                        }
-                        for (key, value) in giftsOld{
-                            if giftsNew[key] == nil {
-                                giftsNew[key] = .init(name: "", cardLevel: "", balance: -1,
-                                                      cardID: "", cardType: "", phone: key, date: value)
-                            }
-                            giftsOld.removeValue(forKey: key)
-                        }
-                        timer?.invalidate()
-                    }
                     appDelegate.app = self
         
                 }

@@ -1,0 +1,16 @@
+*.mode*v*
+*.pbxuser
+*.xccheckout
+*.xcuserstate
+.vscode/
+build/
+Pods/
+.DS_Store
+.vscode
+._.*
+xcuserdata
+DerivedData/
+.venv
+.venv/
+.idea/
+**/.idea/

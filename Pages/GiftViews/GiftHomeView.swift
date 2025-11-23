@@ -15,20 +15,21 @@ import Defaults
 
 extension Defaults.Keys{
     static let giftsNew = Key<[String: VipInfo]>("gistNewList",default: [:])
-    static let gifts = Key<[String:Date]>("gist",default: [:])
 }
 
 struct GiftHomeView:View {
-	@State private var phone:String = ""
+	@State private var searchText: String = ""
 	@FocusState private var phoneFocus
 	@State private var viplist:[VipInfo] = []
 	@Default(.giftsNew) var giftsNew
     @Default(.defaultHome) var defaultHome
     @State private var showGifts = false
+    
+    @State private var searchLoading:Bool = false
 	
 	var background:Color{
 		
-		let diskBool = giftsNew.contains(where: {$0.key == phone})
+		let diskBool = giftsNew.contains(where: {$0.key == searchText})
 		
 		let lingCount = viplist.filter({ item in
             giftsNew.contains(where: {$0.key == item.phone})
@@ -51,7 +52,7 @@ struct GiftHomeView:View {
 	var titlegift:String{
 	
 		
-		let diskBool = giftsNew.contains(where: {$0.key == phone})
+		let diskBool = giftsNew.contains(where: {$0.key == searchText})
 		
 		let lingCount = viplist.filter({ item in
             giftsNew.contains(where: {$0.key == item.phone})
@@ -95,10 +96,14 @@ struct GiftHomeView:View {
 				ScrollView(.horizontal) {
 					LazyHStack{
 						ForEach(viplist, id: \.id){item in
-							cardGiftView(item: item)
-								.padding()
-						}
-					}
+                            cardGiftView(item: item)
+                                .padding()
+                                .contentShape(RoundedRectangle(cornerRadius: 10))
+                                
+                                .shadow(color: .white.opacity(0.8), radius: 2, x: -1, y: -1)
+                                .shadow(color: .black, radius: 10, x: 10, y: 10)
+                        }
+                    }
 				}
 				
 				.frame(width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.height / 2)
@@ -109,7 +114,7 @@ struct GiftHomeView:View {
 					Text("查询结果:")
 						.foregroundStyle(.gray)
 					Text( viplist.count == 0 ? "没有结果" : "查询到\(viplist.count)个结果")
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.white)
 				}
 				.padding(.horizontal)
 				
@@ -117,15 +122,18 @@ struct GiftHomeView:View {
 					RoundedRectangle(cornerRadius: 20)
 						.fill(.ultraThinMaterial)
 						.frame(width: 600, height: 100)
-						.onTapGesture {
-							self.phoneFocus.toggle()
-						}
-						
 						.overlay {
-							TextField("输入手机号码搜索", text: $phone)
+							TextField("输入手机号码搜索", text: $searchText)
 								.font(.largeTitle)
 								.padding(.leading, 80)
 								.focused($phoneFocus)
+                                .submitLabel(.search)
+                                .onSubmit {
+                                    withAnimation {
+                                        self.getVipList(search: searchText)
+                                        self.phoneFocus = false
+                                    }
+                                }
 						}
 						.overlay {
 							HStack{
@@ -134,41 +142,24 @@ struct GiftHomeView:View {
 									.padding(.horizontal)
 								
 								Spacer()
-								
-								Image(systemName: "xmark")
-									.background(.ultraThinMaterial)
-									.font(.largeTitle)
-									.padding(.trailing)
-									.onTapGesture {
-										withAnimation {
-											self.phone = ""
-											self.viplist = []
-										}
-									}
-									.opacity(phone.count > 0 ? 1 : 0)
+                                if searchText.count > 0{
+                                    Image(systemName: "xmark")
+                                        .padding(10)
+                                        .background(.ultraThinMaterial)
+                                        .clipShape(Circle())
+                                        .font(.largeTitle)
+                                        .padding(.trailing)
+                                        .onTapGesture {
+                                            withAnimation {
+                                                self.searchText = ""
+                                                self.viplist = []
+                                            }
+                                        }
+                                }
 							}
 						}
 						.contentShape(RoundedRectangle(cornerRadius: 20))
 					
-					
-					Button{
-                        if !phone.isEmpty{
-                            withAnimation {
-                                self.getVipList(search: phone)
-                                self.phoneFocus = false
-                            }
-                        }
-
-						
-					}label: {
-						Image(systemName: "person.crop.badge.magnifyingglass")
-                            .font(.largeTitle)
-                            .padding(10)
-                            .background(.ultraThinMaterial, in: .circle)
-                            .scaleEffect(1.5)
-                            .tint(.background9)
-                            .offset(x: 20)
-					}
 				}
 			}.offset(y: -130)
 			
@@ -243,37 +234,34 @@ struct GiftHomeView:View {
 	
 	@ViewBuilder
 	func cardGiftView(item:VipInfo)-> some View{
+        let success = giftsNew.keys.contains(item.phone)
 		VStack{
 			
 			Button{
-                if !giftsNew.contains(where: {$0.key == item.phone}){
+                if !success {
                     var userInfo = item
                     userInfo.date = Date()
                     giftsNew[item.phone] = userInfo
                 }
-
-			}label: {
-				HStack{
-					Spacer()
+                
+            }label: {
+                HStack{
+                    Spacer()
+                    
                     Text(
-                        giftsNew
-                            .contains(where: {$0.key == phone}) ? (
-                                createDate(item.date) ?? "已领取"
-                            ) : "领取"
+                        success ?  "已领:\(createDate(item.date))" : "点击领取"
                     )
-						.padding()
-						.font( giftsNew.contains(where: {$0.key == phone}) ? .system(size: 30)  : .system(size: 50).bold())
-
-
-						
-					Spacer()
-				}
-				
-				.clipShape(RoundedRectangle(cornerRadius: 10))
-				Spacer()
+                    .padding()
+                    .font( success ? .system(size: 30)  : .system(size: 50).bold())
+                    Spacer()
+                }
+                
 			}
+            .background(success ? .red : .accent)
+            .foregroundStyle(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .disabled(success)
 
-			.buttonStyle(BorderedProminentButtonStyle())
 			
 			HStack{
 				
@@ -338,15 +326,17 @@ struct GiftHomeView:View {
 		
 			
 	}
+    
 	
 	func getVipList(search:String){
         let searchApi = Defaults[.searchApi]
         let searchAuth =  Defaults[.searchAuth]
+        self.searchLoading = true
 		
 		AF.request(searchApi, method: .get, parameters: ["text": search,"page":1], headers: ["Authorization": searchAuth]).response{ response in
 			switch response.result{
 			case .success(let result):
-				if let json = try? JSON(data: result!){
+				if let result = result, let json = try? JSON(data: result){
 					self.viplist = dataHandler(data: json)
 				}
 				
@@ -354,7 +344,7 @@ struct GiftHomeView:View {
 				debugPrint(err.localizedDescription)
 			}
 			
-			
+            self.searchLoading = false
 			
 		}
 		
@@ -397,11 +387,11 @@ struct GiftHomeView:View {
 	}
 	
 	
-	func createDate(_ date:Date?) -> String?{
-		guard let date else { return  nil}
+	func createDate(_ date:Date?) -> String{
+        var date2:Date{ date ?? Date() }
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyy-MM-dd HH:mm"
-		return formatter.string(from: date)
+		return formatter.string(from: date2)
 	}
 	
 	

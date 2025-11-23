@@ -188,6 +188,14 @@
 		B5DF4F062E144D9500599A8D /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		B5EC96C02E17B5F5004C652D /* CalculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModel.swift; sourceTree = "<group>"; };
 		B5EC96D32E17C2F8004C652D /* KeyboardNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNumberView.swift; sourceTree = "<group>"; };
+		BAB47F3F2ED3482F00EE84AC /* translate.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = translate.py; sourceTree = "<group>"; };
+		BAB47F402ED3482F00EE84AC /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
+		BAB47F412ED3482F00EE84AC /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
+		BAB47F422ED3482F00EE84AC /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
+		BAB47F442ED348C400EE84AC /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = "ko.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
+		BAB47F452ED348C500EE84AC /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BAB47F462ED348EC00EE84AC /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = "ja.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
+		BAB47F472ED348EC00EE84AC /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +276,7 @@
 		1990756F2C86100100E23FD7 = {
 			isa = PBXGroup;
 			children = (
+				BAB47F432ED3482F00EE84AC /* ci_scripts */,
 				B51CAA942E12B65A00E9CE97 /* Sounds */,
 				19D231D52C93FCBF001044BB /* Pages */,
 				199075C62C8B544800E23FD7 /* Public */,
@@ -424,6 +433,17 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		BAB47F432ED3482F00EE84AC /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				BAB47F3F2ED3482F00EE84AC /* translate.py */,
+				BAB47F402ED3482F00EE84AC /* ci_post_xcodebuild.sh */,
+				BAB47F412ED3482F00EE84AC /* ci_pre_xcodebuild.sh */,
+				BAB47F422ED3482F00EE84AC /* ci_post_clone.sh */,
+			);
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -481,6 +501,8 @@
 				en,
 				Base,
 				"zh-Hans",
+				ko,
+				ja,
 			);
 			mainGroup = 1990756F2C86100100E23FD7;
 			packageReferences = (
@@ -603,6 +625,8 @@
 			children = (
 				196C57582CA2FBB200A2436F /* zh-Hans */,
 				196C575A2CA2FBC200A2436F /* en */,
+				BAB47F452ED348C500EE84AC /* ko */,
+				BAB47F472ED348EC00EE84AC /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -611,6 +635,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				196C575B2CA2FC0F00A2436F /* Base */,
+				BAB47F442ED348C400EE84AC /* ko */,
+				BAB47F462ED348EC00EE84AC /* ja */,
 			);
 			name = "Launch Screen.storyboard";
 			sourceTree = "<group>";
