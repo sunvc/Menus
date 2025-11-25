@@ -23,9 +23,7 @@ struct AsyncImageView: View {
 		VStack{
 			if let imageUrl = imageUrl, isValidURL(imageUrl){
 				if let image = image {
-					// 如果已经加载了图片，则显示图片
-					
-				
+					// 如果已经加载了图片，则显示图
 					
 					Image(uiImage: image)
 						.resizable()

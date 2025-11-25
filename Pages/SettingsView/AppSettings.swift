@@ -48,7 +48,11 @@ struct AppSettings: View {
 			}
 			.onChange(of: remoteUpdateUrl) { _, newValue in
                 if let url = URL(string: newValue){
-                    manager.updateItem(url: url.absoluteString)
+                    manager.updateItem(url: url.absoluteString){ success in
+                        if success{
+                            Defaults[.defaultHome] = .home
+                        }
+                    }
                 }
             }
             
