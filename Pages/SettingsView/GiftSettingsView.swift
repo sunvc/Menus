@@ -1,93 +1,67 @@
-//
-//  GiftSettingsView.swift
-//  PeacockMenus
-//
-//  Created by He Cho on 2024/10/25.
-//
-
-import SwiftUI
 import Defaults
+import RealmSwift
+import SwiftUI
 
-struct GiftSettingsView:View {
-	@Default(.giftsNew) var giftsNew
+struct GiftSettingsView: View {
+    @ObservedResults(VipInfoRealmMode.self, sortDescriptor: SortDescriptor(
+        keyPath: \VipInfoRealmMode.createDate, ascending: false
+    )) var vipGiftlist
     @Default(.searchApi) var searchApi
     @Default(.searchAuth) var searchAuth
     @Default(.giftShow) var giftShow
+    @Default(.settingPassword) var settingPassword
+    @Default(.settingLocalPassword) var settingLocalPassword
+    @Default(.remoteUpdateURL) var remoteUpdateURL
     @State private var showDelete = false
-    var results:String{
-        var results:String = ""
-        var index:Int = 0
-        for (key, value) in giftsNew{
-            index += 1
-            let line:String = "\(index),\(key),\(value.name),\(value.cardLevel),\(value.date.yymm)\n"
-            results.append(line)
-        }
-        return results
-    }
-    
-    var datas:[VipInfo]{
-        giftsNew.values.sorted(by: {$0.date ?? Date() > $1.date ?? Date()}).map({$0})
-    }
+
     @FocusState private var searchFocus
     @FocusState private var searchPassword
-	var body: some View {
-		VStack{
-			
-			List{
-				
-                Section {
-                    Defaults.Toggle("礼物领取开关", systemImage: "app.gift.fill",key: .giftShow)
-                        .onChange(of: giftShow) { oldValue, newValue in
-                            if newValue && !searchApi.hasPrefix("http") {
-                                self.giftShow = false
-                            }
+    var body: some View {
+        List {
+            Section {
+                Defaults.Toggle("礼物领取开关", systemImage: "app.gift.fill", key: .giftShow)
+                    .onChange(of: giftShow) { _, newValue in
+                        if newValue && !searchApi.hasPrefix("http") {
+                            self.giftShow = false
                         }
-                    
-                    if !giftShow{
-                        TextField("API", text: $searchApi)
-                            .focused($searchFocus)
-                            .customField(focus: searchFocus, icon: "link",data:  $searchApi)
-                        
-                        SecureField("key", text: $searchAuth)
-                            .focused($searchPassword)
-                            .customField(focus: searchPassword,icon: "key",data:  $searchAuth)
                     }
-                    
+
+                if !giftShow {
+                    TextField("API", text: $searchApi)
+                        .focused($searchFocus)
+                        .customField(focus: searchFocus, icon: "link", data: $searchApi)
+
+                    SecureField("key", text: $searchAuth)
+                        .focused($searchPassword)
+                        .customField(focus: searchPassword, icon: "key", data: $searchAuth)
                 }
-                
 
-                ForEach(datas, id: \.id){ value in
+            }.disabled(
+                !remoteUpdateURL.isEmpty && settingPassword != settingLocalPassword
+            )
 
-                    HStack{
-                        Text(value.phone)
-                        Spacer()
-                        Text(value.name)
+            ForEach(vipGiftlist, id: \.id) { value in
+                HStack {
+                    Text(value.phone)
+                    Spacer()
+                    Text(value.name)
 
-                        Text(verbatim: "-")
-                        
-                        Text(value.cardLevel)
-                        Spacer()
-                        Text(value.date.yymm)
-                    }
-                    .minimumScaleFactor(0.5)
-                    .padding()
-                    .font(.title2)
-                    .swipeActions(allowsFullSwipe: true) {
-                        Button{
-                            giftsNew.removeValue(forKey: value.phone)
-                        }label: {
-                            Text("删除")
-                        }.tint(.red)
-                    }
+                    Text(verbatim: "-")
 
+                    Text(value.cardLevel)
+                    Spacer()
+                    Text(value.createDate.yymm)
                 }
+                .minimumScaleFactor(0.5)
+                .padding()
+                .font(.title2)
             }
+            .onDelete(perform: $vipGiftlist.remove)
         }
         .toolbar {
-            if giftsNew.keys.count > 0{
+            if vipGiftlist.count > 0 {
                 ToolbarItem {
-                    
-                    Text("\(giftsNew.keys.count)")
+                    Text("\(vipGiftlist.count)")
                         .padding(.horizontal)
                         .contentShape(Rectangle())
                         .onTapGesture(count: showDelete ? 1 : 5) {
@@ -96,32 +70,47 @@ struct GiftSettingsView:View {
                 }
             }
 
-            if !results.isEmpty{
+            if !vipGiftlist.isEmpty {
                 ToolbarItem(placement: .topBarLeading) {
-                    ShareLink(item: results)
+                    ShareLink(item: exportData())
                 }
             }
 
-            if showDelete && !giftsNew.isEmpty{
+            if showDelete && !vipGiftlist.isEmpty {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button{
-                        self.giftsNew = [:]
-                    }label: {
+                    Button {
+                        // TODO: 删除所有数据
+                    } label: {
                         Image(systemName: "trash")
                     }
                 }
             }
         }
-	}
-	
-	
+    }
+
+    func exportData() -> String {
+        var results = ""
+        var index = 0
+
+        for item in vipGiftlist {
+            index += 1
+            let line = "\(index),\(item.phone),\(item.name),\(item.cardLevel),\(item.createDate.yymm)\n"
+            results.append(line)
+        }
+        return results
+    }
 }
 
-extension Date?{
+extension Date {
     var yymm: String {
-        guard let self else { return  ""}
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        return formatter.string(from: self)
+    }
+
+    var yyyy: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
         return formatter.string(from: self)
     }
 }

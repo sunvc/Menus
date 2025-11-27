@@ -5,51 +5,44 @@
 //  Created by He Cho on 2024/9/13.
 //
 
+import Defaults
+import RealmSwift
 import SwiftUI
-import Defaults
 import TipKit
-import Defaults
 
 struct HomeVipCards: View {
-    @Default(.Cards) var cards
+    @ObservedResults(MemberCardRealmData.self, sortDescriptor: SortDescriptor(
+        keyPath: \MemberCardRealmData.sort, ascending: true
+    )) var cards
+//    @Default(.Cards) var cards
     @Default(.homeCardTitle) var title
     @Default(.homeCardSubTitle) var subTitle
-	
-	@EnvironmentObject var manager:peacock
+
+    @EnvironmentObject var manager: peacock
 
     @Namespace private var homeSpace
     var body: some View {
         VStack(alignment: .leading) {
-            
-            HStack{
-                VStack(alignment: .leading){
-                   
-                        
+            HStack {
+                VStack(alignment: .leading) {
                     Text(title)
                         .font(.title)
-                       .fontWeight(.heavy)
-              
-                       
-                     Text(subTitle)
+                        .fontWeight(.heavy)
+
+                    Text(subTitle)
                         .foregroundColor(.gray)
                 }.padding(.leading, 30)
-                
-                
-                
-                
+
                 Spacer()
             }
-            
-            
+
             iphoneViews
                 .if(ISPAD) { _ in
                     ipadViews
                 }
-            
         }
         .sheet(item: $manager.selectVip) { item in
-            
-            VipDetailView(item: item){
+            VipDetailView(item: item) {
                 manager.selectVip = nil
             }
             .navigationTransition(
@@ -57,12 +50,12 @@ struct HomeVipCards: View {
             )
         }
     }
-    
-    private var iphoneViews: some View{
-        TabView{
+
+    private var iphoneViews: some View {
+        TabView {
             ForEach(cards) { item in
                 GeometryReader { proxy in
-                    HStack{
+                    HStack {
                         Spacer()
                         VipCardView(item: item, size: CGSize(width: 355, height: 230))
                             .rotation3DEffect(
@@ -80,61 +73,49 @@ struct HomeVipCards: View {
                             )
                         Spacer()
                     }
-
-
                 }
-			}
+            }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
         .frame(height: 250)
     }
-    
-    
-    
-    
-	private var ipadViews: some View{
-		ScrollViewReader { proxy in
-			ScrollView(.horizontal, showsIndicators: false) {
-				HStack(alignment: .center, spacing: 0) {
-					
-					scallBtn( proxy: proxy, isHead: true)
-					
-					
-					ForEach(cards) { item in
-						VipCardView(item: item,size: CGSize(width: 355, height: 230))
-							.scaleEffect(0.95)
-							.padding(.horizontal, 20)
-							.id(item.id)
+
+    private var ipadViews: some View {
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .center, spacing: 0) {
+                    scallBtn(proxy: proxy, isHead: true)
+
+                    ForEach(cards) { item in
+                        VipCardView(item: item, size: CGSize(width: 355, height: 230))
+                            .scaleEffect(0.95)
+                            .padding(.horizontal, 20)
+                            .id(item.id)
                             .onTapGesture {
                                 manager.selectVip = item
                             }
                             .matchedTransitionSource(id: item.id, in: homeSpace)
-					}
-					scallBtn( proxy: proxy, isHead: false)
-					
-				}
-				.padding(.leading, 10)
-				.padding(.vertical)
-			}
-		}
-		
-		
-	}
-	
-    
-    
+                    }
+                    scallBtn(proxy: proxy, isHead: false)
+                }
+                .padding(.leading, 10)
+                .padding(.vertical)
+            }
+        }
+    }
 }
 
-
-
-extension View{
+extension View {
     /// Applies the given transform if the given condition evaluates to `true`.
     /// - Parameters:
     ///   - condition: The condition to evaluate.
     ///   - transform: The transform to apply to the source `View`.
     /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
     /// https://www.avanderlee.com/swiftui/conditional-view-modifier/
-    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+    @ViewBuilder func `if`<Content: View>(
+        _ condition: Bool,
+        transform: (Self) -> Content
+    ) -> some View {
         if condition {
             transform(self)
         } else {
@@ -142,4 +123,3 @@ extension View{
         }
     }
 }
-

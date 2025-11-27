@@ -1,15 +1,14 @@
 //
-//  SidebarMenu.swift
+//  CalculatorSettings.swift
 //  Calculator
 //
 //  Created by lynn on 2025/6/30.
 //
 
-import SwiftUI
 import Defaults
+import SwiftUI
 
 struct CalculatorSettings: View {
-    
     @Default(.results) var results
     @Default(.thousandPoints) var thousandPoints
     @Default(.numberSuffix) var numberSuffix
@@ -19,28 +18,26 @@ struct CalculatorSettings: View {
     @Default(.showMenus) var showMenus
 
     var body: some View {
-        NavigationStack{
-            List{
-
-                Section{
+        NavigationStack {
+            List {
+                Section {
                     Picker(selection: $defaultHome, label: Text("默认首页")) {
-                        ForEach(Page.arr, id: \.self){ icon in
-                            if icon != .home{
+                        ForEach(Page.arr, id: \.self) { icon in
+                            if icon != .home {
                                 Label(icon.name, systemImage: icon.rawValue)
-                            }else{
-                                if showMenus{
+                            } else {
+                                if showMenus {
                                     Label(icon.name, systemImage: icon.rawValue)
                                 }
                             }
-
                         }
                     }
 
-                }header: {
+                } header: {
                     Label("切换默认首页", systemImage: "house.circle")
                 }
-                
-                Section{
+
+                Section {
                     Toggle(isOn: $thousandPoints) {
                         Label("千分位", systemImage: "gear")
                     }
@@ -48,28 +45,26 @@ struct CalculatorSettings: View {
                         Label("单位", systemImage: "gear")
                     }
                     Picker(selection: $doubleInt, label: Text("小数")) {
-                        ForEach(Array(0...8),id: \.self) { item in
+                        ForEach(Array(0...8), id: \.self) { item in
                             Text("\(item)").tag(item)
                         }
-                        
                     }
-                }header: {
+                } header: {
                     Text(verbatim: "")
                 }
-                Section{
+                Section {
                     Toggle(isOn: $feedback) {
                         Label("触感", systemImage: "gear")
                     }
-                    
-                }header: {
+
+                } header: {
                     Text(verbatim: "")
                 }
-                
-                Section{
-                    
-                    ZStack{
+
+                Section {
+                    ZStack {
                         Color.orange
-                        HStack{
+                        HStack {
                             Spacer()
                             Text("清空屏幕")
                             Spacer()
@@ -77,13 +72,12 @@ struct CalculatorSettings: View {
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .listRowBackground(Color.clear)
-                    .VButton( onRelease: { _ in
+                    .VButton(onRelease: { _ in
                         self.results = []
                         return true
                     })
-                    
-                    
-                }header: {
+
+                } header: {
                     Text(verbatim: "")
                 }
             }
@@ -93,7 +87,6 @@ struct CalculatorSettings: View {
     }
 }
 
-
 #Preview {
-   ContentView()
+    ContentView()
 }

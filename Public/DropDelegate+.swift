@@ -9,24 +9,26 @@ import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
-
 struct DropViewDelegate<Item: Equatable>: DropDelegate {
     let item: Item
     @Binding var items: [Item]
     @Binding var draggedItem: Item?
 
-    func dropEntered(info: DropInfo) {
+    func dropEntered(info _: DropInfo) {
         guard let draggedItem = draggedItem else { return }
         if draggedItem != item {
             guard let fromIndex = items.firstIndex(of: draggedItem),
                   let toIndex = items.firstIndex(of: item) else { return }
             withAnimation {
-                items.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: toIndex > fromIndex ? toIndex + 1 : toIndex)
+                items.move(
+                    fromOffsets: IndexSet(integer: fromIndex),
+                    toOffset: toIndex > fromIndex ? toIndex + 1 : toIndex
+                )
             }
         }
     }
 
-    func performDrop(info: DropInfo) -> Bool {
+    func performDrop(info _: DropInfo) -> Bool {
         draggedItem = nil
         return true
     }
@@ -37,17 +39,19 @@ struct DragAndDropModifier<Item: Equatable>: ViewModifier {
     @Binding var items: [Item]
     @Binding var draggedItem: Item?
     let getDragItem: () -> NSItemProvider
-    
+
     func body(content: Content) -> some View {
         content
             .onDrag {
                 draggedItem = item
                 return getDragItem()
             }
-            .onDrop(of: [UTType.text], delegate: DropViewDelegate(item: item, items: $items, draggedItem: $draggedItem))
+            .onDrop(
+                of: [UTType.text],
+                delegate: DropViewDelegate(item: item, items: $items, draggedItem: $draggedItem)
+            )
     }
 }
-
 
 extension View {
     func draggable<Item: Equatable>(
@@ -56,6 +60,11 @@ extension View {
         draggedItem: Binding<Item?>,
         getDragItem: @escaping () -> NSItemProvider
     ) -> some View {
-        self.modifier(DragAndDropModifier(item: item, items: items, draggedItem: draggedItem, getDragItem: getDragItem))
+        modifier(DragAndDropModifier(
+            item: item,
+            items: items,
+            draggedItem: draggedItem,
+            getDragItem: getDragItem
+        ))
     }
 }

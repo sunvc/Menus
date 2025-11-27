@@ -6,11 +6,10 @@
 //
 import SwiftUI
 
-
 struct MiniImageOrTextView: View {
     var item: String
     var body: some View {
-        ZStack{
+        ZStack {
             switch item {
             case "/":
                 Image(systemName: "divide")
@@ -32,6 +31,4 @@ struct MiniImageOrTextView: View {
             }
         }
     }
-    
 }
-

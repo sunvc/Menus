@@ -4,14 +4,14 @@
 //
 //  Created by lynn on 2025/6/30.
 //
-import Foundation
-import Expression
 import Defaults
+import Expression
+import Foundation
 import SwiftUI
 
-class Manager{
+class Manager {
     static let symbols = ["+", "-", "*", "/"]
-    
+
     static func appendOrReplaceLastToken(in tokens: [String], with newValue: String) -> [String] {
         var result = tokens
         if let last = result.last {
@@ -25,24 +25,24 @@ class Manager{
         }
         return result
     }
-    
-    static func evaf(_ tokens:[String]) -> String{
+
+    static func evaf(_ tokens: [String]) -> String {
         let result = eva(tokens)
         return "\(formatDecimal(result, maxDigits: Defaults[.doubleInt]))"
     }
-    
+
     static func eva(_ tokens: [String]) -> Decimal {
         // 先处理乘除运算
         var intermediateTokens = [String]()
         var i = 0
         let n = tokens.count
-        
+
         while i < n {
             let token = tokens[i]
             if token == "*" || token == "/" {
                 // 获取操作符前后的数字
                 let left = Decimal(string: intermediateTokens.removeLast())!
-                let right = Decimal(string: tokens[i+1])!
+                let right = Decimal(string: tokens[i + 1])!
                 let result: Decimal
                 if token == "*" {
                     result = left * right
@@ -61,42 +61,38 @@ class Manager{
                 i += 1
             }
         }
-        
+
         // 然后处理加减运算
         var result = Decimal(string: intermediateTokens[0])!
         i = 1
         let m = intermediateTokens.count
-        
+
         while i < m {
             let token = intermediateTokens[i]
             if token == "+" {
-                let right = Decimal(string: intermediateTokens[i+1])!
+                let right = Decimal(string: intermediateTokens[i + 1])!
                 result += right
                 i += 2
             } else if token == "-" {
-                let right = Decimal(string: intermediateTokens[i+1])!
+                let right = Decimal(string: intermediateTokens[i + 1])!
                 result -= right
                 i += 2
             } else {
                 i += 1
             }
         }
-        
+
         return result
     }
 
-    
-   static func evaluateExpression(_ expressionString: String) -> String {
-       
-       let tokens = self.tokenizeMathExpression(expressionString)
-       
-       let result = self.eva(tokens)
-    
-        
+    static func evaluateExpression(_ expressionString: String) -> String {
+        let tokens = tokenizeMathExpression(expressionString)
+
+        let result = eva(tokens)
+
         return "\(formatDecimal(result, maxDigits: Defaults[.doubleInt]))"
     }
-    
-    
+
     static func formatDecimal(_ number: Decimal, maxDigits: Int = 6) -> String {
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0
@@ -108,43 +104,40 @@ class Manager{
         return formatter.string(from: number as NSNumber) ?? "\(number)"
     }
 
-    
-    
-    static func texthandler(_ text:String)-> String{
-
-        
+    static func texthandler(_ text: String) -> String {
         let texts = tokenizeMathExpression(text)
-        
+
         let result = texts.compactMap { item in
-            if symbols.contains(item){
+            if symbols.contains(item) {
                 return item
             }
             let doubles = item.split(separator: ".", omittingEmptySubsequences: false)
-            
-            if doubles.count > 0{
+
+            if doubles.count > 0 {
                 return doubles.compactMap { subtext in
                     let double = String(subtext)
-                    if let first = doubles.first, first == double{
+                    if let first = doubles.first, first == double {
                         return formatNumberWithComma(double)
                     }
                     return double
                 }.joined(separator: ".")
             }
-            
-            if item == texts.last{
+
+            if item == texts.last {
                 if let f = Float(item),
-                   f.truncatingRemainder(dividingBy: 1) == 0, f == 0 {
+                   f.truncatingRemainder(dividingBy: 1) == 0, f == 0
+                {
                     return item
                 }
             }
-            
+
             return formatNumberWithComma(item)
         }.joined()
-        
+
         return result.replacingOccurrences(of: "/", with: "÷")
             .replacingOccurrences(of: "*", with: "×")
     }
-    
+
     static func toScientificNotation(_ number: Double, fractionDigits: Int = 6) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .scientific
@@ -154,13 +147,12 @@ class Manager{
 
         return formatter.string(from: NSNumber(value: number)) ?? "\(number)"
     }
-    
-    static func formatNumberWithComma(_ numberString: String) -> String {
 
-        guard Defaults[.thousandPoints] else { return numberString}
-        
+    static func formatNumberWithComma(_ numberString: String) -> String {
+        guard Defaults[.thousandPoints] else { return numberString }
+
         var input = numberString.trimmingCharacters(in: .whitespaces)
-        
+
         // 处理负号
         var sign = ""
         if input.hasPrefix("-") {
@@ -184,17 +176,19 @@ class Manager{
 
         return sign + result + decimalPart
     }
-    
+
     static func tokenizeMathExpression(_ expression: String) -> [String] {
         // 正则表达式模式：匹配数字或运算符
         let pattern = #"(\d+\.?\d*|[-+*/x])"#
         guard let regex = try? NSRegularExpression(pattern: pattern) else {
             return []
         }
-        
-        let matches = regex.matches(in: expression,
-                                    range: NSRange(expression.startIndex..., in: expression))
-        
+
+        let matches = regex.matches(
+            in: expression,
+            range: NSRange(expression.startIndex..., in: expression)
+        )
+
         return matches.compactMap { match in
             guard let range = Range(match.range, in: expression) else { return nil }
             return String(expression[range])
@@ -204,64 +198,67 @@ class Manager{
     static func normalizeNumberString(_ input: String) -> String {
         // 去除前后空格
         let trimmed = input.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+
         // 空字符串处理
         guard !trimmed.isEmpty else { return "0" }
-        
+
         // 检查是否为有效数字格式
 //        let isDecimal = trimmed.contains(".")
         let hasDigits = trimmed.contains { $0.isNumber }
-        
+
         guard hasDigits else { return "0" }
-        
+
         // 处理纯零情况
         if trimmed.allSatisfy({ $0 == "0" || $0 == "." }) {
             return "0"
         }
-        
+
         // 分割整数和小数部分
         let parts = trimmed.components(separatedBy: ".")
         var integerPart = parts[0]
         let decimalPart = parts.count > 1 ? parts[1] : ""
-        
+
         // 规范化整数部分
         integerPart = normalizeIntegerPart(integerPart)
-        
+
         // 检查小数部分是否全为零
         let decimalAllZeros = decimalPart.allSatisfy { $0 == "0" }
-        
+
         // 组合结果
         if decimalPart.isEmpty || decimalAllZeros {
             return integerPart
         } else {
             // 规范化小数部分（去除后导零）
-            let normalizedDecimal = decimalPart.replacingOccurrences(of: "0+$", with: "", options: .regularExpression)
+            let normalizedDecimal = decimalPart.replacingOccurrences(
+                of: "0+$",
+                with: "",
+                options: .regularExpression
+            )
             return "\(integerPart).\(normalizedDecimal)"
         }
     }
 
-    static  func normalizeIntegerPart(_ part: String) -> String {
+    static func normalizeIntegerPart(_ part: String) -> String {
         // 去除前导零
         var result = part.replacingOccurrences(of: "^0+", with: "", options: .regularExpression)
-        
+
         // 如果去除后为空，说明原数就是0
         if result.isEmpty {
             return "0"
         }
-        
+
         // 处理负号
         if part.hasPrefix("-") && result != "0" {
             result = "-" + result
         }
-        
+
         return result
     }
 
-    
     static func removeZeroAndOperators(from tokens: [String]) -> [String] {
         var result = tokens
         var indicesToRemove: Set<Int> = []
-        
+
         for (index, value) in result.enumerated() {
             if value == "0" {
                 indicesToRemove.insert(index)
@@ -270,20 +267,21 @@ class Manager{
                 }
             }
         }
-        
+
         for index in indicesToRemove.sorted(by: >) {
             result.remove(at: index)
         }
-        
+
         if let first = result.first,
-           result.count == 1 && symbols.contains(first){
+           result.count == 1, symbols.contains(first)
+        {
             result = []
         }
-        
+
         return result
     }
-    
-    static func chineseUnit(_  numberString: String) -> String {
+
+    static func chineseUnit(_ numberString: String) -> String {
         guard let number = Decimal(string: numberString) else {
             return ""
         }
@@ -330,7 +328,7 @@ class Manager{
             (Decimal(string: "1e7")!, "千万"),
             (Decimal(string: "1e6")!, "百万"),
             (Decimal(string: "1e5")!, "十万"),
-            (Decimal(string: "1e4")!, "万")
+            (Decimal(string: "1e4")!, "万"),
         ]
 
         for (threshold, unit) in units {
@@ -341,10 +339,8 @@ class Manager{
 
         return ""
     }
-
-    
 }
 
-#Preview{
+#Preview {
     CalculatorView()
 }

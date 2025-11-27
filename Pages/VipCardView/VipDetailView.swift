@@ -5,30 +5,33 @@
 //  Created by lynn on 2025/6/28.
 //
 
-import SwiftUI
 import Defaults
+import RealmSwift
+import SwiftUI
 
 struct VipDetailView: View {
-    
-    var item: MemberCardData
-    @State private var select:MemberCardData
-    @EnvironmentObject var manager:peacock
-    @Default(.Cards) var cards
-    
-    init(item: MemberCardData, dismiss: @escaping ()->()) {
+    @ObservedRealmObject var item: MemberCardRealmData
+    @State private var select: MemberCardRealmData
+    @EnvironmentObject var manager: peacock
+
+    @ObservedResults(MemberCardRealmData.self, sortDescriptor: SortDescriptor(
+        keyPath: \MemberCardRealmData.sort, ascending: true
+    )) var cards
+
+    init(item: MemberCardRealmData, dismiss: @escaping () -> Void) {
         self.item = item
-        self._select = State(wrappedValue: item)
+        _select = State(wrappedValue: item)
         self.dismiss = dismiss
     }
-    
-    var dismiss:() -> ()
+
+    var dismiss: () -> Void
     var body: some View {
-        NavigationStack{
-            VStack{
+        NavigationStack {
+            VStack {
                 CardsView()
-                ScrollView(.vertical){
-                    VStack{
-                        HStack{
+                ScrollView(.vertical) {
+                    VStack {
+                        HStack {
                             Text(select.footer)
                                 .font(.headline)
                                 .fontWeight(.bold)
@@ -47,9 +50,9 @@ struct VipDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button{
+                    Button {
                         dismiss()
-                    }label:{
+                    } label: {
                         Image(systemName: "xmark")
                             .padding()
                             .background(.ultraThinMaterial)
@@ -59,14 +62,13 @@ struct VipDetailView: View {
             }
         }
     }
-    
+
     @ViewBuilder
-    func CardsView()-> some View{
+    func CardsView() -> some View {
         TabView(selection: $select) {
             ForEach(cards) { item in
-
                 GeometryReader { proxy in
-                    HStack{
+                    HStack {
                         Spacer()
                         VipCardView(
                             item: item,
@@ -79,9 +81,8 @@ struct VipDetailView: View {
 
                         Spacer()
                     }
-                    
-                }.tag(item)
 
+                }.tag(item)
             }
         }
         .tabViewStyle(.page)

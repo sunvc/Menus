@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,13 +20,12 @@
 		1985A7AF2C9FEF46003D255B /* OtherViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1985A7AE2C9FEF41003D255B /* OtherViews.swift */; };
 		1985A7B12CA00E95003D255B /* HomeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1985A7B02CA00E94003D255B /* HomeSettingView.swift */; };
 		198706EB2C94114800F59CE9 /* extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198706EA2C94114800F59CE9 /* extension+.swift */; };
-		198706F32C941E5000F59CE9 /* HomeItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198706F22C941E5000F59CE9 /* HomeItemsView.swift */; };
+		198706F32C941E5000F59CE9 /* HomeCategoryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198706F22C941E5000F59CE9 /* HomeCategoryPage.swift */; };
 		198706F52C941F5400F59CE9 /* HomeVipCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198706F42C941F5400F59CE9 /* HomeVipCards.swift */; };
 		198706FC2C943C8100F59CE9 /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = 198706FB2C943C8100F59CE9 /* ScalingHeaderScrollView */; };
-		198707042C956D3500F59CE9 /* itemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198707032C956D3500F59CE9 /* itemView.swift */; };
+		198707042C956D3500F59CE9 /* SubCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198707032C956D3500F59CE9 /* SubCategoryView.swift */; };
 		1989BF022CA84B2600D5B8DE /* FlipClockText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1989BF012CA8496500D5B8DE /* FlipClockText.swift */; };
 		1989BF112CA85D8D00D5B8DE /* PopPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1989BF102CA85D8D00D5B8DE /* PopPasswordView.swift */; };
-		1989BF2B2CA9329600D5B8DE /* AniMationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1989BF2A2CA9328800D5B8DE /* AniMationView.swift */; };
 		1990757C2C86100100E23FD7 /* PeacockMenusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1990757B2C86100100E23FD7 /* PeacockMenusApp.swift */; };
 		1990757E2C86100100E23FD7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1990757D2C86100100E23FD7 /* ContentView.swift */; };
 		199075802C86100300E23FD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1990757F2C86100300E23FD7 /* Assets.xcassets */; };
@@ -41,7 +40,7 @@
 		19C13A9B2CCB6A5600A2F1A8 /* GiftSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13A9A2CCB6A4F00A2F1A8 /* GiftSettingsView.swift */; };
 		19CD68A42C97DC7900AF6CF8 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CD68A32C97DC7900AF6CF8 /* Mock.swift */; };
 		19CD68A62C9829D500AF6CF8 /* BasicSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CD68A52C9829D500AF6CF8 /* BasicSettingsView.swift */; };
-		19D231D72C93FCDC001044BB /* itemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D231D62C93FCDC001044BB /* itemsView.swift */; };
+		19D231D72C93FCDC001044BB /* CategoryDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D231D62C93FCDC001044BB /* CategoryDetailPage.swift */; };
 		19DDEC212C96CA8800C86EC5 /* vipCardSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DDEC202C96CA8800C86EC5 /* vipCardSettingView.swift */; };
 		19DDEC232C96CAC200C86EC5 /* CategorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DDEC222C96CAC200C86EC5 /* CategorySettingView.swift */; };
 		19DDEC252C96CAE000C86EC5 /* SubCategorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DDEC242C96CAE000C86EC5 /* SubCategorySettingView.swift */; };
@@ -92,7 +91,25 @@
 		BAB20EA82EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B531C8B52E16A0FB00CFCA07 /* Assistant */; };
 		BAB20EA92EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B584846F2E81080700DA8020 /* Assistant */; };
 		BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BAB2ED622EBFA2C60094FB51 /* Kingfisher */; };
+		BAE626EC2ED60437009DABA1 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BAE626EB2ED60437009DABA1 /* RealmSwift */; };
+		BAE626EE2ED604E6009DABA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626ED2ED604DE009DABA1 /* AppDelegate.swift */; };
+		BAE626F12ED605DB009DABA1 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626F02ED60542009DABA1 /* RealmConfig.swift */; };
+		BAE626F32ED606D2009DABA1 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626F22ED606CF009DABA1 /* Model.swift */; };
+		BAE626F42ED61243009DABA1 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BAE626EB2ED60437009DABA1 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		BAE627012ED687ED009DABA1 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BAE626FA2ED687EC009DABA1 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BAE628A62ED68E3B009DABA1 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = BAE628A52ED68E3B009DABA1 /* Defaults */; };
+		BAE628A82ED7621C009DABA1 /* ProjectCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE628A72ED7621A009DABA1 /* ProjectCardView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BAE626FF2ED687EC009DABA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 199075702C86100100E23FD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAE626F92ED687EC009DABA1;
+			remoteInfo = NotificationService;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		197768812C984EED00F40521 /* Embed Foundation Extensions */ = {
@@ -101,8 +118,20 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BAE627012ED687ED009DABA1 /* NotificationService.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAE626F52ED61243009DABA1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BAE626F42ED61243009DABA1 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -123,12 +152,11 @@
 		1985A7AE2C9FEF41003D255B /* OtherViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherViews.swift; sourceTree = "<group>"; };
 		1985A7B02CA00E94003D255B /* HomeSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSettingView.swift; sourceTree = "<group>"; };
 		198706EA2C94114800F59CE9 /* extension+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+.swift"; sourceTree = "<group>"; };
-		198706F22C941E5000F59CE9 /* HomeItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItemsView.swift; sourceTree = "<group>"; };
+		198706F22C941E5000F59CE9 /* HomeCategoryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryPage.swift; sourceTree = "<group>"; };
 		198706F42C941F5400F59CE9 /* HomeVipCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVipCards.swift; sourceTree = "<group>"; };
-		198707032C956D3500F59CE9 /* itemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = itemView.swift; sourceTree = "<group>"; usesTabs = 0; };
+		198707032C956D3500F59CE9 /* SubCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategoryView.swift; sourceTree = "<group>"; usesTabs = 0; };
 		1989BF012CA8496500D5B8DE /* FlipClockText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipClockText.swift; sourceTree = "<group>"; };
 		1989BF102CA85D8D00D5B8DE /* PopPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopPasswordView.swift; sourceTree = "<group>"; };
-		1989BF2A2CA9328800D5B8DE /* AniMationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AniMationView.swift; sourceTree = "<group>"; };
 		199075782C86100100E23FD7 /* PeacockMenus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeacockMenus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1990757B2C86100100E23FD7 /* PeacockMenusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeacockMenusApp.swift; sourceTree = "<group>"; };
 		1990757D2C86100100E23FD7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -143,7 +171,7 @@
 		19C13A9A2CCB6A4F00A2F1A8 /* GiftSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftSettingsView.swift; sourceTree = "<group>"; };
 		19CD68A32C97DC7900AF6CF8 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		19CD68A52C9829D500AF6CF8 /* BasicSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicSettingsView.swift; sourceTree = "<group>"; };
-		19D231D62C93FCDC001044BB /* itemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = itemsView.swift; sourceTree = "<group>"; };
+		19D231D62C93FCDC001044BB /* CategoryDetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailPage.swift; sourceTree = "<group>"; };
 		19DDEC202C96CA8800C86EC5 /* vipCardSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vipCardSettingView.swift; sourceTree = "<group>"; };
 		19DDEC222C96CAC200C86EC5 /* CategorySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingView.swift; sourceTree = "<group>"; };
 		19DDEC242C96CAE000C86EC5 /* SubCategorySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategorySettingView.swift; sourceTree = "<group>"; };
@@ -196,7 +224,26 @@
 		BAB47F452ED348C500EE84AC /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BAB47F462ED348EC00EE84AC /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = "ja.lproj/Launch Screen.strings"; sourceTree = "<group>"; };
 		BAB47F472ED348EC00EE84AC /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BAE626ED2ED604DE009DABA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BAE626F02ED60542009DABA1 /* RealmConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
+		BAE626F22ED606CF009DABA1 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		BAE626FA2ED687EC009DABA1 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE628A72ED7621A009DABA1 /* ProjectCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BAE627022ED687ED009DABA1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BAE626F92ED687EC009DABA1 /* NotificationService */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BAE626FB2ED687EC009DABA1 /* NotificationService */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BAE627022ED687ED009DABA1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationService; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		199075752C86100100E23FD7 /* Frameworks */ = {
@@ -211,8 +258,17 @@
 				BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */,
 				BA6F51FA2EBFB159008ACEBA /* Alamofire in Frameworks */,
 				B5DF4F052E144D3800599A8D /* QRScanner in Frameworks */,
+				BAE626EC2ED60437009DABA1 /* RealmSwift in Frameworks */,
 				198706FC2C943C8100F59CE9 /* ScalingHeaderScrollView in Frameworks */,
 				B58484732E81089E00DA8020 /* Expression in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAE626F72ED687EC009DABA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAE628A62ED68E3B009DABA1 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,9 +312,10 @@
 		198706F12C941D8F00F59CE9 /* ItemsView */ = {
 			isa = PBXGroup;
 			children = (
-				198706F22C941E5000F59CE9 /* HomeItemsView.swift */,
-				198707032C956D3500F59CE9 /* itemView.swift */,
-				19D231D62C93FCDC001044BB /* itemsView.swift */,
+				BAE628A72ED7621A009DABA1 /* ProjectCardView.swift */,
+				198706F22C941E5000F59CE9 /* HomeCategoryPage.swift */,
+				198707032C956D3500F59CE9 /* SubCategoryView.swift */,
+				19D231D62C93FCDC001044BB /* CategoryDetailPage.swift */,
 			);
 			path = ItemsView;
 			sourceTree = "<group>";
@@ -266,7 +323,6 @@
 		1989BF002CA8495C00D5B8DE /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
-				1989BF2A2CA9328800D5B8DE /* AniMationView.swift */,
 				1989BF012CA8496500D5B8DE /* FlipClockText.swift */,
 				1989BF102CA85D8D00D5B8DE /* PopPasswordView.swift */,
 			);
@@ -283,6 +339,7 @@
 				1990759A2C87F19100E23FD7 /* Modal */,
 				199075932C87EBD000E23FD7 /* Manager */,
 				1990757A2C86100100E23FD7 /* PeacockMenus */,
+				BAE626FB2ED687EC009DABA1 /* NotificationService */,
 				197768872C9863F000F40521 /* Frameworks */,
 				199075792C86100100E23FD7 /* Products */,
 				B51CAA7A2E12B63F00E9CE97 /* CalculatorPage */,
@@ -293,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				199075782C86100100E23FD7 /* PeacockMenus.app */,
+				BAE626FA2ED687EC009DABA1 /* NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -300,6 +358,7 @@
 		1990757A2C86100100E23FD7 /* PeacockMenus */ = {
 			isa = PBXGroup;
 			children = (
+				BAE626ED2ED604DE009DABA1 /* AppDelegate.swift */,
 				19E40CCD2C9C504C0077F71F /* PeacockMenus.entitlements */,
 				1977686C2C984C7700F40521 /* Info.plist */,
 				1990757B2C86100100E23FD7 /* PeacockMenusApp.swift */,
@@ -335,6 +394,8 @@
 			children = (
 				19CD68A32C97DC7900AF6CF8 /* Mock.swift */,
 				19E40CCB2C9AF6360077F71F /* DataModal.swift */,
+				BAE626F22ED606CF009DABA1 /* Model.swift */,
+				BAE626F02ED60542009DABA1 /* RealmConfig.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -455,10 +516,12 @@
 				199075752C86100100E23FD7 /* Frameworks */,
 				199075762C86100100E23FD7 /* Resources */,
 				197768812C984EED00F40521 /* Embed Foundation Extensions */,
+				BAE626F52ED61243009DABA1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BAE627002ED687EC009DABA1 /* PBXTargetDependency */,
 			);
 			name = PeacockMenus;
 			packageProductDependencies = (
@@ -472,10 +535,34 @@
 				B58484722E81089E00DA8020 /* Expression */,
 				BAB2ED622EBFA2C60094FB51 /* Kingfisher */,
 				BA6F51F92EBFB159008ACEBA /* Alamofire */,
+				BAE626EB2ED60437009DABA1 /* RealmSwift */,
 			);
 			productName = PeacockMenus;
 			productReference = 199075782C86100100E23FD7 /* PeacockMenus.app */;
 			productType = "com.apple.product-type.application";
+		};
+		BAE626F92ED687EC009DABA1 /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAE627032ED687ED009DABA1 /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				BAE626F62ED687EC009DABA1 /* Sources */,
+				BAE626F72ED687EC009DABA1 /* Frameworks */,
+				BAE626F82ED687EC009DABA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BAE626FB2ED687EC009DABA1 /* NotificationService */,
+			);
+			name = NotificationService;
+			packageProductDependencies = (
+				BAE628A52ED68E3B009DABA1 /* Defaults */,
+			);
+			productName = NotificationService;
+			productReference = BAE626FA2ED687EC009DABA1 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -484,12 +571,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
+				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					199075772C86100100E23FD7 = {
 						CreatedOnToolsVersion = 15.4;
 						LastSwiftMigration = 1600;
+					};
+					BAE626F92ED687EC009DABA1 = {
+						CreatedOnToolsVersion = 26.1;
 					};
 				};
 			};
@@ -514,12 +604,15 @@
 				B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */,
 				BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA6F51F82EBFB159008ACEBA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				BAE628A42ED68E3B009DABA1 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 199075792C86100100E23FD7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				199075772C86100100E23FD7 /* PeacockMenus */,
+				BAE626F92ED687EC009DABA1 /* NotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -562,6 +655,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BAE626F82ED687EC009DABA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -569,6 +669,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAE626F12ED605DB009DABA1 /* RealmConfig.swift in Sources */,
 				B51CAA962E12B76C00E9CE97 /* Manager.swift in Sources */,
 				B51CAA972E12B76C00E9CE97 /* MiniImageOrTextView.swift in Sources */,
 				B51CAA992E12B76C00E9CE97 /* Calculator.swift in Sources */,
@@ -577,9 +678,8 @@
 				B51CAA9D2E12B76C00E9CE97 /* ResultView.swift in Sources */,
 				B5DF4F072E144D9500599A8D /* ScanView.swift in Sources */,
 				1989BF022CA84B2600D5B8DE /* FlipClockText.swift in Sources */,
-				1989BF2B2CA9329600D5B8DE /* AniMationView.swift in Sources */,
 				194BBAA92C8DD0E1002EAA09 /* AppSettings.swift in Sources */,
-				19D231D72C93FCDC001044BB /* itemsView.swift in Sources */,
+				19D231D72C93FCDC001044BB /* CategoryDetailPage.swift in Sources */,
 				197768A82C99C9FB00F40521 /* AppIconView.swift in Sources */,
 				194BBAA72C8DD04F002EAA09 /* ImportDataView.swift in Sources */,
 				B5D0E4A82E842D0900A668C0 /* KeychainHelper.swift in Sources */,
@@ -590,7 +690,8 @@
 				1990758E2C87E9DF00E23FD7 /* ImageManager.swift in Sources */,
 				19DDEC232C96CAC200C86EC5 /* CategorySettingView.swift in Sources */,
 				194546F42CCA225100CEB67B /* GiftHomeView.swift in Sources */,
-				198706F32C941E5000F59CE9 /* HomeItemsView.swift in Sources */,
+				198706F32C941E5000F59CE9 /* HomeCategoryPage.swift in Sources */,
+				BAE626EE2ED604E6009DABA1 /* AppDelegate.swift in Sources */,
 				198706EB2C94114800F59CE9 /* extension+.swift in Sources */,
 				19CD68A42C97DC7900AF6CF8 /* Mock.swift in Sources */,
 				B5EC96C12E17B602004C652D /* CalculatorModel.swift in Sources */,
@@ -602,10 +703,12 @@
 				196C576F2CA3F1F000A2436F /* SettingTipView.swift in Sources */,
 				1985A7AF2C9FEF46003D255B /* OtherViews.swift in Sources */,
 				19DDEC272C96CAFD00C86EC5 /* ProjectSettingView.swift in Sources */,
+				BAE628A82ED7621C009DABA1 /* ProjectCardView.swift in Sources */,
 				198706F52C941F5400F59CE9 /* HomeVipCards.swift in Sources */,
-				198707042C956D3500F59CE9 /* itemView.swift in Sources */,
+				198707042C956D3500F59CE9 /* SubCategoryView.swift in Sources */,
 				19F835B62C8F0A000083A66D /* VipCardView.swift in Sources */,
 				19DDEC252C96CAE000C86EC5 /* SubCategorySettingView.swift in Sources */,
+				BAE626F32ED606D2009DABA1 /* Model.swift in Sources */,
 				1985A7B12CA00E95003D255B /* HomeSettingView.swift in Sources */,
 				199075C52C8B3E0800E23FD7 /* DropDelegate+.swift in Sources */,
 				19E40CCC2C9AF6360077F71F /* DataModal.swift in Sources */,
@@ -617,7 +720,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BAE626F62ED687EC009DABA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BAE627002ED687EC009DABA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAE626F92ED687EC009DABA1 /* NotificationService */;
+			targetProxy = BAE626FF2ED687EC009DABA1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		196C57572CA2FBB200A2436F /* InfoPlist.strings */ = {
@@ -810,7 +928,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.uuneo.menus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -862,7 +980,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.uuneo.menus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -873,6 +991,66 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BAE627042ED687ED009DABA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uuneo.menus.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BAE627052ED687ED009DABA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uuneo.menus.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -895,6 +1073,15 @@
 			buildConfigurations = (
 				199075872C86100300E23FD7 /* Debug */,
 				199075882C86100300E23FD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAE627032ED687ED009DABA1 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAE627042ED687ED009DABA1 /* Debug */,
+				BAE627052ED687ED009DABA1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -966,6 +1153,22 @@
 				minimumVersion = 8.6.1;
 			};
 		};
+		BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		BAE628A42ED68E3B009DABA1 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunvc/Defaults.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1016,6 +1219,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		BAE626EB2ED60437009DABA1 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		BAE628A52ED68E3B009DABA1 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAE628A42ED68E3B009DABA1 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

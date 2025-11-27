@@ -1,25 +1,26 @@
 //
-//  DiskManageer.swift
+//  DiskManager.swift
 //  PeacockMenus
 //
 //  Created by He Cho on 2024/9/5.
 //
 
-import Foundation
-import Defaults
-import SwiftUI
 import Alamofire
+import Defaults
+import Foundation
 import JDStatusBarNotification
+import RealmSwift
+import SwiftUI
 
-enum Page:String,Identifiable, CaseIterable, Defaults.Serializable, Equatable{
-	case home = "house.circle"
-	case setting = "gear.circle"
-	case gift = "gift.circle"
+enum Page: String, Identifiable, CaseIterable, Defaults.Serializable, Equatable {
+    case home = "house.circle"
+    case setting = "gear.circle"
+    case gift = "gift.circle"
     case deepseek = "sparkles"
     case calculator = "plus.forwardslash.minus"
-	var id: String { self.rawValue }
-    
-    var name:String{
+    var id: String { rawValue }
+
+    var name: String {
         switch self {
         case .home:
             String(localized: "价目表")
@@ -33,175 +34,184 @@ enum Page:String,Identifiable, CaseIterable, Defaults.Serializable, Equatable{
             String(localized: "计算器")
         }
     }
-	
-    static let arr:[Self] = [.home, .deepseek, .calculator]
-    static let backs:[Self] = [.home, .deepseek, .calculator, .setting]
+
+    static let arr: [Self] = [.home, .deepseek, .calculator]
+    static let backs: [Self] = [.home, .deepseek, .calculator, .setting]
 }
 
-
-
-final class peacock:ObservableObject {
-    
+final class peacock: ObservableObject {
     static let shared = peacock()
-    
-    private init() { }
-    
-    @Published var selectCard:MemberCardData = MemberCardData.nonmember
-    
-    @Published var selectVip: MemberCardData?
+
+    private init() {}
+
+    @Published var selectCard = MemberCardRealmData.nonmember.id
+
+    @Published var selectVip: MemberCardRealmData?
 
     @Published var page: Page = .deepseek
-    
-    @Published var fullPage:Bool = false
+
+    @Published var fullPage: Bool = false
+
+    var selectCardData: MemberCardRealmData {
+        if let realm = try? Realm(),
+           let data = realm
+           .objects(MemberCardRealmData.self)
+           .first(where: { $0.id == selectCard })
+        {
+            return data
+        }
+        return MemberCardRealmData.nonmember
+    }
+
+    func Admin() -> Bool {
+        if Defaults[.remoteUpdateURL].isEmpty {
+            return true
+        } else {
+            return Defaults[.settingPassword] == Defaults[.settingLocalPassword]
+        }
+    }
 }
 
-extension peacock{
-	func updateItem(url:String,completion:((Bool) -> Void)? = nil){
-		
-		if !url.hasHttpPrefix{
-			Task{
-				await self.toast("地址不正确", mode: .light)
-			}
-			
-			completion?(false)
-			return
-		}
-		
-		Task{
-			
-			getData(url: url) { (result: TotalData?) in
-			
-				Task{
-					if let data = result{
-						await self.importData(totaldata: data)
-						await self.toast("更新成功", mode: .success)
-						completion?(true)
-					}else{
-						await self.toast("更新失败", mode: .matrix)
-						completion?(false)
-					}
-				}
-			}
-		}
-		
-	}
-	
-	
-	func uploadItem(url:String, completion:((Bool) -> Void)? = nil){
-        if !url.hasHttpPrefix{
-            Task{
+extension peacock {
+    func updateItem(url: String, toast _: Bool, completion: ((Bool) -> Void)? = nil) {
+        if !url.hasHttpPrefix {
+            Task {
                 await self.toast("地址不正确", mode: .light)
             }
-			completion?(false)
-		}
-		
-		uploadFile(url: url,completion: completion)
-		
-		
-	}
-	
 
-	
-	func uploadFile(url: String, completion: ((Bool)->Void)?) {
-		
-		if let fileURL = saveJSONToTempFile(object: self.exportTotalData(), fileName: "menus"),
-			let requestUrl = URL(string: url) {
-			
-			var request = URLRequest(url: requestUrl)
-			request.httpMethod = HTTPMethod.post.rawValue
-			request.cachePolicy = .reloadIgnoringLocalCacheData // 禁用缓存
+            completion?(false)
+            return
+        }
+
+        Task {
+            getData(url: url) { (result: TotalRealmData?) in
+                Task {
+                    if let data = result {
+                        await self.importData(totaldata: data)
+                        await self.toast("更新成功", mode: .success)
+                        completion?(true)
+                    } else {
+                        await self.toast("更新失败", mode: .matrix)
+                        completion?(false)
+                    }
+                }
+            }
+        }
+    }
+
+    func uploadItem(url: String, completion: ((Bool) -> Void)? = nil) {
+        if !url.hasHttpPrefix {
+            Task {
+                await self.toast("地址不正确", mode: .light)
+            }
+            completion?(false)
+        }
+
+        uploadFile(url: url, completion: completion)
+    }
+
+    func uploadFile(url: String, completion: ((Bool) -> Void)?) {
+        if let fileURL = saveJSONToTempFile(object: exportTotalData(), fileName: "menus"),
+           let requestURL = URL(string: url)
+        {
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = HTTPMethod.post.rawValue
+            request.cachePolicy = .reloadIgnoringLocalCacheData // 禁用缓存
             request.addValue(Defaults[.searchAuth], forHTTPHeaderField: "Authorization")
-			
-			AF.upload(multipartFormData: { multipartFormData in
-				// 添加文件数据
-				multipartFormData.append(fileURL, withName: "file", fileName: fileURL.lastPathComponent, mimeType: "application/json")
-			}, with: request)
-			.responseDecodable(of: [String: Bool].self) { response in
-				switch response.result {
-				case .success(let data):
-					debugPrint(data)
-					completion?(data["status"] ?? false)
-				case .failure(let err):
-					debugPrint(err)
-					completion?(false)
-				}
-			}
-			
-		}else{
-			completion?(false)
-		
-		}
-		
-	}
-	
-	
-	func getData<T: Codable>(url: String, completion: @escaping (T?)-> Void) {
-		
-		
-		
-		if let requestUrl = URL(string: url){
-			
-			var request = URLRequest(url: requestUrl)
-			request.httpMethod = HTTPMethod.get.rawValue
-			request.cachePolicy = .reloadIgnoringLocalCacheData
-            request.setValue(Defaults[.id], forHTTPHeaderField: "X-User-ID")
-            request.setValue( Defaults[.deviceToken], forHTTPHeaderField: "X-Device-Token" )
 
-			AF.request(request).responseDecodable(of: T.self) { response in
-				
-				switch response.result{
-				case .success(let data):
-					completion(data)
-				case .failure(_):
-					completion(nil)
-				}
-			}
-		}else{
-			completion(nil)
-		}
-		
-		
-		
-	}
-	
-	
-	func exportTotalData() -> TotalData{
-		
-		TotalData(
-			Cards: Defaults[.Cards], Categorys: Defaults[.Categorys], Subcategorys: Defaults[.Subcategorys],
-			Items: Defaults[.Items], menusName: Defaults[.menusName], menusSubName: Defaults[.menusSubName],
-			menusFooter: Defaults[.menusFooter], menusImage: Defaults[.menusImage], homeCardTitle: Defaults[.homeCardTitle],
-			homeCardSubTitle: Defaults[.homeCardSubTitle], homeItemsTitle: Defaults[.homeItemsTitle], homeItemsSubTitle: Defaults[.homeItemsSubTitle],
-			settingPassword: Defaults[.settingPassword], remoteUpdateUrl: Defaults[.remoteUpdateUrl],
+            AF.upload(multipartFormData: { multipartFormData in
+                // 添加文件数据
+                multipartFormData.append(
+                    fileURL,
+                    withName: "file",
+                    fileName: fileURL.lastPathComponent,
+                    mimeType: "application/json"
+                )
+            }, with: request)
+                .responseDecodable(of: [String: Bool].self) { response in
+                    switch response.result {
+                    case .success(let data):
+                        debugPrint(data)
+                        completion?(data["status"] ?? false)
+                    case .failure(let err):
+                        debugPrint(err)
+                        completion?(false)
+                    }
+                }
+
+        } else {
+            completion?(false)
+        }
+    }
+
+    func getData<T: Codable>(url: String, completion: @escaping (T?) -> Void) {
+        if let requestURL = URL(string: url) {
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = HTTPMethod.get.rawValue
+            request.cachePolicy = .reloadIgnoringLocalCacheData
+            request.setValue(Defaults[.id], forHTTPHeaderField: "X-User-ID")
+            request.setValue(Defaults[.deviceToken], forHTTPHeaderField: "X-Device-Token")
+
+            AF.request(request).responseDecodable(of: T.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(data)
+                case .failure:
+                    completion(nil)
+                }
+            }
+        } else {
+            completion(nil)
+        }
+    }
+
+    func exportTotalData() -> TotalRealmData? {
+        // Defaults[.Cards] Defaults[.Categorys]
+        guard let realm = try? Realm() else { return nil }
+
+        return TotalRealmData(
+            Cards: Array(realm.objects(MemberCardRealmData.self)),
+            Categorys: Array(realm.objects(CategoryRealmData.self)),
+            Subcategorys: Array(realm.objects(SubCategoryRealmData.self)),
+            Items: Array(realm.objects(ItemRealmData.self)),
+            menusName: Defaults[.menusName], menusSubName: Defaults[.menusSubName],
+            menusFooter: Defaults[.menusFooter], menusImage: Defaults[.menusImage],
+            homeCardTitle: Defaults[.homeCardTitle],
+            homeCardSubTitle: Defaults[.homeCardSubTitle],
+            homeItemsTitle: Defaults[.homeItemsTitle],
+            homeItemsSubTitle: Defaults[.homeItemsSubTitle],
+            settingPassword: Defaults[.settingPassword],
+            remoteUpdateURL: Defaults[.remoteUpdateURL],
             searchApi: Defaults[.searchApi], searchAuth: Defaults[.searchAuth]
-		)
-	}
-	
-	func exportData() -> String{
+        )
+    }
+
+    func exportData() -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-        
+
         let data = try! encoder.encode(exportTotalData())
         return String(data: data, encoding: .utf8)!
     }
-    
+
     func saveJSONToTempFile<T: Encodable>(object: T, fileName: String) -> URL? {
         // 获取临时目录
         let tempDirectory = FileManager.default.temporaryDirectory
-        
+
         // 创建临时文件的 URL
-        let tempFileURL = tempDirectory.appendingPathComponent(fileName).appendingPathExtension("json")
-        
+        let tempFileURL = tempDirectory.appendingPathComponent(fileName)
+            .appendingPathExtension("json")
+
         do {
             // 创建 JSON 编码器
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             // 将对象编码为 JSON 数据
             let jsonData = try encoder.encode(object)
-            
+
             // 写入 JSON 数据到临时文件
             try jsonData.write(to: tempFileURL, options: .atomic)
-            
+
             // 返回文件 URL
             return tempFileURL
         } catch {
@@ -210,143 +220,132 @@ extension peacock{
             return nil
         }
     }
-    
-    @MainActor func importData(text:String) -> Bool{
+
+    @MainActor func importData(text: String) -> Bool {
         let decoder = JSONDecoder()
         let data = text.data(using: .utf8)!
-        
-        do{
-            let totalData = try decoder.decode(TotalData.self, from: data)
+
+        do {
+            let totalData = try decoder.decode(TotalRealmData.self, from: data)
             importData(totaldata: totalData)
             return true
-        }catch{
+        } catch {
             return false
         }
     }
-    
-    @MainActor func importData(totaldata:TotalData){
+
+    @MainActor func importData(totaldata: TotalRealmData) {
         let cards = totaldata.Cards
         let categorys = totaldata.Categorys
         let subcategorys = totaldata.Subcategorys
         let items = totaldata.Items
-        
+
+        guard let realm = try? Realm() else { return }
+
         if let searchApi = totaldata.searchApi {
             Defaults[.searchApi] = searchApi
         }
-        
+
         if let searchAuth = totaldata.searchAuth {
             Defaults[.searchAuth] = searchAuth
         }
-        
-        if !cards.isEmpty{
-            Defaults[.Cards] = cards
-			
-        }
-        
-        if !categorys.isEmpty{
-            Defaults[.Categorys] = categorys
-			
-        }
-        
-        if !subcategorys.isEmpty{
-            Defaults[.Subcategorys] = subcategorys
-        }
-        
-        if !items.isEmpty{
-            Defaults[.Items] = items
-        }
-        
-        if let title = totaldata.homeCardTitle{
+
+        if let title = totaldata.homeCardTitle {
             Defaults[.homeCardTitle] = title
         }
-        
-        if let subTitle = totaldata.homeCardSubTitle{
+
+        if let subTitle = totaldata.homeCardSubTitle {
             Defaults[.homeCardSubTitle] = subTitle
         }
-        
-        if let itemTitle = totaldata.homeItemsTitle{
+
+        if let itemTitle = totaldata.homeItemsTitle {
             Defaults[.homeItemsTitle] = itemTitle
         }
-        
-        if let itemSubtitle = totaldata.homeItemsSubTitle{
+
+        if let itemSubtitle = totaldata.homeItemsSubTitle {
             Defaults[.homeItemsSubTitle] = itemSubtitle
         }
-        
-        if let remoteUpdateUrl = totaldata.remoteUpdateUrl{
-            Defaults[.remoteUpdateUrl] = remoteUpdateUrl
+
+        if let remoteUpdateURL = totaldata.remoteUpdateURL {
+            Defaults[.remoteUpdateURL] = remoteUpdateURL
         }
-        
-        if let password = totaldata.settingPassword{
+
+        if let password = totaldata.settingPassword {
             Defaults[.settingPassword] = password
-            
         }
-		
-		if let menusName = totaldata.menusName{
-			Defaults[.menusName] = menusName
-		}
-		
-		if let menusFooter = totaldata.menusFooter{
-			Defaults[.menusFooter] = menusFooter
-		}
-		
-		if let menusImage = totaldata.menusImage{
-			Defaults[.menusImage] = menusImage
-		}
-		
-		if let subName = totaldata.menusSubName{
-			Defaults[.menusSubName] = subName
-		}
+
+        if let menusName = totaldata.menusName {
+            Defaults[.menusName] = menusName
+        }
+
+        if let menusFooter = totaldata.menusFooter {
+            Defaults[.menusFooter] = menusFooter
+        }
+
+        if let menusImage = totaldata.menusImage {
+            Defaults[.menusImage] = menusImage
+        }
+
+        if let subName = totaldata.menusSubName {
+            Defaults[.menusSubName] = subName
+        }
+
+        if !cards.isEmpty {
+            try? realm.write {
+                realm.delete(realm.objects(MemberCardRealmData.self))
+            }
+            try? realm.write {
+                realm.add(cards, update: .all)
+            }
+        }
+
+        if !categorys.isEmpty {
+            try? realm.write {
+                realm.delete(realm.objects(CategoryRealmData.self))
+            }
+            try? realm.write {
+                realm.add(categorys, update: .all)
+            }
+        }
+
+        if !subcategorys.isEmpty {
+            try? realm.write {
+                realm.delete(realm.objects(SubCategoryRealmData.self))
+            }
+            try? realm.write {
+                realm.add(subcategorys, update: .all)
+            }
+        }
+
+        if !items.isEmpty {
+            try? realm.write {
+                realm.delete(realm.objects(ItemRealmData.self))
+            }
+            try? realm.write {
+                realm.add(items, update: .all)
+            }
+        }
     }
-	
-	@MainActor
-	func toast(_ message:String,mode:IncludedStatusBarNotificationStyle = .defaultStyle,duration:Double = 1.6){
-		
-		NotificationPresenter.shared.present(message, includedStyle: mode, duration: duration) { presenter in
-		  presenter.animateProgressBar(to: 1.0, duration: 0.75) { presenter in
-			presenter.dismiss()
-		  }
-		}
-		
-		
-		
-	}
+
+    @MainActor
+    func toast(
+        _ message: String,
+        mode: IncludedStatusBarNotificationStyle = .defaultStyle,
+        duration: Double = 1.6
+    ) {
+        NotificationPresenter.shared
+            .present(message, includedStyle: mode, duration: duration) { presenter in
+                presenter.animateProgressBar(to: 1.0, duration: 0.75) { presenter in
+                    presenter.dismiss()
+                }
+            }
+    }
 }
 
-extension peacock{
-    
-    
-    func removeCategoryItems(indexSet:IndexSet){
-        
-        for index in indexSet{
-            let item = Defaults[.Categorys][index]
-            Defaults[.Categorys].remove(at: index)
-            Defaults[.Items] = Defaults[.Items].filter({$0.categoryId == item.id})
-        }
-    }
-    
-    func removeSubcategoryItems(indexSet:IndexSet){
-        
-        for index in indexSet{
-            let item = Defaults[.Subcategorys][index]
-            Defaults[.Subcategorys].remove(at: index)
-            Defaults[.Items] = Defaults[.Items].filter{$0.subcategoryId != item.id}
-        }
-    }
-    
-    func removeItems(indexSet:IndexSet){
-        
-        for index in indexSet{
-            Defaults[.Items].remove(at: index)
-        }
-    }
-    
-}
-
-
-extension String{
-    var hasHttpPrefix:Bool{
+extension String {
+    var hasHttpPrefix: Bool {
         let pattern = "^(http|https)://.*"
-        let test = NSPredicate(format:"SELF MATCHES %@", pattern)
+        let test = NSPredicate(format: "SELF MATCHES %@", pattern)
         return test.evaluate(with: self)
     }
 }

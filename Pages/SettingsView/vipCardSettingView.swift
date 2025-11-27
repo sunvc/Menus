@@ -5,61 +5,62 @@
 //  Created by He Cho on 2024/9/15.
 //
 
-import SwiftUI
 import Defaults
+import RealmSwift
+import SwiftUI
 import TipKit
 
 struct vipCardSettingView: View {
-   
-    @Default(.Cards) var cards
-    @State var showChange:Bool = false
+    @ObservedResults(
+        MemberCardRealmData.self,
+        sortDescriptor: SortDescriptor(
+            keyPath: \MemberCardRealmData.sort,
+            ascending: true
+        )
+    ) var cards
+
+    @State var showChange: Bool = false
     @Binding var columnVisibility: NavigationSplitViewVisibility
     var body: some View {
-        List{
-        
-          
-            ForEach($cards,id: \.id){card in
-                NavigationLink{
+        List {
+            ForEach(cards, id: \.id) { card in
+                NavigationLink {
                     changeVipCardView(card: card)
-                }label: {
-                    HStack{
-                        
-                        Label("\(card.title.wrappedValue)-\(card.name.wrappedValue)", systemImage: "pencil")
-                        Spacer()
-                        
+                } label: {
+                    LabeledContent {
+                        Text("\(card.name)")
+                    } label: {
+                        HStack {
+                            Text("\(card.sort)")
+                                .font(.title3.bold())
+                            Text(verbatim: "-")
+                            Text("\(card.title)")
+
+                            Spacer()
+                        }
                     }
                 }
-            }.onDelete(perform: { indexSet in
-                cards.remove(atOffsets: indexSet)
-            })
-            .onMove(perform: { indices, newOffset in
-                cards.move(fromOffsets: indices, toOffset: newOffset)
-            })
+            }
+            .onDelete(perform: $cards.remove)
         }
         .listStyle(.insetGrouped)
-        .toolbar{
-            
-            
+        .toolbar {
             ToolbarItem {
-                Button{
-                    cards.append(MemberCardData.space())
-                }label: {
+                Button {
+                    $cards.append(MemberCardRealmData.create())
+                } label: {
                     Image(systemName: "plus")
                 }
             }
-            
-            
         }
     }
 }
 
-
-
 struct changeVipCardView: View {
-    @Binding var card:MemberCardData
+    @ObservedRealmObject var card: MemberCardRealmData
     @Environment(\.dismiss) var dismiss
-    
-	let editTip = EditChangeTipView()
+
+    let editTip = EditChangeTipView()
     var formatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -67,97 +68,94 @@ struct changeVipCardView: View {
         formatter.maximumFractionDigits = 1
         return formatter
     }
-    
+
     var body: some View {
-        Form{
-            
-			TipView(editTip)
-            Section{
+        Form {
+            TipView(editTip)
+
+            Section {
+                TextField("项目排序", value: $card.sort, formatter: NumberFormatter())
+                    .customField(icon: "pencil", data: $card.sort)
+                    .keyboardType(.numberPad)
+            } header: {
+                Text("排序")
+            }
+
+            Section {
                 TextField("标题", text: $card.title)
-					.customField(icon: "pencil",data: $card.title)
-            }header: {
+                    .customField(icon: "pencil", data: $card.title)
+            } header: {
                 Text("卡名称")
             }
-            
-            
-            Section{
+
+            Section {
                 TextField("副标题", text: $card.subTitle)
-					.customField(icon: "pencil",data: $card.subTitle)
-            }header: {
+                    .customField(icon: "pencil", data: $card.subTitle)
+            } header: {
                 Text("副标题")
             }
-            
-            
-            Section{
+
+            Section {
                 TextField("金额", value: $card.money, formatter: NumberFormatter())
-					.customField(icon: "pencil",data: $card.money)
-            }header: {
+                    .customField(icon: "pencil", data: $card.money)
+            } header: {
                 Text("金额")
             }
-            
-            Section{
+
+            Section {
                 TextField("折扣名称", text: $card.name)
-					.customField(icon: "pencil",data: $card.name)
-            }header: {
+                    .customField(icon: "pencil", data: $card.name)
+            } header: {
                 Text("折扣名称")
             }
-            Section{
+            Section {
                 TextField("折扣", value: $card.discount, formatter: formatter)
-					.customField(icon: "pencil",data: $card.discount)
-                    .onChange(of: card.discount) { _ , newValue in
-                        if newValue > 1{
+                    .customField(icon: "pencil", data: $card.discount)
+                    .onChange(of: card.discount) { _, newValue in
+                        if newValue > 1 {
                             card.discount = 1
-                        }else if newValue < 0.1{
+                        } else if newValue < 0.1 {
                             card.discount = 0
                         }
                     }
-            }header: {
+            } header: {
                 Text("折扣")
             }
-            
-            
-            
-            Section{
+
+            Section {
                 TextField("折扣2", value: $card.discount2, formatter: formatter)
-					.customField(icon: "pencil",data: $card.discount2)
-                    .onChange(of: card.discount2) { _ , newValue in
-                        if newValue > 1{
+                    .customField(icon: "pencil", data: $card.discount2)
+                    .onChange(of: card.discount2) { _, newValue in
+                        if newValue > 1 {
                             card.discount = 1
-                        }else if newValue < 0{
+                        } else if newValue < 0 {
                             card.discount = 0
                         }
                     }
-            }header: {
+            } header: {
                 Text("折扣2")
             }
-            
-            
-            Section{
-                
-                  TextField("图片", text: $card.image)
-					.customField(icon: "pencil",data: $card.image)
-            }header: {
+
+            Section {
+                TextField("图片", text: $card.image)
+                    .customField(icon: "pencil", data: $card.image)
+            } header: {
                 Text("图片地址")
             }
-            
-            
-            Section{
-                TextEditor(text:  $card.footer)
-					.customField(icon: "pencil",data: $card.footer)
-            }header: {
+
+            Section {
+                TextEditor(text: $card.footer)
+                    .customField(icon: "pencil", data: $card.footer)
+            } header: {
                 Text("中间文字")
             }
-            
-            
         }
         .scrollDismissesKeyboard(.immediately)
     }
-
 }
 
 #Preview {
-    NavigationStack{
+    NavigationStack {
         vipCardSettingView(columnVisibility: .constant(.all))
     }
-    
 }
