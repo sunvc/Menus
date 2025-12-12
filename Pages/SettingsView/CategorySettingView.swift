@@ -12,6 +12,7 @@ import TipKit
 
 struct CategorySettingView: View {
     @EnvironmentObject var manager: peacock
+    
 
     @ObservedResults(
         CategoryRealmData.self,
@@ -20,6 +21,7 @@ struct CategorySettingView: View {
             ascending: true
         )
     ) var items
+    
     @Binding var columnVisibility: NavigationSplitViewVisibility
     var body: some View {
         List {

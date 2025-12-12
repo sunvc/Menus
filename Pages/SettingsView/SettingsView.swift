@@ -9,7 +9,9 @@ enum ActiveAlert {
 
 struct SettingsView: View {
     @EnvironmentObject var manager: peacock
+    
     @Default(.settingPassword) var settingPassword
+    @Default(.settingLocalPassword) var settingLocalPassword
     @Default(.remoteUpdateURL) var remoteUpdateURL
     @Default(.firstStart) var firstStart
     @Default(.defaultHome) var defaultHome
@@ -27,11 +29,13 @@ struct SettingsView: View {
     @State private var showAlert: Bool = false
 
     @State private var activeAlert: ActiveAlert = .uploadData
+    
 
     let uploadTip = UploadTipView()
 
     var body: some View {
-        if defaultHome == .home {
+        if defaultHome == .home &&  settingPassword == settingLocalPassword  {
+            
             NavigationSplitView(
                 columnVisibility: $columnVisibility,
                 preferredCompactColumn: .constant(.detail)
@@ -47,13 +51,16 @@ struct SettingsView: View {
             .onChange(of: selectedTab) { _, _ in
                 self.columnVisibility = .doubleColumn
             }
+            
         } else {
+            
             NavigationSplitView {
                 BasicSettingsView(columnVisibility: $columnVisibility)
             } detail: {
                 AppSettings()
                     .navigationTitle("App设置")
             }
+            
         }
     }
 
@@ -153,7 +160,7 @@ struct SettingsView: View {
                 }
         )
         .toolbar {
-            if defaultHome == .home && !remoteUpdateURL.isEmpty {
+            if defaultHome == .home && !remoteUpdateURL.isEmpty && settingPassword == settingLocalPassword {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         if UploadTipView.startTipHasDisplayed {
@@ -232,13 +239,13 @@ struct SettingsIphoneView: View {
                         CalculatorSettings()
                     } label: {
                         Label("计算器设置", systemImage: "house.circle")
-                    }
+                    }.tag(1)
 
                     NavigationLink {
                         AssistantSettingsView()
                     } label: {
                         Label("智能助手", systemImage: "gear")
-                    }
+                    }.tag(2)
                     if !remoteUpdateURL.isEmpty || settingPassword == settingLocalPassword {
                         NavigationLink {
                             ExportDataView()
@@ -247,7 +254,7 @@ struct SettingsIphoneView: View {
                             Label("导出信息", systemImage: "square.and.arrow.up")
                         }
 
-                        .tag(1)
+                        .tag(3)
 
                         NavigationLink {
                             ImportDataView()
@@ -256,7 +263,7 @@ struct SettingsIphoneView: View {
                             Label("导入信息", systemImage: "square.and.arrow.down")
                         }
 
-                        .tag(2)
+                        .tag(4)
                     }
                 }
 
@@ -280,8 +287,7 @@ struct SettingsIphoneView: View {
                     } label: {
                         Label("会员卡页面", systemImage: "pencil")
                     }
-
-                    .tag(4)
+                    .tag(5)
 
                     NavigationLink {
                         CategorySettingView(columnVisibility: $columnVisibility)
@@ -289,8 +295,7 @@ struct SettingsIphoneView: View {
                     } label: {
                         Label("项目大类", systemImage: "pencil")
                     }
-
-                    .tag(5)
+                    .tag(6)
 
                     NavigationLink {
                         SubCategorySettingView(columnVisibility: $columnVisibility)
@@ -298,8 +303,7 @@ struct SettingsIphoneView: View {
                     } label: {
                         Label("项目小类", systemImage: "pencil")
                     }
-
-                    .tag(6)
+                    .tag(7)
 
                     NavigationLink {
                         ProjectSettingView(columnVisibility: $columnVisibility)
@@ -307,7 +311,7 @@ struct SettingsIphoneView: View {
                     } label: {
                         Label("所有项目", systemImage: "pencil")
                     }
-                    .tag(7)
+                    .tag(8)
                 }
             }
             .alert(isPresented: $showAlert) {

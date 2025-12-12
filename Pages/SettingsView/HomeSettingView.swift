@@ -10,20 +10,6 @@ import SwiftUI
 import TipKit
 
 struct HomeSettingView: View {
-    @EnvironmentObject var manager: peacock
-    @Default(.settingPassword) var settingPassword
-    @Default(.defaultHome) var defaultHome
-    @FocusState var isFocused: Bool
-
-    @State private var showAlert: Bool = false
-
-    @State private var isTryingAgain: Bool = false
-
-    @State private var password: String = ""
-
-    var isAuth: Bool {
-        settingPassword.count > 1 && !password.auth(password: settingPassword)
-    }
 
     var body: some View {
         ZStack {
@@ -32,10 +18,8 @@ struct HomeSettingView: View {
             } else {
                 SettingsIphoneView()
             }
-        }
-        .onChange(of: defaultHome) {
-            self.password = ""
-        }
+        }.environmentObject(peacock.shared)
+      
     }
 }
 

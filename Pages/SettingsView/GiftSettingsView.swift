@@ -3,6 +3,7 @@ import RealmSwift
 import SwiftUI
 
 struct GiftSettingsView: View {
+    
     @ObservedResults(VipInfoRealmMode.self, sortDescriptor: SortDescriptor(
         keyPath: \VipInfoRealmMode.createDate, ascending: false
     )) var vipGiftlist

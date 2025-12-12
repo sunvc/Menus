@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sunvc/Assistant.git",
       "state" : {
-        "revision" : "9b03dcf113df2093852a441f01bf0f9d3dc3a2c4",
-        "version" : "1.99.5"
+        "revision" : "c781d9d4d1e910d6c98d85c688b87d355bff7edf",
+        "version" : "1.0.0"
       }
     },
     {
@@ -65,15 +65,6 @@
       }
     },
     {
-      "identity" : "networkimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gonzalezreal/NetworkImage",
-      "state" : {
-        "revision" : "2849f5323265386e200484b0d0f896e73c3411b9",
-        "version" : "6.0.1"
-      }
-    },
-    {
       "identity" : "openai",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MacPaw/OpenAI",
@@ -119,21 +110,12 @@
       }
     },
     {
-      "identity" : "splash",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JohnSundell/Splash",
-      "state" : {
-        "revision" : "7f4df436eb78fe64fe2c32c58006e9949fa28ad8",
-        "version" : "0.16.0"
-      }
-    },
-    {
       "identity" : "swift-cmark",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-cmark",
       "state" : {
-        "revision" : "b97d09472e847a416629f026eceae0e2afcfad65",
-        "version" : "0.7.0"
+        "revision" : "5d9bdaa4228b381639fff09403e39a04926e2dbe",
+        "version" : "0.7.1"
       }
     },
     {
@@ -148,10 +130,10 @@
     {
       "identity" : "swift-markdown-ui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
+      "location" : "https://github.com/sunvc/swift-markdown-ui",
       "state" : {
-        "revision" : "5f613358148239d0292c0cef674a3c2314737f9e",
-        "version" : "2.4.1"
+        "revision" : "2a07f0b2170751698cd793a417014a6f7c449729",
+        "version" : "1.0.0"
       }
     },
     {

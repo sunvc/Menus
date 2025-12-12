@@ -89,9 +89,9 @@
 		B5EC96D42E17C2F9004C652D /* KeyboardNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC96D32E17C2F8004C652D /* KeyboardNumberView.swift */; };
 		BA6F51FA2EBFB159008ACEBA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA6F51F92EBFB159008ACEBA /* Alamofire */; };
 		BAB20EA82EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B531C8B52E16A0FB00CFCA07 /* Assistant */; };
-		BAB20EA92EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B584846F2E81080700DA8020 /* Assistant */; };
 		BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BAB2ED622EBFA2C60094FB51 /* Kingfisher */; };
 		BAB703692EEB193A00CD30A5 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = BAB703682EEB193A00CD30A5 /* Defaults */; };
+		BAB704F52EEBD4D600CD30A5 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = BAB704F42EEBD4D600CD30A5 /* Assistant */; };
 		BAE626EC2ED60437009DABA1 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BAE626EB2ED60437009DABA1 /* RealmSwift */; };
 		BAE626EE2ED604E6009DABA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626ED2ED604DE009DABA1 /* AppDelegate.swift */; };
 		BAE626F12ED605DB009DABA1 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626F02ED60542009DABA1 /* RealmConfig.swift */; };
@@ -250,13 +250,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAB20EA92EC5C9990003F7A3 /* Assistant in Frameworks */,
 				BAB20EA82EC5C9990003F7A3 /* Assistant in Frameworks */,
 				19C13A992CCA45E400A2F1A8 /* SwiftyJSON in Frameworks */,
 				1985A7AD2C9FDCE9003D255B /* JDStatusBarNotification in Frameworks */,
 				B531C8B82E16A1D600CFCA07 /* Assistant in Frameworks */,
 				BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */,
 				BA6F51FA2EBFB159008ACEBA /* Alamofire in Frameworks */,
+				BAB704F52EEBD4D600CD30A5 /* Assistant in Frameworks */,
 				B5DF4F052E144D3800599A8D /* QRScanner in Frameworks */,
 				BAE626EC2ED60437009DABA1 /* RealmSwift in Frameworks */,
 				198706FC2C943C8100F59CE9 /* ScalingHeaderScrollView in Frameworks */,
@@ -531,11 +531,11 @@
 				B5DF4F042E144D3800599A8D /* QRScanner */,
 				B531C8B52E16A0FB00CFCA07 /* Assistant */,
 				B531C8B72E16A1D600CFCA07 /* Assistant */,
-				B584846F2E81080700DA8020 /* Assistant */,
 				B58484722E81089E00DA8020 /* Expression */,
 				BAB2ED622EBFA2C60094FB51 /* Kingfisher */,
 				BA6F51F92EBFB159008ACEBA /* Alamofire */,
 				BAE626EB2ED60437009DABA1 /* RealmSwift */,
+				BAB704F42EEBD4D600CD30A5 /* Assistant */,
 			);
 			productName = PeacockMenus;
 			productReference = 199075782C86100100E23FD7 /* PeacockMenus.app */;
@@ -600,12 +600,12 @@
 				1985A7AB2C9FDCE9003D255B /* XCRemoteSwiftPackageReference "JDStatusBarNotification" */,
 				19C13A972CCA45E400A2F1A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				B5DF4F032E144D3800599A8D /* XCRemoteSwiftPackageReference "QRScanner" */,
-				B584846E2E81080700DA8020 /* XCRemoteSwiftPackageReference "Assistant" */,
 				B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */,
 				BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA6F51F82EBFB159008ACEBA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				BAB703672EEB193A00CD30A5 /* XCRemoteSwiftPackageReference "Defaults" */,
+				BAB704F32EEBD4D600CD30A5 /* XCRemoteSwiftPackageReference "Assistant" */,
 			);
 			productRefGroup = 199075792C86100100E23FD7 /* Products */;
 			projectDirPath = "";
@@ -1113,14 +1113,6 @@
 				minimumVersion = 5.0.2;
 			};
 		};
-		B584846E2E81080700DA8020 /* XCRemoteSwiftPackageReference "Assistant" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sunvc/Assistant.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.99.5;
-			};
-		};
 		B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nicklockwood/Expression.git";
@@ -1161,6 +1153,14 @@
 				minimumVersion = 9.0.6;
 			};
 		};
+		BAB704F32EEBD4D600CD30A5 /* XCRemoteSwiftPackageReference "Assistant" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunvc/Assistant.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -1195,11 +1195,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Assistant;
 		};
-		B584846F2E81080700DA8020 /* Assistant */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B584846E2E81080700DA8020 /* XCRemoteSwiftPackageReference "Assistant" */;
-			productName = Assistant;
-		};
 		B58484722E81089E00DA8020 /* Expression */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */;
@@ -1224,6 +1219,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BAB703672EEB193A00CD30A5 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
+		};
+		BAB704F42EEBD4D600CD30A5 /* Assistant */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAB704F32EEBD4D600CD30A5 /* XCRemoteSwiftPackageReference "Assistant" */;
+			productName = Assistant;
 		};
 		BAE626EB2ED60437009DABA1 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;

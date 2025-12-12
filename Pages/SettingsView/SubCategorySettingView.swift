@@ -12,6 +12,7 @@ import TipKit
 
 struct SubCategorySettingView: View {
     @EnvironmentObject var manager: peacock
+    
     @ObservedResults(
         CategoryRealmData.self,
         sortDescriptor: SortDescriptor(
@@ -19,6 +20,7 @@ struct SubCategorySettingView: View {
             ascending: true
         )
     ) var categoryItems
+    
     @ObservedResults(
         SubCategoryRealmData.self,
         sortDescriptor: SortDescriptor(

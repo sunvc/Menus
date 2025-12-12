@@ -5,6 +5,7 @@ import UIKit
 
 struct ContentView: View {
     @EnvironmentObject var manager: peacock
+    
     @Default(.firstStart) var firstStart
     @Default(.defaultHome) var defaultHome
     @Default(.remoteUpdateURL) var remoteUpdateURL

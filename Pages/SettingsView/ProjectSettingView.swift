@@ -28,6 +28,7 @@ struct ProjectSettingView: View {
             ascending: true
         )
     ) var subcategoryItems
+    
     @ObservedResults(
         CategoryRealmData.self,
         sortDescriptor: SortDescriptor(

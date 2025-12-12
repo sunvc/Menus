@@ -4,22 +4,16 @@ import SwiftUI
 import TipKit
 
 struct AppSettings: View {
-//    @Default(.homeCardTitle) var homeCardTitle
-//    @Default(.homeCardSubTitle) var homeCardSubTitle
-//    @Default(.homeItemsTitle) var homeItemsTitle
-//    @Default(.homeItemsSubTitle) var homeItemsSubTitle
+
     @Default(.settingPassword) var settingPassword
     @Default(.settingLocalPassword) var settingLocalPassword
     @Default(.remoteUpdateURL) var remoteUpdateURL
-//    @Default(.menusName) var menusName
-//    @Default(.menusSubName) var subName
-//    @Default(.menusFooter) var menusFooter
-//    @Default(.menusImage) var menusImage
 
     @Default(.defaultHome) var defaultHome
 
     @ObservedResults(MenusHomeInfo.self) var homeInfos
-
+    @Default(.showMenus) var showMenus
+    
     @EnvironmentObject var manager: peacock
 
     @State private var passwd: String = ""
@@ -28,6 +22,23 @@ struct AppSettings: View {
     var body: some View {
         List {
             TipView(editTip)
+            
+            Section {
+                Picker(selection: $defaultHome, label: Text("默认首页")) {
+                    ForEach(Page.arr, id: \.self) { icon in
+                        if icon == .home {
+                            if showMenus {
+                                Label(icon.name, systemImage: icon.rawValue)
+                            }
+                        } else {
+                            Label(icon.name, systemImage: icon.rawValue)
+                        }
+                    }
+                }
+
+            } header: {
+                Label("切换默认首页", systemImage: "house.circle")
+            }
 
             Section {
                 TextField("自动同步地址", text: $remoteUpdateURL)

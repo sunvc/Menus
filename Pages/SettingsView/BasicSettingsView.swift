@@ -3,10 +3,11 @@ import Defaults
 import SwiftUI
 
 struct BasicSettingsView: View {
-    @State private var selectedTab: Int? = 0
+    @State private var selectedTab: Int? = 1
     @Binding var columnVisibility: NavigationSplitViewVisibility
     @State private var showAlert: Bool = false
     @State private var showIconPicker: Bool = false
+
     @Default(.defaultHome) var defaultHome
     @Default(.results) var results
     @Default(.showMenus) var showMenus
@@ -19,22 +20,7 @@ struct BasicSettingsView: View {
     var body: some View {
         NavigationStack {
             List(selection: $selectedTab) {
-                Section {
-                    Picker(selection: $defaultHome, label: Text("默认首页")) {
-                        ForEach(Page.arr, id: \.self) { icon in
-                            if icon == .home {
-                                if showMenus {
-                                    Label(icon.name, systemImage: icon.rawValue)
-                                }
-                            } else {
-                                Label(icon.name, systemImage: icon.rawValue)
-                            }
-                        }
-                    }
-
-                } header: {
-                    Label("切换默认首页", systemImage: "house.circle")
-                }
+               
 
                 Section {
                     NavigationLink {
@@ -43,7 +29,6 @@ struct BasicSettingsView: View {
                     } label: {
                         Label("App设置", systemImage: "house.circle")
                     }
-
                     .tag(1)
 
                     NavigationLink {
@@ -127,7 +112,7 @@ struct BasicSettingsView: View {
                     )
                 }
                 .toolbar {
-                    if defaultHome != .home {
+                    if defaultHome != .home || settingPassword != settingLocalPassword {
                         ToolbarItem {
                             Button {
                                 withAnimation {
@@ -136,19 +121,6 @@ struct BasicSettingsView: View {
                             } label: {
                                 Image(systemName: "xmark")
                             }
-                        }
-                    }
-
-                    ToolbarItem {
-                        Button {
-                            if InitializeDataView.startTipHasDisplayed {
-                                showAlert.toggle()
-                            }
-                            InitializeDataView.startTipHasDisplayed = true
-
-                        } label: {
-                            Image(systemName: "gearshape.arrow.triangle.2.circlepath")
-                                .popoverTip(initTip)
                         }
                     }
                 }

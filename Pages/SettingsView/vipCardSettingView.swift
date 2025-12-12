@@ -11,6 +11,7 @@ import SwiftUI
 import TipKit
 
 struct vipCardSettingView: View {
+    
     @ObservedResults(
         MemberCardRealmData.self,
         sortDescriptor: SortDescriptor(

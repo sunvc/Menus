@@ -5,23 +5,7 @@ import Foundation
 import UniformTypeIdentifiers
 
 extension Defaults.Keys {
-//    static let menusName = Key<String>("MenusName", default: String(localized: "美丽宫略"))
-//    static let menusSubName = Key<String>(
-//        "MenusSubName",
-//        default: String(localized: "Peacock-Menus")
-//    )
-//    static let menusFooter = Key<String>("MenusFooter", default: String(localized: "一次相遇，终身美好"))
-//    static let menusImage = Key<String>("MenusImage", default: String(localized: "other"))
-//    static let homeCardTitle = Key<String>("HomeCardTitle", default: String(localized: "会员卡"))
-//    static let homeCardSubTitle = Key<String>(
-//        "HomeCardSubTitle",
-//        default: String(localized: "Peacock-Cards")
-//    )
-//    static let homeItemsTitle = Key<String>("HomeItemsTitle", default: String(localized: "项目分类"))
-//    static let homeItemsSubTitle = Key<String>(
-//        "HomeItemsSubTitle",
-//        default: String(localized: "Peacock-Items")
-//    )
+
     static let settingPassword = Key<String>("SettingPassword", default: "")
     static let settingLocalPassword = Key<String>("SettingLocalPassword", default: "")
     static let remoteUpdateURL = Key<String>("remoteUpdateUrl", default: "")
