@@ -354,6 +354,7 @@ class VipInfoRealmMode: Object, ObjectKeyIdentifiable, Codable {
 
 
 class MenusHomeInfo:  Object, ObjectKeyIdentifiable, Codable {
+    
     @Persisted(primaryKey: true) var id: String = UUID().uuidString
     @Persisted var menusName = String(localized: "美丽宫略") 
     @Persisted var menusSubName = String(localized: "Peacock-Menus")

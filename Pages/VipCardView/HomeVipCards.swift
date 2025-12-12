@@ -14,9 +14,7 @@ struct HomeVipCards: View {
     @ObservedResults(MemberCardRealmData.self, sortDescriptor: SortDescriptor(
         keyPath: \MemberCardRealmData.sort, ascending: true
     )) var cards
-//    @Default(.Cards) var cards
-    @Default(.homeCardTitle) var title
-    @Default(.homeCardSubTitle) var subTitle
+    @ObservedResults(MenusHomeInfo.self) var homeInfos
 
     @EnvironmentObject var manager: peacock
 
@@ -24,15 +22,17 @@ struct HomeVipCards: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                VStack(alignment: .leading) {
-                    Text(title)
-                        .font(.title)
-                        .fontWeight(.heavy)
+                if let homeInfo = homeInfos.first{
+                    VStack(alignment: .leading) {
+                        Text(homeInfo.homeCardTitle)
+                            .font(.title)
+                            .fontWeight(.heavy)
 
-                    Text(subTitle)
-                        .foregroundColor(.gray)
-                }.padding(.leading, 30)
-
+                        Text(homeInfo.homeCardSubTitle)
+                            .foregroundColor(.gray)
+                    }.padding(.leading, 30)
+                }
+                
                 Spacer()
             }
 

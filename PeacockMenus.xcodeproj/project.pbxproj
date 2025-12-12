@@ -91,13 +91,13 @@
 		BAB20EA82EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B531C8B52E16A0FB00CFCA07 /* Assistant */; };
 		BAB20EA92EC5C9990003F7A3 /* Assistant in Frameworks */ = {isa = PBXBuildFile; productRef = B584846F2E81080700DA8020 /* Assistant */; };
 		BAB2ED632EBFA2C60094FB51 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BAB2ED622EBFA2C60094FB51 /* Kingfisher */; };
+		BAB703692EEB193A00CD30A5 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = BAB703682EEB193A00CD30A5 /* Defaults */; };
 		BAE626EC2ED60437009DABA1 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BAE626EB2ED60437009DABA1 /* RealmSwift */; };
 		BAE626EE2ED604E6009DABA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626ED2ED604DE009DABA1 /* AppDelegate.swift */; };
 		BAE626F12ED605DB009DABA1 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626F02ED60542009DABA1 /* RealmConfig.swift */; };
 		BAE626F32ED606D2009DABA1 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE626F22ED606CF009DABA1 /* Model.swift */; };
 		BAE626F42ED61243009DABA1 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BAE626EB2ED60437009DABA1 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		BAE627012ED687ED009DABA1 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BAE626FA2ED687EC009DABA1 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		BAE628A62ED68E3B009DABA1 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = BAE628A52ED68E3B009DABA1 /* Defaults */; };
 		BAE628A82ED7621C009DABA1 /* ProjectCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE628A72ED7621A009DABA1 /* ProjectCardView.swift */; };
 /* End PBXBuildFile section */
 
@@ -268,7 +268,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAE628A62ED68E3B009DABA1 /* Defaults in Frameworks */,
+				BAB703692EEB193A00CD30A5 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,7 +558,7 @@
 			);
 			name = NotificationService;
 			packageProductDependencies = (
-				BAE628A52ED68E3B009DABA1 /* Defaults */,
+				BAB703682EEB193A00CD30A5 /* Defaults */,
 			);
 			productName = NotificationService;
 			productReference = BAE626FA2ED687EC009DABA1 /* NotificationService.appex */;
@@ -605,7 +605,7 @@
 				BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA6F51F82EBFB159008ACEBA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */,
-				BAE628A42ED68E3B009DABA1 /* XCRemoteSwiftPackageReference "Defaults" */,
+				BAB703672EEB193A00CD30A5 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 199075792C86100100E23FD7 /* Products */;
 			projectDirPath = "";
@@ -1118,7 +1118,7 @@
 			repositoryURL = "https://github.com/sunvc/Assistant.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.99.3;
+				minimumVersion = 1.99.5;
 			};
 		};
 		B58484712E81089E00DA8020 /* XCRemoteSwiftPackageReference "Expression" */ = {
@@ -1150,23 +1150,23 @@
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 8.6.1;
+				minimumVersion = 8.6.2;
+			};
+		};
+		BAB703672EEB193A00CD30A5 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.6;
 			};
 		};
 		BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		BAE628A42ED68E3B009DABA1 /* XCRemoteSwiftPackageReference "Defaults" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sunvc/Defaults.git";
-			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
+				minimumVersion = 20.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1220,15 +1220,15 @@
 			package = BAB2ED612EBFA2C60094FB51 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
+		BAB703682EEB193A00CD30A5 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAB703672EEB193A00CD30A5 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
 		BAE626EB2ED60437009DABA1 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BAE626EA2ED60437009DABA1 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
-		};
-		BAE628A52ED68E3B009DABA1 /* Defaults */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BAE628A42ED68E3B009DABA1 /* XCRemoteSwiftPackageReference "Defaults" */;
-			productName = Defaults;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

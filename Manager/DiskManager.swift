@@ -169,17 +169,19 @@ extension peacock {
         // Defaults[.Cards] Defaults[.Categorys]
         guard let realm = try? Realm() else { return nil }
 
+        let homeInfo = realm.objects(MenusHomeInfo.self).first
+
         return TotalRealmData(
             Cards: Array(realm.objects(MemberCardRealmData.self)),
             Categorys: Array(realm.objects(CategoryRealmData.self)),
             Subcategorys: Array(realm.objects(SubCategoryRealmData.self)),
             Items: Array(realm.objects(ItemRealmData.self)),
-            menusName: Defaults[.menusName], menusSubName: Defaults[.menusSubName],
-            menusFooter: Defaults[.menusFooter], menusImage: Defaults[.menusImage],
-            homeCardTitle: Defaults[.homeCardTitle],
-            homeCardSubTitle: Defaults[.homeCardSubTitle],
-            homeItemsTitle: Defaults[.homeItemsTitle],
-            homeItemsSubTitle: Defaults[.homeItemsSubTitle],
+            menusName: homeInfo?.menusName, menusSubName: homeInfo?.menusSubName,
+            menusFooter: homeInfo?.menusFooter, menusImage: homeInfo?.menusImage,
+            homeCardTitle: homeInfo?.homeCardTitle,
+            homeCardSubTitle: homeInfo?.homeCardSubTitle,
+            homeItemsTitle: homeInfo?.homeItemsTitle,
+            homeItemsSubTitle: homeInfo?.homeItemsSubTitle,
             settingPassword: Defaults[.settingPassword],
             remoteUpdateURL: Defaults[.remoteUpdateURL],
             searchApi: Defaults[.searchApi], searchAuth: Defaults[.searchAuth]
@@ -250,20 +252,42 @@ extension peacock {
             Defaults[.searchAuth] = searchAuth
         }
 
-        if let title = totaldata.homeCardTitle {
-            Defaults[.homeCardTitle] = title
-        }
+        try? realm.write {
+            let homeInfo = realm.objects(MenusHomeInfo.self).first ?? MenusHomeInfo()
 
-        if let subTitle = totaldata.homeCardSubTitle {
-            Defaults[.homeCardSubTitle] = subTitle
-        }
+            if let title = totaldata.homeCardTitle {
+                homeInfo.homeCardTitle = title
+            }
 
-        if let itemTitle = totaldata.homeItemsTitle {
-            Defaults[.homeItemsTitle] = itemTitle
-        }
+            if let subTitle = totaldata.homeCardSubTitle {
+                homeInfo.homeCardSubTitle = subTitle
+            }
 
-        if let itemSubtitle = totaldata.homeItemsSubTitle {
-            Defaults[.homeItemsSubTitle] = itemSubtitle
+            if let itemTitle = totaldata.homeItemsTitle {
+                homeInfo.homeItemsTitle = itemTitle
+            }
+
+            if let itemSubtitle = totaldata.homeItemsSubTitle {
+                homeInfo.homeItemsSubTitle = itemSubtitle
+            }
+
+            if let menusName = totaldata.menusName {
+                homeInfo.menusName = menusName
+            }
+
+            if let menusFooter = totaldata.menusFooter {
+                homeInfo.menusFooter = menusFooter
+            }
+
+            if let menusImage = totaldata.menusImage {
+                homeInfo.menusImage = menusImage
+            }
+
+            if let subName = totaldata.menusSubName {
+                homeInfo.menusSubName = subName
+            }
+            
+            realm.add(homeInfo, update: .all)
         }
 
         if let remoteUpdateURL = totaldata.remoteUpdateURL {
@@ -272,22 +296,6 @@ extension peacock {
 
         if let password = totaldata.settingPassword {
             Defaults[.settingPassword] = password
-        }
-
-        if let menusName = totaldata.menusName {
-            Defaults[.menusName] = menusName
-        }
-
-        if let menusFooter = totaldata.menusFooter {
-            Defaults[.menusFooter] = menusFooter
-        }
-
-        if let menusImage = totaldata.menusImage {
-            Defaults[.menusImage] = menusImage
-        }
-
-        if let subName = totaldata.menusSubName {
-            Defaults[.menusSubName] = subName
         }
 
         if !cards.isEmpty {

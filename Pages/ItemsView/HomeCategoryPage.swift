@@ -16,9 +16,8 @@ struct HomeCategoryPage: View {
     @ObservedResults(CategoryRealmData.self, sortDescriptor: SortDescriptor(
         keyPath: \CategoryRealmData.sort, ascending: true
     )) var items
-
-    @Default(.homeItemsTitle) var title
-    @Default(.homeItemsSubTitle) var subTitle
+    
+    @ObservedResults(MenusHomeInfo.self) var homeInfos
 
     @EnvironmentObject var manager: peacock
 
@@ -27,16 +26,20 @@ struct HomeCategoryPage: View {
     @State private var selectedItem: CategoryRealmData? = nil
 
     var body: some View {
+       
         VStack {
             HStack {
-                VStack(alignment: .leading) {
-                    Text(title)
-                        .font(.title)
-                        .fontWeight(.heavy)
+                if let homeInfo = homeInfos.first{
+                    VStack(alignment: .leading) {
+                        Text(homeInfo.homeItemsTitle)
+                            .font(.title)
+                            .fontWeight(.heavy)
 
-                    Text(subTitle)
-                        .foregroundColor(.gray)
+                        Text(homeInfo.homeItemsSubTitle)
+                            .foregroundColor(.gray)
+                    }
                 }
+                
                 Spacer()
             }
             .padding(.leading, 30.0)
