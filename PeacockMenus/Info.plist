@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-	</dict>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -22,6 +17,16 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSExtensionAttributes</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.uuneo.menus.menu</string>
+	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -71,10 +76,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>NSExtensionAttributes</key>
-	<dict>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.uuneo.menus.menu</string>
-	</dict>
 </dict>
 </plist>
