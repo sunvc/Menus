@@ -10,10 +10,12 @@ import SwiftUI
 import TipKit
 
 struct HomeSettingView: View {
+    
+    @Environment(\.horizontalSizeClass) var sizeClass
 
     var body: some View {
         ZStack {
-            if ISPAD {
+            if sizeClass == .regular{
                 SettingsView()
             } else {
                 SettingsIphoneView()

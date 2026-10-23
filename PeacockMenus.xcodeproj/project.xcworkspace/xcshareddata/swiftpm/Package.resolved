@@ -1,13 +1,13 @@
 {
-  "originHash" : "647483f27f105e1118732ffdb60f569f9fe5c5aca49960d3e6e8e513532fdad8",
+  "originHash" : "5009a479a5e6474005765c12039af2bd51030a0a5a421084f3a1c49f784ed1da",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
-        "version" : "5.10.2"
+        "revision" : "bda9ed57d72988a3a2ada33d824583541f86eac6",
+        "version" : "5.12.2"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sunvc/Assistant.git",
       "state" : {
-        "revision" : "c781d9d4d1e910d6c98d85c688b87d355bff7edf",
-        "version" : "1.0.0"
+        "revision" : "dca669655539c7433e3903bc013c531c3c8bb534",
+        "version" : "1.0.3"
       }
     },
     {

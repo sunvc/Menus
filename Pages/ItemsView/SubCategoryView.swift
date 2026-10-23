@@ -20,6 +20,7 @@ struct SubCategoryView: View {
         items.filter { $0.subcategoryID == subcategory.id }
     }
 
+    @Environment(\.horizontalSizeClass) var sizeClass
     // 瀑布流: 卡片最小宽度约 300, 宽屏自动多列
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -50,13 +51,13 @@ struct SubCategoryView: View {
                         .minimumScaleFactor(0.7)
                 }
             }
-            .padding(.horizontal, ISPAD ? 40 : 20)
+            .padding(.horizontal, sizeClass == .regular ? 40 : 20)
 
             // 标题下细分隔线
             Rectangle()
                 .fill(Color.primary.opacity(0.08))
                 .frame(height: 1)
-                .padding(.horizontal, ISPAD ? 40 : 20)
+                .padding(.horizontal, sizeClass == .regular ? 40 : 20)
 
             // MARK: 瀑布流卡片
             MasonryLayout(minimum: 300, spacing: 14) {
@@ -70,7 +71,7 @@ struct SubCategoryView: View {
                         }
                 }
             }
-            .padding(.horizontal, ISPAD ? 40 : 20)
+            .padding(.horizontal, sizeClass == .regular ? 40 : 20)
             .padding(.bottom, 24)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

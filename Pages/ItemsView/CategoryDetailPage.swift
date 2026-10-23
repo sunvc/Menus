@@ -33,6 +33,7 @@ struct CategoryDetailPage: View {
         return subcategoryItems.filter { $0.categoryID == selectedItem.id }
     }
 
+    @Environment(\.horizontalSizeClass) var sizeClass
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -92,7 +93,7 @@ struct CategoryDetailPage: View {
 
     @ViewBuilder
     private var headerContent: some View {
-        if ISPAD {
+        if sizeClass == .regular {
             ipadHeader()
         } else {
             iphoneHeader()

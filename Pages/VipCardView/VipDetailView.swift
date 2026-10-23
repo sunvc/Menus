@@ -23,6 +23,8 @@ struct VipDetailView: View {
         _select = State(wrappedValue: item)
         self.dismiss = dismiss
     }
+    
+    @Environment(\.horizontalSizeClass) var sizeClass
 
     var dismiss: () -> Void
     var body: some View {
@@ -73,8 +75,8 @@ struct VipDetailView: View {
                         VipCardView(
                             item: item,
                             size: CGSize(
-                                width: min(proxy.size.width - (ISPAD ? 100 : 20), 500),
-                                height: proxy.size.height - (ISPAD ? 10 : 30)
+                                width: min(proxy.size.width - (sizeClass == .regular ? 100 : 20), 500),
+                                height: proxy.size.height - (sizeClass == .regular ? 10 : 30)
                             ),
                             big: true
                         )

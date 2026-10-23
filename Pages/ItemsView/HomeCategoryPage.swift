@@ -16,30 +16,28 @@ struct HomeCategoryPage: View {
     @ObservedResults(CategoryRealmData.self, sortDescriptor: SortDescriptor(
         keyPath: \CategoryRealmData.sort, ascending: true
     )) var items
-    
+
     @ObservedResults(MenusHomeInfo.self) var homeInfos
 
-   @State private var manager = peacock.shared
+    @State private var manager = peacock.shared
 
     @Namespace private var itemSpace
 
     @State private var selectedItem: CategoryRealmData? = nil
+    @Environment(\.horizontalSizeClass) var sizeClass
 
     var body: some View {
-       
         VStack {
             HStack {
-                
-                    VStack(alignment: .leading) {
-                        Text(homeInfos.first?.homeItemsTitle ?? "项目分类")
-                            .font(.title)
-                            .fontWeight(.heavy)
+                VStack(alignment: .leading) {
+                    Text(homeInfos.first?.homeItemsTitle ?? "项目分类")
+                        .font(.title)
+                        .fontWeight(.heavy)
 
-                        Text(homeInfos.first?.homeItemsSubTitle ?? "Peacock-Class")
-                            .foregroundColor(.gray)
-                    }
-                
-                
+                    Text(homeInfos.first?.homeItemsSubTitle ?? "Peacock-Class")
+                        .foregroundColor(.gray)
+                }
+
                 Spacer()
             }
             .padding(.leading, 30.0)
@@ -60,7 +58,7 @@ struct HomeCategoryPage: View {
                                     proxy.scrollTo(item.id, anchor: .center)
                                 }
                             }) {
-                                if ISPAD {
+                                if sizeClass == .regular {
                                     categoryCardView(item: item)
                                         .fixedSize(horizontal: true, vertical: false)
                                         .zIndex(100)
@@ -103,7 +101,7 @@ struct HomeCategoryPage: View {
 struct categoryCardView: View {
     @ObservedRealmObject var item: CategoryRealmData
     //	@Binding var item: CategoryData
-   @State private var manager = peacock.shared
+    @State private var manager = peacock.shared
     var body: some View {
         ZStack {
             Color(from: item.color)
@@ -138,12 +136,11 @@ struct categoryCardView: View {
         .shadow(color: Color(from: item.color), radius: 3, x: 3, y: 3)
         .padding()
         .frame(width: 260)
-        
+        .frame(maxHeight: 500)
     }
 }
 
 #Preview {
     @Previewable @State var showDetail = false
     HomeCategoryPage()
-        
 }

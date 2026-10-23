@@ -4,16 +4,17 @@ import SwiftUI
 struct MenuPriceView: View {
     @State private var manager = peacock.shared
     @Default(.giftShow) var showGift
+    @Environment(\.horizontalSizeClass) var sizeClass
     var body: some View {
         NavigationStack {
             VStack {
                 HomeVipCards()
-                    .padding(.top, ISPAD ? 50 : 80)
+                    .padding(.top, ISPAD ? 80 : 30)
                 HomeCategoryPage()
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
             }
             .ignoresSafeArea()
-            .frame(width: windowWidth, height: windowHeight)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.background)
             .toolbar {
                 if showGift {
@@ -113,12 +114,12 @@ struct MenuPriceView: View {
     ContentView()
 }
 
-extension View {
-    var windowWidth: CGFloat {
-        UIScreen.main.bounds.width
-    }
-
-    var windowHeight: CGFloat {
-        UIScreen.main.bounds.height
-    }
-}
+//extension View {
+//    var windowWidth: CGFloat {
+//        UIScreen.main.bounds.width
+//    }
+//
+//    var windowHeight: CGFloat {
+//        UIScreen.main.bounds.height
+//    }
+//}

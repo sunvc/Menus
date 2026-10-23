@@ -16,9 +16,12 @@ struct HomeVipCards: View {
     )) var cards
     @ObservedResults(MenusHomeInfo.self) var homeInfos
 
-   @State private var manager = peacock.shared
+    @State private var manager = peacock.shared
+    @Environment(\.horizontalSizeClass) var sizeClass
 
     @Namespace private var homeSpace
+    
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -30,12 +33,12 @@ struct HomeVipCards: View {
                     Text(homeInfos.first?.homeCardSubTitle ?? "Peacock-Cards")
                         .foregroundColor(.gray)
                 }.padding(.leading, 30)
-                
+
                 Spacer()
             }
 
             iphoneViews
-                .if(ISPAD) { _ in
+                .if(sizeClass == .regular) { _ in
                     ipadViews
                 }
         }
