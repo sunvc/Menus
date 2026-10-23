@@ -6,7 +6,7 @@
   
 */
 
-CFBundleDisplayName = "美丽宫略";
-CFBundleName = "美丽宫略";
+CFBundleDisplayName = "Peacock";
+CFBundleName = "Peacock";
 
 NSCameraUsageDescription = "扫描二维码获取服务器数据";

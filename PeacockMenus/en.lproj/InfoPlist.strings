@@ -6,7 +6,8 @@
   
 */
 
-CFBundleDisplayName = "BeautyGuide";
-CFBundleName = "BeautyGuide";
+CFBundleDisplayName = "Peacock";
+CFBundleName = "Peacock";
 
 NSCameraUsageDescription = "Scan the QR code to obtain the server address";
+

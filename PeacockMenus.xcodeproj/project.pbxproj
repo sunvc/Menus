@@ -919,7 +919,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = PeacockMenus/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "美丽宫略";
+				INFOPLIST_KEY_CFBundleDisplayName = "孔雀宫";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
@@ -970,7 +970,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = PeacockMenus/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "美丽宫略";
+				INFOPLIST_KEY_CFBundleDisplayName = "孔雀宫";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
