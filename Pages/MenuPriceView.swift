@@ -3,6 +3,7 @@ import SwiftUI
 
 struct MenuPriceView: View {
     @State private var manager = peacock.shared
+    @State private var auth = MemberAuth.shared
     @Default(.giftShow) var showGift
     @Environment(\.horizontalSizeClass) var sizeClass
     var body: some View {
@@ -17,7 +18,8 @@ struct MenuPriceView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.background)
             .toolbar {
-                if showGift {
+                // 未登录会员系统时不显示礼品入口
+                if showGift && auth.isLoggedIn {
                     ToolbarItem {
                         Button {
                             withAnimation(.bouncy(duration: 0.3, extraBounce: 0.2)) {
