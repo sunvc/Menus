@@ -15,6 +15,12 @@ import json
 import os
 import re
 
+# 扫描时跳过的目录(避免处理 .claude/worktrees、构建产物等无关副本)
+SKIP_DIRS = {
+    ".git", ".claude", ".build", "build", "DerivedData",
+    "node_modules", "Pods", "xcuserdata",
+}
+
 
 class Translate:
     semaphore_number: int = 10
@@ -29,29 +35,35 @@ class Translate:
 
     client: AsyncOpenAI = {}
 
-    def __init__(self, host="https://api.deepseek.com", mode="deepseek-chat", key=None, root_dir: str = "../",
+    def __init__(self, host="https://api.deepseek.com", mode="deepseek-flash", key=None, root_dir: str = None,
                  semaphore_number=10):
         if key is None:
             self.deepseek_key = os.getenv("DEEPSEEK_KEY")
         else:
             self.deepseek_key = key
-        if self.deepseek_key is None:
+        if not self.deepseek_key:
             exit("DEEPSEEK_KEY environment variable not set")
         self.host = host
         self.mode = mode
         self.semaphore_number = semaphore_number
+        if root_dir is None:
+            # 默认扫描仓库根目录(ci_scripts 的上一级), 不依赖运行时 cwd
+            root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.root_dir = root_dir
-        self.client = AsyncOpenAI(base_url=host, api_key=self.deepseek_key)
 
-    async def translate_deepseek(self, datas, system_message, semaphore: Semaphore, is_json=False):
+    def new_client(self) -> AsyncOpenAI:
+        # 每个 asyncio.run 事件循环用独立的 client, 避免复用已关闭的循环
+        return AsyncOpenAI(base_url=self.host, api_key=self.deepseek_key)
+
+    async def translate_deepseek(self, client, datas, system_message, semaphore: Semaphore, is_json=False):
         messages = [
             {"role": "system", "content": system_message},
             {"role": "user", "content": json.dumps(datas) if is_json else datas}
         ]
 
         async with semaphore:
-            completion = await self.client.chat.completions.create(
-                model="deepseek-chat",
+            completion = await client.chat.completions.create(
+                model=self.mode or "deepseek-flash",
                 messages=messages
             )
             response = completion.choices[0].message.content.strip('"')
@@ -72,11 +84,14 @@ class Translate:
 
         tasks = []
         skip_count = 0
+        client = self.new_client()
         for key in results:
             result_tem = results.get(key, {}).get("localizations", {}).get(target_language, None)
 
             if result_tem is None or result_tem.get("stringUnit", {}).get("value", "").strip() == "":
-                task = asyncio.create_task(self.translate_deepseek(key, system_message, semaphore, is_json))
+                task = asyncio.create_task(
+                    self.translate_deepseek(client, key, system_message, semaphore, is_json)
+                )
                 tasks.append((key, task))
             else:
                 result_value = result_tem.get("stringUnit", {}).get("value", "")
@@ -85,7 +100,9 @@ class Translate:
                     f"\r Skip:{target_language} - {skip_count}/{all_count} - {key.split("\n")[0]} -> {result_value.split("\n")[0]}",
                     end="", flush=True)
 
-        if len(tasks) <= 0: return
+        if len(tasks) <= 0:
+            await client.close()
+            return
 
         for count, (key, task) in enumerate(tasks, start=1):
             try:
@@ -114,9 +131,12 @@ class Translate:
                     "tips": tips,
                 }
         tasks = []
+        client = self.new_client()
         for key in results:
             task = asyncio.create_task(
-                self.translate_deepseek(results[key]["text"], results[key]["tips"], semaphore, is_json=False))
+                self.translate_deepseek(client, results[key]["text"], results[key]["tips"],
+                                        semaphore, is_json=False)
+            )
             tasks.append((key, task))
 
         for count, (key, task) in enumerate(tasks, start=1):
@@ -126,8 +146,9 @@ class Translate:
                 print(f" {key} -> {translate}")
             except Exception as e:
                 print(f"\nFailed to translate {key}: {e}")
+        await client.close()
         for item in results:
-            translate_text = results[item]["translate"]
+            translate_text = results[item].get("translate")
             if translate_text:
                 with open(item, "w+", encoding="utf-8") as fs:
                     fs.write(translate_text)
@@ -135,6 +156,8 @@ class Translate:
     def find_localizable_files(self, file_name):
         result = []
         for dirpath, dirs, filenames in os.walk(self.root_dir):
+            # 跳过 .claude/worktrees、构建产物等目录, 避免处理重复/过期副本
+            dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
             if file_name in filenames:
                 full_path = os.path.join(dirpath, file_name)
                 result.append(full_path)
