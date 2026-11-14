@@ -15,8 +15,6 @@ extension Defaults.Keys {
     static let giftsNew = Key<[String: VipInfo]>("gistNewList", default: [:])
     /// 礼物项目本地缓存(远程列表落地, 离线可用)
     static let giftItemList = Key<[GiftItem]>("giftItemList", default: [])
-    /// 礼物快捷选项本地缓存(一键选中一组礼物)
-    static let giftQuickOptionList = Key<[GiftQuickOption]>("giftQuickOptionList", default: [])
 }
 
 /// 礼物项目: 可多选组合, 以 giftID 为唯一标识
@@ -45,33 +43,7 @@ struct GiftItem: Codable, Identifiable, Hashable, Defaults.Serializable {
     }
 }
 
-/// 礼物快捷选项: 礼物页点一下即同时选中一组礼物
-struct GiftQuickOption: Codable, Identifiable, Hashable, Defaults.Serializable {
-    var optionID: String
-    var name: String
-    var giftIDs: [String]
-
-    var id: String { optionID }
-
-    enum CodingKeys: String, CodingKey {
-        case optionID, name, giftIDs
-    }
-
-    init(optionID: String = UUID().uuidString, name: String, giftIDs: [String] = []) {
-        self.optionID = optionID
-        self.name = name
-        self.giftIDs = giftIDs
-    }
-
-    init(from decoder: Decoder) throws {
-        let c = try decoder.container(keyedBy: CodingKeys.self)
-        optionID = try c.decodeIfPresent(String.self, forKey: .optionID) ?? ""
-        name = try c.decodeIfPresent(String.self, forKey: .name) ?? ""
-        giftIDs = try c.decodeIfPresent([String].self, forKey: .giftIDs) ?? []
-    }
-}
-
-/// 服务器端礼物列表通用响应(礼物项目 / 快捷选项)
+/// 服务器端礼物列表通用响应
 struct GiftListResponse<T: Decodable>: Decodable {
     let code: Int
     let data: [T]?
@@ -84,15 +56,6 @@ func fetchGiftItemsFromServer(all: Bool) async -> [GiftItem]? {
     )
     guard let items else { return nil }
     return items.filter { !$0.giftID.isEmpty && !$0.name.isEmpty }
-}
-
-/// 拉取礼物快捷选项: 请求失败返回 nil, 成功返回列表(可能为空)
-func fetchGiftQuickOptionsFromServer() async -> [GiftQuickOption]? {
-    let options: [GiftQuickOption]? = await requestGiftList(
-        path: "/ios/gift/quick-options", all: false, retried: false
-    )
-    guard let options else { return nil }
-    return options.filter { !$0.optionID.isEmpty && !$0.name.isEmpty }
 }
 
 private func requestGiftList<T: Decodable>(
@@ -138,6 +101,8 @@ struct GiftClaimRecord: Identifiable, Decodable {
     let createdAt: String?
     /// 本次赠送的礼物项目, 逗号分隔
     let giftNames: String?
+    /// 操作员工的账号(工号)
+    let empId: String?
 
     enum CodingKeys: String, CodingKey {
         case id = "ID", phone, name, balance
@@ -146,6 +111,7 @@ struct GiftClaimRecord: Identifiable, Decodable {
         case cardType = "cardType"
         case createdAt = "CreatedAt"
         case giftNames = "giftNames"
+        case empId = "empId"
     }
 }
 
@@ -227,8 +193,6 @@ struct GiftHomeView: View {
 
     /// 礼物项目(本地缓存), 首次进入从远程拉取
     @Default(.giftItemList) var giftItems
-    /// 礼物快捷选项(本地缓存), 在会员卡菜单里选择
-    @Default(.giftQuickOptionList) var quickOptions
 
     private var enabledGiftItems: [GiftItem] {
         giftItems.filter { $0.enabled && !$0.name.isEmpty }
@@ -238,16 +202,7 @@ struct GiftHomeView: View {
         Set(enabledGiftItems.map(\.giftID))
     }
 
-    /// 快捷选项里仍然有效的礼物(过滤掉已删除/停用的)
-    private func quickOptionGiftIDs(_ option: GiftQuickOption) -> Set<String> {
-        Set(option.giftIDs).intersection(enabledGiftIDs)
-    }
-
-    private var availableQuickOptions: [GiftQuickOption] {
-        quickOptions.filter { !quickOptionGiftIDs($0).isEmpty }
-    }
-
-    /// 本次选中的礼物: 快捷选项与搜索框下方的礼物项目共用, 可再单独增减
+    /// 本次选中的礼物: 搜索框下方的礼物项目可自由增减
     @State private var selectedGiftIDs: Set<String> = []
 
     private var selectedGiftNames: [String] {
@@ -613,7 +568,6 @@ struct GiftHomeView: View {
         .onAppear {
             Task {
                 await loadGiftItems()
-                await loadQuickOptions()
                 await loadClaims()
             }
         }
@@ -629,16 +583,9 @@ struct GiftHomeView: View {
         giftItems = items
     }
 
-    /// 拉取远程快捷选项, 成功后落地为本地缓存, 失败沿用缓存
-    private func loadQuickOptions() async {
-        guard MemberAuth.shared.isLoggedIn else { return }
-        guard let options = await fetchGiftQuickOptionsFromServer() else { return }
-        quickOptions = options
-    }
-
     // MARK: - 礼物项目
 
-    /// 搜索框下方的礼物项目: 快捷选项选完后还能单独增减
+    /// 搜索框下方的礼物项目: 可自由增减
     private var giftSelector: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 8) {
@@ -736,7 +683,6 @@ struct GiftHomeView: View {
             success: success,
             claiming: claiming,
             giftItems: enabledGiftItems,
-            quickOptions: availableQuickOptions,
             selectedGiftIDs: $selectedGiftIDs,
             claimedGiftNames: claim.map { claimGiftNames($0) } ?? [],
             onClaim: { names in
@@ -1050,10 +996,8 @@ struct GiftMemberCard: View {
     let item: VipInfo
     let success: Bool
     let claiming: Bool
-    /// 可用的礼物项目(用于把快捷选项换算成名称)
+    /// 可用的礼物项目
     let giftItems: [GiftItem]
-    /// 快捷选项: 点卡片上的「选择礼物」弹出菜单选择
-    let quickOptions: [GiftQuickOption]
     /// 本次选中的礼物(与搜索框下方的礼物项目共用)
     @Binding var selectedGiftIDs: Set<String>
     /// 已领取时, 服务端记录的领取礼物
@@ -1063,26 +1007,7 @@ struct GiftMemberCard: View {
     @State private var checkScale: CGFloat = 0.1
     @State private var cardScale: CGFloat = 1
 
-    private var enabledGiftItemIDs: Set<String> {
-        Set(giftItems.map(\.giftID))
-    }
-
-    private func quickOptionGiftIDs(_ option: GiftQuickOption) -> Set<String> {
-        Set(option.giftIDs).intersection(enabledGiftItemIDs)
-    }
-
-    private var selectedOption: GiftQuickOption? {
-        guard !selectedGiftIDs.isEmpty else { return nil }
-        return quickOptions.first { quickOptionGiftIDs($0) == selectedGiftIDs }
-    }
-
-    private func giftNames(for option: GiftQuickOption) -> [String] {
-        option.giftIDs.compactMap { giftID in
-            giftItems.first { $0.giftID == giftID }?.name
-        }
-    }
-
-    /// 当前选中的礼物名称(快捷选项选中后可能再手动增减)
+    /// 当前选中的礼物名称
     private var currentGiftNames: [String] {
         giftItems.filter { selectedGiftIDs.contains($0.giftID) }.map(\.name)
     }
@@ -1134,68 +1059,6 @@ struct GiftMemberCard: View {
             )
             .padding(.horizontal, 14)
             .padding(.top, 12)
-
-            // 选择礼物: 点击弹出快捷选项菜单(已领取的卡不再显示)
-            if !success && !quickOptions.isEmpty {
-                Menu {
-                    // 每个快捷选项单独一个 Section, 菜单里分组显示
-                    ForEach(quickOptions) { option in
-                        Section {
-                            let names = giftNames(for: option)
-                            Button {
-                                selectedGiftIDs = quickOptionGiftIDs(option)
-                            } label: {
-                                if selectedOption?.optionID == option.optionID {
-                                    Label(
-                                        "\(option.name)（\(names.count)件）",
-                                        systemImage: "checkmark"
-                                    )
-                                } else {
-                                    Text("\(option.name)（\(names.count)件）")
-                                }
-                            }
-                        }
-                    }
-
-                    if !selectedGiftIDs.isEmpty {
-                        Section {
-                            Button(role: .destructive) {
-                                selectedGiftIDs.removeAll()
-                            } label: {
-                                Text("清除礼物选择")
-                            }
-                        }
-                    }
-                } label: {
-                    HStack(spacing: 8) {
-                        Image(systemName: "gift.fill")
-                        Text(
-                            selectedOption?.name
-                                ?? (currentGiftNames.isEmpty ? "选择礼物" : "自定义组合")
-                        )
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
-                        if !currentGiftNames.isEmpty {
-                            Text("· \(currentGiftNames.count)件")
-                                .font(.caption.bold())
-                                .foregroundStyle(.white.opacity(0.8))
-                        }
-                        Spacer()
-                        Image(systemName: "chevron.up.chevron.down")
-                            .font(.caption.bold())
-                            .opacity(0.8)
-                    }
-                    .font(.subheadline.bold())
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-                    .background(Capsule().fill(.white.opacity(0.14)))
-                    .overlay(Capsule().strokeBorder(.white.opacity(0.28), lineWidth: 1))
-                }
-                .disabled(success || claiming)
-                .padding(.horizontal, 14)
-                .padding(.top, 10)
-            }
 
             // 礼品详情: 已领取显示服务端记录的礼物, 未领取显示本次选择的礼物
             let displayedGiftNames = success ? claimedGiftNames : currentGiftNames
@@ -1459,6 +1322,15 @@ struct ClaimRecordsList: View {
                             .padding(.horizontal, 8)
                             .padding(.vertical, 3)
                             .background(Capsule().fill(Palette.blueDeep.opacity(0.14)))
+                    }
+
+                    if let empId = value.empId, !empId.isEmpty {
+                        Text("账号 \(empId)")
+                            .font(.caption.bold())
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Capsule().fill(Color.secondary.opacity(0.12)))
                     }
 
                     Spacer(minLength: 0)
